@@ -44,7 +44,7 @@ export default function About() {
       </section>
 
       {/* Founder Section */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-cream">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="space-y-2 text-center md:text-left">
             <p className="text-accent font-bold uppercase tracking-[0.3em] text-xs md:text-sm">The Visionary</p>
@@ -110,7 +110,7 @@ export default function About() {
                 key={idx}
                 className={cn(
                   "p-10 flex flex-col border-2 transition-all curve-block",
-                  plan.popular ? "bg-primary text-cream border-primary shadow-2xl scale-105 z-10" : "bg-white text-primary border-primary/5 shadow-sm"
+                  plan.popular ? "bg-primary text-cream border-primary shadow-2xl scale-105 z-10" : "bg-cream text-primary border-primary/5 shadow-sm"
                 )}
               >
                 {plan.popular && (

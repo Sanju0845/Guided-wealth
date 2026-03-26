@@ -60,7 +60,7 @@ export default function Booking() {
                 </div>
               </div>
 
-              <div className="p-6 md:p-8 bg-white border-l-4 border-accent shadow-sm space-y-3 md:space-y-4 rounded-2xl md:rounded-3xl">
+              <div className="p-6 md:p-8 bg-cream border-l-4 border-accent shadow-sm space-y-3 md:space-y-4 rounded-2xl md:rounded-3xl">
                 <div className="flex items-center gap-3 text-primary">
                   <Calendar size={18} className="text-accent" />
                   <span className="font-bold uppercase tracking-widest text-xs md:text-sm">Flexible Scheduling</span>
@@ -73,7 +73,7 @@ export default function Booking() {
             </div>
 
             {/* Booking Form */}
-            <div className="bg-white p-6 md:p-12 shadow-2xl border border-primary/5 curve-block">
+            <div className="bg-cream p-6 md:p-12 shadow-2xl border border-primary/5 curve-block">
               {submitted ? (
                 <div className="h-full flex flex-col items-center justify-center text-center space-y-6 py-12 md:py-20">
                   <div className="w-16 h-16 md:w-20 md:h-20 bg-primary text-accent rounded-full flex items-center justify-center mb-4">

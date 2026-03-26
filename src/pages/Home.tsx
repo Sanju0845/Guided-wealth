@@ -106,7 +106,7 @@ export default function Home() {
       </section>
 
       {/* Who We Help */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-cream">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">Who We Help</h2>
@@ -247,7 +247,7 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-cream">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-primary mb-4">Frequently Asked Questions</h2>

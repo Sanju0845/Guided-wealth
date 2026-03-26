@@ -9,7 +9,7 @@ export default function Services() {
   const featuredService = SERVICES[9];
 
   return (
-    <div className="bg-white">
+    <div className="bg-cream">
       {/* Hero Section */}
       <section className="pt-40 pb-24 px-6 md:px-12 lg:px-24">
         <div className="max-w-7xl mx-auto space-y-8">
@@ -40,7 +40,7 @@ export default function Services() {
       </section>
 
       {/* Services Grid */}
-      <section className="py-24 px-6 md:px-12 lg:px-24 bg-[#f9f9f9]">
+      <section className="py-24 px-6 md:px-12 lg:px-24 bg-cream/50">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
             <h2 className="text-4xl md:text-5xl font-bold text-primary border-b-4 border-accent pb-4">
@@ -144,7 +144,7 @@ export default function Services() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-32 px-6 md:px-12 lg:px-24 bg-white text-center relative overflow-hidden">
+      <section className="py-32 px-6 md:px-12 lg:px-24 bg-cream text-center relative overflow-hidden">
         <div className="absolute bottom-0 right-0 opacity-5 pointer-events-none">
           <Building2 size={400} />
         </div>

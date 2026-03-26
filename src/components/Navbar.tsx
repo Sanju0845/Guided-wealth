@@ -24,8 +24,8 @@ export default function Navbar() {
 
   return (
     <nav className={cn(
-      "capsule-nav bg-white/60 backdrop-blur-2xl",
-      scrolled && "scrolled bg-white/90"
+      "capsule-nav bg-cream/60 backdrop-blur-2xl",
+      scrolled && "scrolled bg-cream/90"
     )}>
       <div className="flex justify-between items-center">
         <Link to="/" className="flex items-center">
@@ -62,7 +62,7 @@ export default function Navbar() {
 
       {/* Mobile Nav */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-4 bg-white rounded-3xl p-6 md:hidden flex flex-col space-y-6 shadow-2xl border border-primary/10">
+        <div className="absolute top-full left-0 right-0 mt-4 bg-cream rounded-3xl p-6 md:hidden flex flex-col space-y-6 shadow-2xl border border-primary/10">
           {navLinks.map((link) => (
             <Link
               key={link.name}
