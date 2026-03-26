@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Nunito:wght@300;400;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Arvo", serif;
+  --font-sans: "Nunito", sans-serif;
+  
+  --color-primary: #1b4332;
+  --color-accent: #e2b348;
+  --color-cream: #fdfbf7;
+  --color-ink: #141414;
+}
+
+@layer base {
+  body {
+    @apply bg-cream text-ink font-sans antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+.glass-card {
+  @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl;
+}
+
+.section-padding {
+  @apply py-12 px-4 md:py-20 md:px-12 lg:px-24;
+}
+
+.btn-primary {
+  @apply bg-primary text-cream px-8 py-3 rounded-full font-bold uppercase tracking-widest transition-all hover:opacity-90 active:scale-95;
+}
+
+.btn-secondary {
+  @apply border-2 border-primary text-primary px-8 py-3 rounded-full font-bold uppercase tracking-widest transition-all hover:bg-primary hover:text-cream active:scale-95;
+}
+
+.capsule-nav {
+  @apply fixed top-2 md:top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] md:w-[90%] max-w-5xl bg-white/80 backdrop-blur-lg border border-primary/10 rounded-full px-4 md:px-8 py-0.5 md:py-1 shadow-2xl transition-all duration-500;
+}
+
+.capsule-nav.scrolled {
+  @apply top-1 md:top-2 py-1 bg-white/95;
+}
+
+.infinite-scroll {
+  display: flex;
+  width: max-content;
+  animation: scroll 60s linear infinite;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.curve-block {
+  @apply rounded-[2.5rem] overflow-hidden;
+}
+
+.testimonial-card {
+  @apply bg-white p-8 rounded-3xl shadow-lg border border-primary/5 w-[300px] md:w-[350px] aspect-square flex flex-col justify-between mx-4;
+}
+
+.initial-avatar {
+  @apply w-12 h-12 rounded-full bg-accent/20 text-primary flex items-center justify-center font-bold text-lg;
+}
