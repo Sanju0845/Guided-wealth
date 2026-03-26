@@ -5,10 +5,12 @@
   --font-serif: "Arvo", serif;
   --font-sans: "Nunito", sans-serif;
   
-  --color-primary: #1b4332;
-  --color-accent: #e2b348;
-  --color-cream: #fdfbf7;
-  --color-ink: #141414;
+  --color-primary: #373c3a;
+  --color-accent: #c9a962;
+  --color-accent-light: #d4af37;
+  --color-cream: #f8f7f4;
+  --color-ink: #1a1a1a;
+  --color-slate: #6b7280;
 }
 
 @layer base {
