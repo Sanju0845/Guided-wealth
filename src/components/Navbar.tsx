@@ -29,7 +29,7 @@ export default function Navbar() {
     )} style={{ backgroundColor: '#e6e6e64a' }}>
       <div className="flex justify-between items-center">
         <Link to="/" className="flex items-center">
-          <img src={LOGO_URL} alt="Guided Wealthy" className="h-12 md:h-14 w-auto" referrerPolicy="no-referrer" />
+          <img src={LOGO_URL} alt="Guided Wealthy" className="h-10 md:h-12 w-auto" referrerPolicy="no-referrer" />
         </Link>
 
         {/* Desktop Nav */}

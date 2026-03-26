@@ -4,7 +4,7 @@ export const SERVICES: Service[] = [
   {
     id: 'wealth-management',
     title: 'Personal Wealth Management',
-    icon: '📈',
+    icon: 'https://cdn-icons-png.flaticon.com/128/12888/12888650.png',
     description: 'Bespoke strategies to grow and preserve your capital through personalized asset allocation and risk management. We analyze your entire financial ecosystem to ensure every rupee is working towards your specific long-term objectives.',
     features: [
       'Detailed financial plan analysis and gap identification',
@@ -32,7 +32,7 @@ export const SERVICES: Service[] = [
   {
     id: 'retirement-planning',
     title: 'Retirement Planning',
-    icon: '🌅',
+    icon: 'https://cdn-icons-png.flaticon.com/128/1936/1936068.png',
     description: 'Secure your future with comprehensive retirement solutions tailored to your lifestyle goals and financial aspirations. We help you build a corpus that outlasts your needs while maintaining your desired standard of living.',
     features: [
       'Lifestyle goal visualization and cost estimation',
@@ -57,7 +57,7 @@ export const SERVICES: Service[] = [
   {
     id: 'investment-strategy',
     title: 'Investment Strategy',
-    icon: '📊',
+    icon: 'https://cdn-icons-png.flaticon.com/128/17597/17597732.png',
     description: 'Data-driven investment advice focusing on long-term growth, diversification, and market opportunities. Our evidence-based approach removes emotion from investing and focuses on disciplined execution.',
     features: [
       'Evidence-based approach to market participation',
@@ -82,7 +82,7 @@ export const SERVICES: Service[] = [
   {
     id: 'tax-optimization',
     title: 'Tax Optimization',
-    icon: '🧾',
+    icon: 'https://cdn-icons-png.flaticon.com/128/4749/4749988.png',
     description: 'Strategic tax planning to minimize liabilities and maximize your after-tax returns. We look beyond basic deductions to find structural efficiencies in your income and investment streams.',
     features: [
       'Income tax structuring for professionals and business owners',
@@ -106,7 +106,7 @@ export const SERVICES: Service[] = [
   {
     id: 'estate-planning',
     title: 'Estate Planning',
-    icon: '📜',
+    icon: 'https://cdn-icons-png.flaticon.com/128/15636/15636935.png',
     description: 'Ensuring your legacy is preserved and passed on according to your wishes with minimal friction. We help you navigate the complexities of succession to protect your family\'s future.',
     features: [
       'Will and Trust creation assistance',
@@ -130,7 +130,7 @@ export const SERVICES: Service[] = [
   {
     id: 'insurance-advisory',
     title: 'Insurance Advisory',
-    icon: '🛡️',
+    icon: 'https://cdn-icons-png.flaticon.com/128/1962/1962589.png',
     description: 'Comprehensive risk assessment and insurance solutions to protect what matters most. We ensure you are neither under-insured nor paying for unnecessary coverage.',
     features: [
       'Coverage audit of existing policies',
@@ -154,7 +154,7 @@ export const SERVICES: Service[] = [
   {
     id: 'debt-management',
     title: 'Debt Management',
-    icon: '💳',
+    icon: 'https://cdn-icons-png.flaticon.com/128/4334/4334503.png',
     description: 'Efficient strategies to manage and reduce debt while maintaining your financial health. We help you transition from being a borrower to becoming a wealth creator.',
     features: [
       'Debt prioritization and consolidation strategy',
@@ -178,7 +178,7 @@ export const SERVICES: Service[] = [
   {
     id: 'education-funding',
     title: 'Education Funding',
-    icon: '🎓',
+    icon: 'https://cdn-icons-png.flaticon.com/128/3074/3074058.png',
     description: 'Planning for the future of your children with dedicated education savings strategies. We account for rising global education costs to ensure your child\'s dreams are never limited by finances.',
     features: [
       'Future cost estimation for domestic and international studies',
@@ -202,7 +202,7 @@ export const SERVICES: Service[] = [
   {
     id: 'real-estate-consulting',
     title: 'Real Estate Consulting',
-    icon: '🏠',
+    icon: 'https://cdn-icons-png.flaticon.com/128/2400/2400446.png',
     description: 'Expert advice on real estate investments and property portfolio management. We help you evaluate property as a financial asset rather than just an emotional purchase.',
     features: [
       'Property acquisition analysis and due diligence',
