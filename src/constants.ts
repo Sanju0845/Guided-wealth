@@ -246,6 +246,54 @@ export const SERVICES: Service[] = [
       'exit strategy review'
     ],
     image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: 'will-planning',
+    title: 'Will Planning',
+    icon: '📋',
+    description: 'Comprehensive will drafting and estate documentation to ensure your assets are distributed exactly as per your wishes. We provide legal clarity and peace of mind for your family\'s future.',
+    features: [
+      'Comprehensive will drafting and review',
+      'Asset distribution strategy and legal documentation',
+      'Executor selection and guidance',
+      'Guardian appointment for minor children',
+      'Regular will updates and amendments'
+    ],
+    painPoints: [
+      { title: 'Uncertain Asset Distribution', description: 'Worried about how your assets will be divided? We ensure clear, legally binding instructions that prevent family disputes.' },
+      { title: 'Legal Complexity', description: 'Confused by estate laws and documentation? Our experts simplify the process and ensure full legal compliance.' }
+    ],
+    analysisPoints: [
+      'asset inventory review',
+      'beneficiary assessment',
+      'legal compliance check',
+      'executor suitability'
+    ],
+    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: 'working-capital-lending',
+    title: 'Working Capital & Lending Advisory',
+    icon: '💰',
+    description: 'Strategic advisory for businesses and individuals on managing working capital needs and securing optimal lending solutions. We help you navigate complex credit markets for the best terms.',
+    features: [
+      'Working capital assessment and optimization',
+      'Lending options comparison and negotiation support',
+      'Credit facility structuring (Term loans, OD, CC)',
+      'Debt restructuring for better cash flow',
+      'Bank relationship management and liaison'
+    ],
+    painPoints: [
+      { title: 'Cash Flow Crunches', description: 'Struggling to meet short-term obligations? We optimize your working capital cycle for smoother operations.' },
+      { title: 'Expensive Borrowing Costs', description: 'Paying high interest on business loans? We negotiate better terms and structure debt more efficiently.' }
+    ],
+    analysisPoints: [
+      'working capital cycle review',
+      'credit cost analysis',
+      'lender comparison',
+      'repayment structure optimization'
+    ],
+    image: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&q=80&w=800'
   }
 ];
 
