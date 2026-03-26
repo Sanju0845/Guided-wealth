@@ -35,7 +35,7 @@ export default function Booking() {
                   </div>
                   <div>
                     <p className="text-[10px] md:text-xs uppercase tracking-widest text-ink/40 font-bold mb-1">Email Us</p>
-                    <p className="text-lg md:text-xl font-bold text-primary">contact@guidedwealthy.com</p>
+                    <p className="text-lg md:text-xl font-bold text-primary">nist359@gmail.com</p>
                   </div>
                 </div>
 
@@ -45,7 +45,7 @@ export default function Booking() {
                   </div>
                   <div>
                     <p className="text-[10px] md:text-xs uppercase tracking-widest text-ink/40 font-bold mb-1">Call Us</p>
-                    <p className="text-lg md:text-xl font-bold text-primary">+91 79951 65300</p>
+                    <p className="text-lg md:text-xl font-bold text-primary">+91 8655429715</p>
                   </div>
                 </div>
 
@@ -55,7 +55,7 @@ export default function Booking() {
                   </div>
                   <div>
                     <p className="text-[10px] md:text-xs uppercase tracking-widest text-ink/40 font-bold mb-1">Location</p>
-                    <p className="text-lg md:text-xl font-bold text-primary">India</p>
+                    <p className="text-lg md:text-xl font-bold text-primary">Bld no 16, 3rd floor, AR layout, Banaswadi, Bangalore, 560043</p>
                   </div>
                 </div>
               </div>

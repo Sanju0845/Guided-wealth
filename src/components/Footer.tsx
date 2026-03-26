@@ -35,15 +35,15 @@ export default function Footer() {
           <ul className="space-y-4 text-cream/70">
             <li className="flex items-center space-x-3">
               <Mail size={18} className="text-accent" />
-              <span>contact@guidedwealthy.com</span>
+              <span>nist359@gmail.com</span>
             </li>
             <li className="flex items-center space-x-3">
               <Phone size={18} className="text-accent" />
-              <span>+91 79951 65300</span>
+              <span>+91 8655429715</span>
             </li>
             <li className="flex items-center space-x-3">
               <MapPin size={18} className="text-accent" />
-              <span>India</span>
+              <span>Bld no 16, 3rd floor, AR layout, Banaswadi, Bangalore, 560043</span>
             </li>
           </ul>
         </div>
