@@ -302,7 +302,7 @@ export const TESTIMONIALS: Testimonial[] = [
     id: '1',
     name: 'Rohit Verma',
     role: 'Software Engineer',
-    content: "Before working with Anurag, I had investments but no clear direction. Now I have a structured financial plan and complete clarity about my goals."
+    content: "Before working with Guided Wealthy, I had investments but no clear direction. Now I have a structured financial plan and complete clarity about my goals."
   },
   {
     id: '2',
@@ -314,7 +314,7 @@ export const TESTIMONIALS: Testimonial[] = [
     id: '3',
     name: 'Suresh Reddy',
     role: 'Business Owner',
-    content: "Anurag helped me streamline both my personal and business finances. The clarity I have today is something I lacked for years."
+    content: "Guided Wealthy helped me streamline both my personal and business finances. The clarity I have today is something I lacked for years."
   },
   {
     id: '4',
@@ -344,7 +344,7 @@ export const TESTIMONIALS: Testimonial[] = [
     id: '8',
     name: 'Deepika Nair',
     role: 'Doctor',
-    content: "As a busy professional, I needed someone reliable. Anurag provided exactly that—clear guidance and ongoing support."
+    content: "As a busy professional, I needed someone reliable. Guided Wealthy provided exactly that—clear guidance and ongoing support."
   },
   {
     id: '9',

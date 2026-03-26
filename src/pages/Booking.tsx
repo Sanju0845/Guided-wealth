@@ -24,7 +24,7 @@ export default function Booking() {
                   <span className="text-accent">Your Future?</span>
                 </h1>
                 <p className="text-lg md:text-xl text-ink/70 leading-relaxed">
-                  Take the first step towards financial clarity. Book a 20-minute free session with Anurag Shekar.
+                  Take the first step towards financial clarity. Book a 20-minute free consultation with our team.
                 </p>
               </div>
 

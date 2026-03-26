@@ -47,9 +47,9 @@ export default function About() {
       <section className="section-padding bg-cream">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="space-y-2 text-center md:text-left">
-            <p className="text-accent font-bold uppercase tracking-[0.3em] text-xs md:text-sm">The Visionary</p>
-            <h2 className="text-3xl md:text-5xl font-bold text-primary">Anurag Shekar</h2>
-            <p className="text-ink/50 uppercase tracking-widest font-bold text-xs md:text-sm">Founder & Lead Strategist</p>
+            <p className="text-accent font-bold uppercase tracking-[0.3em] text-xs md:text-sm">Our Leadership</p>
+            <h2 className="text-3xl md:text-5xl font-bold text-primary">Guided Wealthy</h2>
+            <p className="text-ink/50 uppercase tracking-widest font-bold text-xs md:text-sm">Trusted Financial Experts</p>
           </div>
 
           <div className="relative py-6">
@@ -61,10 +61,10 @@ export default function About() {
 
           <div className="space-y-4 text-sm md:text-base text-ink/70">
             <p>
-              With over 6 years of experience in the financial sector, Anurag has seen market cycles come and go. His approach is centered around discipline, consistency, and long-term thinking rather than chasing quick returns.
+              Guided Wealthy brings over 6 years of experience in the financial sector, having navigated market cycles with discipline and consistency. Our approach centers on long-term thinking rather than chasing quick returns.
             </p>
             <p>
-              He believes that financial freedom isn't about how much you earn, but how well you manage what you have. His philosophy is built on the pillars of transparency and deep-rooted client relationships.
+              We believe that financial freedom isn't about how much you earn, but how well you manage what you have. Our philosophy is built on the pillars of transparency and deep-rooted client relationships.
             </p>
           </div>
         </div>
