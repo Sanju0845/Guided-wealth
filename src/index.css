@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Nunito:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "Arvo", serif;
-  --font-sans: "Nunito", sans-serif;
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Playfair Display", serif;
   
   --color-primary: #404040;
-  --color-accent: #6da858;
+  --color-accent: #c09000;
   --color-accent-light: #ffcc66;
   --color-cream: #fff7df;
   --color-ink: #1a1a1a;
