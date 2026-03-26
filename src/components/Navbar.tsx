@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { cn } from '../lib/utils';
 
-const LOGO_URL = "https://i.postimg.cc/G9zfgxzC/logo.png";
+const LOGO_URL = "/assets/logo.png";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,12 +24,12 @@ export default function Navbar() {
 
   return (
     <nav className={cn(
-      "capsule-nav bg-cream/60 backdrop-blur-2xl",
-      scrolled && "scrolled bg-cream/90"
-    )}>
+      "capsule-nav backdrop-blur-2xl",
+      scrolled && "scrolled"
+    )} style={{ backgroundColor: '#e6e6e64a' }}>
       <div className="flex justify-between items-center">
         <Link to="/" className="flex items-center">
-          <img src={LOGO_URL} alt="Guided Wealthy" className="h-12 md:h-20 w-auto" referrerPolicy="no-referrer" />
+          <img src={LOGO_URL} alt="Guided Wealthy" className="h-12 md:h-16 w-auto" referrerPolicy="no-referrer" />
         </Link>
 
         {/* Desktop Nav */}

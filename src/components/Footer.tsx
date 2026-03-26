@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Linkedin, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 
-const LOGO_URL = "https://i.postimg.cc/G9zfgxzC/logo.png";
+const LOGO_URL = "/assets/logo.png";
 
 export default function Footer() {
   return (

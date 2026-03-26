@@ -35,14 +35,6 @@ export default function Home() {
               <p className="text-base md:text-xl text-ink/70 max-w-lg mx-auto lg:mx-0 leading-relaxed">
                 Every individual plans their financial life as per their understanding. What matters is personalizing that knowledge to your unique situation.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center lg:justify-start">
-                <Link to="/booking" className="btn-primary flex items-center justify-center gap-2 text-sm md:text-base">
-                  Start Your Journey <ArrowRight size={18} />
-                </Link>
-                <Link to="/services" className="btn-secondary flex items-center justify-center text-sm md:text-base">
-                  Explore Services
-                </Link>
-              </div>
 
               <div className="grid grid-cols-2 gap-4 md:gap-8 pt-8 md:pt-12 border-t border-primary/10">
                 <div>
@@ -56,7 +48,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="relative hidden lg:block">
+            <div className="relative hidden lg:block -mt-8">
               <div className="relative z-10 curve-block shadow-2xl border-8 border-white">
                 <img 
                   src="https://media.istockphoto.com/id/1346853640/photo/saving-money-concept-man-hand-putting-row-and-coin-write-finance-saving-money-concept-man.jpg?s=612x612&w=0&k=20&c=1I48V9GUU0liAJ-dMA4SW-h5LoejkBTlEZJ-0b_vmXE=" 
@@ -67,6 +59,15 @@ export default function Home() {
               </div>
               
               <div className="absolute -bottom-10 -left-10 z-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+
+              <div className="flex flex-col sm:flex-row gap-4 pt-6 justify-center">
+                <Link to="/booking" className="btn-primary flex items-center justify-center gap-2 text-sm md:text-base">
+                  Start Your Journey <ArrowRight size={18} />
+                </Link>
+                <Link to="/services" className="btn-secondary flex items-center justify-center text-sm md:text-base">
+                  Explore Services
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -196,7 +197,7 @@ export default function Home() {
       </section>
 
       {/* Final CTA */}
-      <section className="section-padding bg-accent text-primary text-center">
+      <section className="section-padding text-primary text-center">
         <div className="max-w-3xl mx-auto space-y-8">
           <h2 className="text-4xl md:text-6xl font-bold uppercase leading-tight">
             Ready to Build Your <br /> Financial Legacy?
@@ -213,8 +214,8 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="section-padding bg-cream overflow-hidden">
-        <div className="max-w-7xl mx-auto text-center mb-16">
+      <section className="py-12 bg-cream border-y-2 border-primary/20 overflow-hidden w-full">
+        <div className="max-w-7xl mx-auto text-center mb-12 px-4">
           <h2 className="text-5xl md:text-6xl font-bold text-primary mb-6">What Our Clients Say</h2>
           <p className="text-ink/60 text-lg max-w-2xl mx-auto">Real experiences from people who secured their financial future</p>
         </div>
