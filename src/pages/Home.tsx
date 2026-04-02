@@ -38,7 +38,7 @@ export default function Home() {
 
               <div className="grid grid-cols-2 gap-4 md:gap-8 pt-8 md:pt-12 border-t border-primary/10">
                 <div>
-                  <p className="text-2xl md:text-4xl font-serif font-bold text-primary">6+</p>
+                  <p className="text-2xl md:text-4xl font-serif font-bold text-primary">10+</p>
                   <p className="text-[10px] md:text-xs uppercase tracking-widest text-ink/50 font-bold">Years Experience</p>
                 </div>
                 <div>
@@ -137,7 +137,7 @@ export default function Home() {
               <h2 className="text-4xl md:text-5xl font-bold text-primary leading-tight">Why Choose <br /><span className="text-accent">Guided Wealthy?</span></h2>
               <div className="space-y-6">
                 {[
-                  { title: '6+ Years of Expertise', desc: 'Deep market knowledge and proven strategies.' },
+                  { title: '10+ Years of Expertise', desc: 'Deep market knowledge and proven strategies.' },
                   { title: '500+ Families Guided', desc: 'A track record of trust and successful outcomes.' },
                   { title: 'Personalized Strategy', desc: 'No cookie-cutter plans. Your goals are unique.' },
                   { title: 'Transparent & Ethical', desc: 'Honest advice with your best interests at heart.' }

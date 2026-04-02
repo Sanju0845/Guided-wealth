@@ -224,76 +224,102 @@ export const SERVICES: Service[] = [
     image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=800'
   },
   {
-    id: 'business-succession',
-    title: 'Business Succession',
-    icon: '💼',
-    description: 'Planning for the smooth transition of your business to the next generation or new ownership. We ensure your life\'s work continues to thrive even after you step back.',
+    id: 'mutual-fund-education',
+    title: 'Mutual Fund & Stock Education',
+    icon: 'https://cdn-icons-png.flaticon.com/128/3130/3130453.png',
+    description: 'Comprehensive education on mutual funds, stocks, and investment vehicles to help you make informed decisions. We demystify complex financial instruments so you can invest with confidence and understanding.',
     features: [
-      'Transition planning and timeline creation',
-      'Business valuation support and exit strategy',
-      'Continuity strategy and key-man insurance',
-      'Family business constitution and governance',
-      'Tax-efficient transfer of ownership'
+      'Fundamental analysis of stocks and companies',
+      'Mutual fund types, selection criteria, and portfolio matching',
+      'Risk assessment and diversification strategies',
+      'Market timing vs. time in market education',
+      'Hands-on portfolio building with guided practice'
     ],
     painPoints: [
-      { title: 'Leadership Gaps', description: 'Unsure who will lead next? We help you identify and prepare successors for a smooth transition.' },
-      { title: 'Valuation Uncertainty', description: 'What is your business truly worth? We provide support for accurate valuation and exit planning.' }
+      { title: 'Confusion About Where to Invest', description: 'Overwhelmed by too many investment options? We simplify stocks, mutual funds, and ETFs into clear, actionable knowledge.' },
+      { title: 'Fear of Losing Money', description: 'Scared to start investing due to market volatility? Our education builds confidence through risk understanding and management techniques.' }
     ],
     analysisPoints: [
-      'transition timeline',
-      'valuation audit',
-      'governance structure',
-      'exit strategy review'
+      'investment knowledge assessment',
+      'risk tolerance evaluation',
+      'portfolio matching suitability',
+      'learning path customization'
     ],
-    image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=800'
+    image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800'
   },
   {
-    id: 'will-planning',
-    title: 'Will Planning',
-    icon: '📋',
-    description: 'Comprehensive will drafting and estate documentation to ensure your assets are distributed exactly as per your wishes. We provide legal clarity and peace of mind for your family\'s future.',
+    id: 'nri-financial-services',
+    title: 'NRI Financial Services',
+    icon: 'https://cdn-icons-png.flaticon.com/128/1570/1570888.png',
+    description: 'Specialized financial planning for Non-Resident Indians to manage investments, taxes, and wealth in India. We navigate the complexities of cross-border finance to optimize your India portfolio.',
     features: [
-      'Comprehensive will drafting and review',
-      'Asset distribution strategy and legal documentation',
-      'Executor selection and guidance',
-      'Guardian appointment for minor children',
-      'Regular will updates and amendments'
+      'NRE/NRO account optimization and tax implications',
+      'India investment opportunities (FDs, MFs, Stocks, Real Estate)',
+      'Repatriation planning and foreign exchange strategy',
+      'Double taxation avoidance agreement (DTAA) benefits',
+      'FEMA compliance and regulatory guidance'
     ],
     painPoints: [
-      { title: 'Uncertain Asset Distribution', description: 'Worried about how your assets will be divided? We ensure clear, legally binding instructions that prevent family disputes.' },
-      { title: 'Legal Complexity', description: 'Confused by estate laws and documentation? Our experts simplify the process and ensure full legal compliance.' }
+      { title: 'Complex Cross-Border Taxation', description: 'Confused about taxes in two countries? We optimize your structure using DTAA benefits and compliance strategies.' },
+      { title: 'Limited India Market Access', description: 'Finding it hard to invest in India from abroad? We open doors to the best India investment opportunities suitable for NRIs.' }
     ],
     analysisPoints: [
-      'asset inventory review',
-      'beneficiary assessment',
-      'legal compliance check',
-      'executor suitability'
+      'residential status assessment',
+      'India portfolio review',
+      'repatriation feasibility',
+      'tax optimization analysis'
     ],
-    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=800'
+    image: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&q=80&w=800'
   },
   {
-    id: 'working-capital-lending',
-    title: 'Working Capital & Lending Advisory',
-    icon: '💰',
-    description: 'Strategic advisory for businesses and individuals on managing working capital needs and securing optimal lending solutions. We help you navigate complex credit markets for the best terms.',
+    id: 'emergency-fund-planning',
+    title: 'Emergency Fund & Savings Planning',
+    icon: 'https://cdn-icons-png.flaticon.com/128/4334/4334686.png',
+    description: 'Build a robust financial safety net with structured emergency fund planning and disciplined savings strategies. We help you prepare for life\'s unexpected moments without derailing your long-term goals.',
     features: [
-      'Working capital assessment and optimization',
-      'Lending options comparison and negotiation support',
-      'Credit facility structuring (Term loans, OD, CC)',
-      'Debt restructuring for better cash flow',
-      'Bank relationship management and liaison'
+      'Emergency corpus calculation based on monthly expenses',
+      'Liquid asset allocation for immediate accessibility',
+      'Automated savings discipline and habit formation',
+      'Separate goal-based savings buckets creation',
+      'Protection against lifestyle inflation and spending leaks'
     ],
     painPoints: [
-      { title: 'Cash Flow Crunches', description: 'Struggling to meet short-term obligations? We optimize your working capital cycle for smoother operations.' },
-      { title: 'Expensive Borrowing Costs', description: 'Paying high interest on business loans? We negotiate better terms and structure debt more efficiently.' }
+      { title: 'No Financial Safety Net', description: 'One unexpected expense away from crisis? We build a buffer that lets you handle emergencies without touching investments or going into debt.' },
+      { title: 'Inconsistent Savings Habit', description: 'Struggling to save consistently despite earning well? Our automated systems and behavioral frameworks make saving effortless and automatic.' }
     ],
     analysisPoints: [
-      'working capital cycle review',
-      'credit cost analysis',
-      'lender comparison',
-      'repayment structure optimization'
+      'monthly expense audit',
+      'emergency corpus gap',
+      'liquidity assessment',
+      'savings automation setup',
+      'spending pattern review'
     ],
-    image: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&q=80&w=800'
+    price: '₹999',
+    image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: 'financial-literacy-workshops',
+    title: 'Financial Literacy Workshops',
+    icon: 'https://cdn-icons-png.flaticon.com/128/18633/18633825.png',
+    description: 'Interactive group workshops and seminars for individuals, corporates, and communities to build financial awareness. Perfect for teams, families, or organizations seeking collective financial empowerment.',
+    features: [
+      'Customized workshops for corporates and employee groups',
+      'Family financial planning sessions and wealth discussions',
+      'Investment basics and wealth creation fundamentals',
+      'Retirement planning and goal-based investing modules',
+      'Q&A sessions and personalized guidance within groups'
+    ],
+    painPoints: [
+      { title: 'Low Financial Awareness in Teams', description: 'Employees struggling with personal finance? Our corporate workshops boost productivity by reducing financial stress.' },
+      { title: 'Family Money Conflicts', description: 'Different financial priorities causing friction? Our family workshops align goals and create shared financial vision.' }
+    ],
+    analysisPoints: [
+      'audience profiling and needs',
+      'customized content design',
+      'interactive module planning',
+      'follow-up support structure'
+    ],
+    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800'
   }
 ];
 

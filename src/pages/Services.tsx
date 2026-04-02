@@ -5,8 +5,8 @@ import { Check, ArrowRight, Building2, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Services() {
-  const gridServices = SERVICES.slice(0, 9);
-  const featuredService = SERVICES[9];
+  const gridServices = SERVICES.slice(0, -1);
+  const featuredService = SERVICES[SERVICES.length - 1];
 
   return (
     <div className="bg-cream">
