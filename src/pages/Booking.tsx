@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Mail, Phone, MapPin, Calendar, Clock } from 'lucide-react';
 
 export default function Booking() {
