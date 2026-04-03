@@ -80,7 +80,7 @@ export default function Booking() {
             </div>
 
             {/* Calendly Booking Block */}
-            <div className="curve-block h-[650px] md:h-[750px] overflow-hidden">
+            <div className="curve-block h-[650px] md:h-[750px] overflow-hidden border border-primary/20">
               <div 
                 className="calendly-inline-widget w-full h-full"
                 data-url="https://calendly.com/guidedwealthy2026/30min"

@@ -37,21 +37,20 @@ export default function Home() {
               </p>
 
               <div className="flex flex-col gap-4 pt-6">
-                {/* XIMB Alumni Badge - Prominent */}
-                <div className="flex items-center gap-4 bg-gradient-to-r from-primary/5 to-accent/10 px-5 py-3 rounded-2xl border-2 border-accent/20 shadow-sm">
-                  <div className="h-10 w-10 bg-primary text-cream rounded-full flex items-center justify-center font-bold text-lg">X</div>
-                  <div className="flex flex-col">
-                    <span className="text-xs font-bold uppercase tracking-widest text-primary">Alumni</span>
-                    <span className="text-sm font-bold text-accent">XIMB</span>
-                  </div>
-                </div>
-                
-                {/* SEBI & NISM Badges */}
-                <div className="flex flex-wrap items-center gap-3">
+                {/* XIMB Alumni Badge */}
+                <div className="flex items-center gap-3 flex-wrap">
+                  <span className="flex items-center gap-2 bg-primary text-cream px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-md">
+                    <img 
+                      src="/assets/ximb.png" 
+                      alt="XIMB" 
+                      className="h-5 w-auto"
+                    />
+                    XIMB Alumni
+                  </span>
                   <span className="bg-accent text-primary px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-md">
                     SEBI Registered IA
                   </span>
-                  <span className="bg-primary text-cream px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-md">
+                  <span className="bg-primary/80 text-cream px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-md">
                     NISM Certified
                   </span>
                 </div>
@@ -105,12 +104,12 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <div className="p-10 curve-block border-2 border-accent/30 bg-white/5 hover:bg-white/10 transition-all group text-center">
               <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6">
                 <span className="text-3xl font-bold text-accent">SEBI</span>
               </div>
-              <h3 className="text-3xl font-bold mb-4">Registered Investment Advisor</h3>
+              <h3 className="text-2xl font-bold mb-4">Registered Investment Advisor</h3>
               <p className="text-cream/60 leading-relaxed">
                 Officially registered with Securities and Exchange Board of India, ensuring compliance with all regulatory standards for investment advisory services.
               </p>
@@ -120,9 +119,19 @@ export default function Home() {
               <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6">
                 <span className="text-3xl font-bold text-accent">NISM</span>
               </div>
-              <h3 className="text-3xl font-bold mb-4">NISM Certified Professional</h3>
+              <h3 className="text-2xl font-bold mb-4">NISM Certified Professional</h3>
               <p className="text-cream/60 leading-relaxed">
                 Certified by National Institute of Securities Markets, demonstrating expertise in securities markets and commitment to professional excellence.
+              </p>
+            </div>
+
+            <div className="p-10 curve-block border-2 border-accent/30 bg-white/5 hover:bg-white/10 transition-all group text-center">
+              <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6 p-3">
+                <img src="/assets/ximb.png" alt="XIMB" className="h-full w-auto" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4">XIMB Alumni</h3>
+              <p className="text-cream/60 leading-relaxed">
+                Proud alumnus of Xavier Institute of Management, Bhubaneswar - one of India's premier B-schools, bringing top-tier business education to financial advisory.
               </p>
             </div>
           </div>
