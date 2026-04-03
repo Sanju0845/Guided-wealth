@@ -48,7 +48,7 @@ export default function Home() {
                     XIMB Alumni
                   </span>
                   <span className="bg-accent text-primary px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-md">
-                    SEBI Registered IA
+                    Ex Banker
                   </span>
                   <span className="bg-primary/80 text-cream px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-md">
                     NISM Certified
@@ -107,11 +107,11 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <div className="p-10 curve-block border-2 border-accent/30 bg-white/5 hover:bg-white/10 transition-all group text-center">
               <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6 p-3">
-                <img src="/assets/sebi.png" alt="SEBI" className="h-full w-auto" />
+                <span className="text-3xl font-bold text-accent">BANK</span>
               </div>
-              <h3 className="text-2xl font-bold mb-4">Registered Investment Advisor</h3>
+              <h3 className="text-2xl font-bold mb-4">Ex Banker</h3>
               <p className="text-cream/60 leading-relaxed">
-                Officially registered with Securities and Exchange Board of India, ensuring compliance with all regulatory standards for investment advisory services.
+                Former banking professional with deep expertise in lending products, credit analysis, and banking operations to guide your financial decisions.
               </p>
             </div>
             
@@ -202,7 +202,7 @@ export default function Home() {
               <h2 className="text-4xl md:text-5xl font-bold text-primary leading-tight">Why Choose <br /><span className="text-accent">Guided Wealthy?</span></h2>
               <div className="space-y-6">
                 {[
-                  { title: 'SEBI Registered IA', desc: 'Licensed investment advisor with NISM certifications.' },
+                  { title: 'Ex Banker', desc: 'Former banking professional with lending and credit expertise.' },
                   { title: '500+ Families Guided', desc: 'A track record of trust and successful outcomes.' },
                   { title: 'Personalized Strategy', desc: 'No cookie-cutter plans. Your goals are unique.' },
                   { title: 'Transparent & Ethical', desc: 'Honest advice with your best interests at heart.' }

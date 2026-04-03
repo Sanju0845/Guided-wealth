@@ -346,6 +346,32 @@ export const SERVICES: Service[] = [
       'follow-up support structure'
     ],
     image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: 'lending-strategy',
+    title: 'Lending Strategy & Bank Selection',
+    icon: 'https://cdn-icons-png.flaticon.com/128/3135/3135706.png',
+    description: 'Expert guidance on choosing the right banks and lending products with complete documentation support. We help you navigate loan options, interest rates, and banking relationships to secure the best financing for your needs.',
+    features: [
+      'Bank comparison and selection based on your profile',
+      'Loan product analysis (home, personal, business loans)',
+      'Interest rate negotiation and terms optimization',
+      'Complete documentation preparation and filing',
+      'Credit profile enhancement for better loan terms'
+    ],
+    painPoints: [
+      { title: 'Confusing Bank Options', description: 'Overwhelmed by countless banks and loan products? We simplify the selection process and match you with the best banking partner for your specific needs.' },
+      { title: 'Documentation Hassles', description: 'Tired of complex paperwork and repeated bank visits? We handle all documentation preparation and guide you through the entire process seamlessly.' }
+    ],
+    analysisPoints: [
+      'credit score review',
+      'income eligibility assessment',
+      'bank comparison analysis',
+      'documentation checklist',
+      'loan terms optimization'
+    ],
+    price: '₹999',
+    image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&q=80&w=800'
   }
 ];
 

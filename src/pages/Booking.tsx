@@ -42,7 +42,7 @@ export default function Booking() {
                   </div>
                   <div>
                     <p className="text-[10px] md:text-xs uppercase tracking-widest text-ink/40 font-bold mb-1">Email Us</p>
-                    <p className="text-lg md:text-xl font-bold text-primary">nist359@gmail.com</p>
+                    <p className="text-lg md:text-xl font-bold text-primary">guidedwealthy@gmail.com</p>
                   </div>
                 </div>
 
