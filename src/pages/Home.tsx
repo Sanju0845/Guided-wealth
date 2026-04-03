@@ -36,6 +36,25 @@ export default function Home() {
                 Every individual plans their financial life as per their understanding. What matters is personalizing that knowledge to your unique situation.
               </p>
 
+              <div className="flex flex-col gap-4 pt-4">
+                <div className="flex items-center gap-4 bg-white/50 px-4 py-2 rounded-full">
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/XIMB_logo.svg/1200px-XIMB_logo.svg.png" 
+                    alt="XIMB" 
+                    className="h-8 w-auto"
+                  />
+                  <span className="text-xs font-bold uppercase tracking-widest text-primary">Alumni Network</span>
+                </div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="bg-accent/10 text-accent px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
+                    SEBI Registered IA
+                  </span>
+                  <span className="bg-primary/10 text-primary px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
+                    NISM Certified
+                  </span>
+                </div>
+              </div>
+
               <div className="grid grid-cols-2 gap-4 md:gap-8 pt-8 md:pt-12 border-t border-primary/10">
                 <div>
                   <p className="text-2xl md:text-4xl font-serif font-bold text-primary">10+</p>
@@ -137,7 +156,7 @@ export default function Home() {
               <h2 className="text-4xl md:text-5xl font-bold text-primary leading-tight">Why Choose <br /><span className="text-accent">Guided Wealthy?</span></h2>
               <div className="space-y-6">
                 {[
-                  { title: '10+ Years of Expertise', desc: 'Deep market knowledge and proven strategies.' },
+                  { title: 'SEBI Registered IA', desc: 'Licensed investment advisor with NISM certifications.' },
                   { title: '500+ Families Guided', desc: 'A track record of trust and successful outcomes.' },
                   { title: 'Personalized Strategy', desc: 'No cookie-cutter plans. Your goals are unique.' },
                   { title: 'Transparent & Ethical', desc: 'Honest advice with your best interests at heart.' }

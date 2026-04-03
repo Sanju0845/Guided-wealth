@@ -46,10 +46,29 @@ export default function About() {
       {/* Founder Section */}
       <section className="section-padding bg-cream">
         <div className="max-w-4xl mx-auto space-y-8">
-          <div className="space-y-2 text-center md:text-left">
-            <p className="text-accent font-bold uppercase tracking-[0.3em] text-xs md:text-sm">Our Leadership</p>
-            <h2 className="text-3xl md:text-5xl font-bold text-primary">Guided Wealthy</h2>
-            <p className="text-ink/50 uppercase tracking-widest font-bold text-xs md:text-sm">Trusted Financial Experts</p>
+          <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+            <img 
+              src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/XIMB_logo.svg/1200px-XIMB_logo.svg.png" 
+              alt="XIMB Alumni" 
+              className="h-16 w-auto"
+            />
+            <div className="space-y-2 text-center md:text-left">
+              <p className="text-accent font-bold uppercase tracking-[0.3em] text-xs md:text-sm">Our Leadership</p>
+              <h2 className="text-3xl md:text-5xl font-bold text-primary">Guided Wealthy</h2>
+              <p className="text-ink/50 uppercase tracking-widest font-bold text-xs md:text-sm">XIMB Alumni | SEBI Registered Investment Advisor | NISM Certified</p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap justify-center md:justify-start gap-3">
+            <span className="bg-accent text-primary px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider">
+              SEBI Registered IA
+            </span>
+            <span className="bg-primary text-cream px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider">
+              NISM Certified
+            </span>
+            <span className="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider">
+              XIMB Alumni
+            </span>
           </div>
 
           <div className="relative py-6">

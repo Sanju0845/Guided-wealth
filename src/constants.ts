@@ -298,6 +298,32 @@ export const SERVICES: Service[] = [
     image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=800'
   },
   {
+    id: 'unlisted-preipo-strategy',
+    title: 'Unlisted & Pre-IPO Investment Strategy',
+    icon: 'https://cdn-icons-png.flaticon.com/128/3135/3135706.png',
+    description: 'Access high-growth opportunities before they hit public markets. We help accredited investors navigate the unlisted space with due diligence, valuation analysis, and exit strategy planning for pre-IPO and private equity investments.',
+    features: [
+      'Pre-IPO company screening and valuation analysis',
+      'Unlisted equity and private placement opportunities',
+      'ESOP monetization and secondary market access',
+      'Portfolio allocation for illiquid assets',
+      'Exit strategy planning and timeline optimization'
+    ],
+    painPoints: [
+      { title: 'Limited Access to Growth Companies', description: 'Missing out on multi-bagger opportunities before IPO? We open doors to curated pre-IPO and unlisted investment opportunities.' },
+      { title: 'Valuation Uncertainty', description: 'Confused about fair pricing in private markets? Our rigorous valuation framework ensures you do not overpay for future potential.' }
+    ],
+    analysisPoints: [
+      'company fundamentals review',
+      'market opportunity assessment',
+      'valuation multiple analysis',
+      'liquidity timeline planning',
+      'portfolio fit evaluation'
+    ],
+    price: '₹2999',
+    image: 'https://images.unsplash.com/photo-1611974765270-ca12586343fc?auto=format&fit=crop&q=80&w=800'
+  },
+  {
     id: 'financial-literacy-workshops',
     title: 'Financial Literacy Workshops',
     icon: 'https://cdn-icons-png.flaticon.com/128/18633/18633825.png',
@@ -320,32 +346,6 @@ export const SERVICES: Service[] = [
       'follow-up support structure'
     ],
     image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    id: 'unlisted-preipo-strategy',
-    title: 'Unlisted & Pre-IPO Strategy',
-    icon: 'https://cdn-icons-png.flaticon.com/128/3135/3135715.png',
-    description: 'Exclusive access to high-growth opportunities in unlisted companies and pre-IPO allocations. We help accredited investors tap into private market returns before companies hit the public exchanges.',
-    features: [
-      'Pre-IPO and unlisted share opportunity identification',
-      'Due diligence on private companies and valuation analysis',
-      'ESOP monetization strategies for employees',
-      'Portfolio allocation between listed and unlisted assets',
-      'Exit strategy planning for private investments'
-    ],
-    painPoints: [
-      { title: 'Limited Access to Pre-IPO Deals', description: 'Missing out on early-stage wealth creation? We provide curated access to pre-IPO and unlisted investment opportunities typically reserved for institutional investors.' },
-      { title: 'Complex Private Market Navigation', description: 'Unsure how to evaluate unlisted companies? Our due diligence framework helps you assess private market risks and potential returns with confidence.' }
-    ],
-    analysisPoints: [
-      'pre-ipo pipeline access',
-      'unlisted company valuation',
-      'portfolio liquidity assessment',
-      'risk-return profile analysis',
-      'exit timeline planning'
-    ],
-    price: '₹2999',
-    image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800'
   }
 ];
 
