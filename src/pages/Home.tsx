@@ -36,20 +36,26 @@ export default function Home() {
                 Every individual plans their financial life as per their understanding. What matters is personalizing that knowledge to your unique situation.
               </p>
 
-              <div className="flex flex-col gap-4 pt-4">
-                <div className="flex items-center gap-4 bg-white/50 px-4 py-2 rounded-full">
+              <div className="flex flex-col gap-4 pt-6">
+                {/* XIMB Alumni Badge - Prominent */}
+                <div className="flex items-center gap-4 bg-gradient-to-r from-primary/5 to-accent/10 px-5 py-3 rounded-2xl border-2 border-accent/20 shadow-sm">
                   <img 
-                    src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/XIMB_logo.svg/1200px-XIMB_logo.svg.png" 
+                    src="https://ximb.edu.in/wp-content/uploads/2021/11/xim-logo.png" 
                     alt="XIMB" 
-                    className="h-8 w-auto"
+                    className="h-10 w-auto"
                   />
-                  <span className="text-xs font-bold uppercase tracking-widest text-primary">Alumni Network</span>
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold uppercase tracking-widest text-primary">Alumni</span>
+                    <span className="text-sm font-bold text-accent">XIMB</span>
+                  </div>
                 </div>
+                
+                {/* SEBI & NISM Badges */}
                 <div className="flex flex-wrap items-center gap-3">
-                  <span className="bg-accent/10 text-accent px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
+                  <span className="bg-accent text-primary px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-md">
                     SEBI Registered IA
                   </span>
-                  <span className="bg-primary/10 text-primary px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
+                  <span className="bg-primary text-cream px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-md">
                     NISM Certified
                   </span>
                 </div>
