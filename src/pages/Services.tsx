@@ -5,8 +5,7 @@ import { Check, ArrowRight, Building2, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Services() {
-  const gridServices = SERVICES.slice(0, -1);
-  const featuredService = SERVICES[SERVICES.length - 1];
+  const gridServices = SERVICES;
 
   return (
     <div className="bg-cream">
@@ -96,47 +95,6 @@ export default function Services() {
                 </div>
               </motion.div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Service Section */}
-      <section className="py-24 px-6 md:px-12 lg:px-24 bg-primary text-cream relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-white/5 -skew-x-12 translate-x-1/2" />
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
-              <div className="w-20 h-20 bg-accent/20 rounded-3xl flex items-center justify-center">
-                <img src={featuredService.icon} alt={featuredService.title} className="w-12 h-12 object-contain" />
-              </div>
-              <div className="space-y-4">
-                <h2 className="text-4xl md:text-6xl font-bold tracking-tight">
-                  {featuredService.title}
-                </h2>
-                <p className="text-xl text-cream/70 leading-relaxed max-w-xl">
-                  {featuredService.description}
-                </p>
-              </div>
-              <div className="space-y-4">
-                <p className="text-[10px] uppercase tracking-widest font-bold text-accent">Key Deliverables</p>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {featuredService.features.slice(0, 4).map((feature, fIdx) => (
-                    <li key={fIdx} className="flex items-start gap-3 text-sm text-cream/90 font-medium">
-                      <Check size={16} className="text-accent mt-0.5" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div className="flex justify-center lg:justify-end">
-              <Link 
-                to="/booking" 
-                className="bg-accent text-primary px-12 py-6 rounded-full font-bold uppercase tracking-[0.2em] hover:scale-105 transition-all shadow-2xl text-sm"
-              >
-                Start Planning Legacy
-              </Link>
-            </div>
           </div>
         </div>
       </section>
