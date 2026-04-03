@@ -15,6 +15,7 @@ export default function Footer() {
           </p>
           <div className="flex space-x-4">
             <a href="https://www.instagram.com/guidedwealthy" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors"><Instagram size={20} /></a>
+            <a href="mailto:guidedwealthy@gmail.com" className="hover:text-accent transition-colors"><Mail size={20} /></a>
           </div>
         </div>
 

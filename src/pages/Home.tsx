@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, CheckCircle2, TrendingUp, Users, ChevronDown } from 'lucide-react';
+import { ArrowRight, CheckCircle2, TrendingUp, Users, ChevronDown, Building2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { TESTIMONIALS, FAQS } from '../constants';
 
@@ -106,8 +106,8 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <div className="p-10 curve-block border-2 border-accent/30 bg-white/5 hover:bg-white/10 transition-all group text-center">
-              <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6 p-3">
-                <span className="text-3xl font-bold text-accent">BANK</span>
+              <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Building2 size={40} className="text-accent" />
               </div>
               <h3 className="text-2xl font-bold mb-4">Ex Banker</h3>
               <p className="text-cream/60 leading-relaxed">
