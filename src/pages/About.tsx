@@ -48,7 +48,7 @@ export default function About() {
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
             <img 
-              src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/XIMB_logo.svg/1200px-XIMB_logo.svg.png" 
+              src="H:\Project-CLIENTS\Client-guided-wealthy\public\assets\ximb.png" 
               alt="XIMB Alumni" 
               className="h-16 w-auto"
             />

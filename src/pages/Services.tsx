@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { SERVICES, PRICING_PLANS } from '../constants';
-import { Check, ArrowRight, Building2, Download } from 'lucide-react';
+import { Check, ArrowRight, Building2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Services() {
@@ -117,10 +117,6 @@ export default function Services() {
             >
               Start Your Wealth Journey
             </Link>
-            <button className="flex items-center gap-3 text-primary font-bold uppercase tracking-widest text-sm hover:text-accent transition-all group border-2 border-primary/10 px-10 py-5 rounded-full w-full md:w-auto justify-center">
-              <Download size={20} className="group-hover:translate-y-1 transition-transform" />
-              Download Firm Profile
-            </button>
           </div>
         </div>
       </section>
