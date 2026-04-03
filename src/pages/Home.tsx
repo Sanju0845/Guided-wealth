@@ -39,11 +39,7 @@ export default function Home() {
               <div className="flex flex-col gap-4 pt-6">
                 {/* XIMB Alumni Badge - Prominent */}
                 <div className="flex items-center gap-4 bg-gradient-to-r from-primary/5 to-accent/10 px-5 py-3 rounded-2xl border-2 border-accent/20 shadow-sm">
-                  <img 
-                    src="https://ximb.edu.in/wp-content/uploads/2021/11/xim-logo.png" 
-                    alt="XIMB" 
-                    className="h-10 w-auto"
-                  />
+                  <div className="h-10 w-10 bg-primary text-cream rounded-full flex items-center justify-center font-bold text-lg">X</div>
                   <div className="flex flex-col">
                     <span className="text-xs font-bold uppercase tracking-widest text-primary">Alumni</span>
                     <span className="text-sm font-bold text-accent">XIMB</span>
@@ -98,13 +94,48 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Process Section */}
+      {/* Certifications Section */}
       <section className="section-padding bg-primary text-cream">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20 space-y-4">
+            <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tighter">Regulatory Compliance</h2>
+            <div className="h-1 w-24 bg-accent mx-auto rounded-full" />
+            <p className="text-cream/70 max-w-2xl mx-auto text-lg">
+              Your trust is backed by official regulatory certifications and industry standards.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="p-10 curve-block border-2 border-accent/30 bg-white/5 hover:bg-white/10 transition-all group text-center">
+              <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-3xl font-bold text-accent">SEBI</span>
+              </div>
+              <h3 className="text-3xl font-bold mb-4">Registered Investment Advisor</h3>
+              <p className="text-cream/60 leading-relaxed">
+                Officially registered with Securities and Exchange Board of India, ensuring compliance with all regulatory standards for investment advisory services.
+              </p>
+            </div>
+            
+            <div className="p-10 curve-block border-2 border-accent/30 bg-white/5 hover:bg-white/10 transition-all group text-center">
+              <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-3xl font-bold text-accent">NISM</span>
+              </div>
+              <h3 className="text-3xl font-bold mb-4">NISM Certified Professional</h3>
+              <p className="text-cream/60 leading-relaxed">
+                Certified by National Institute of Securities Markets, demonstrating expertise in securities markets and commitment to professional excellence.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Process Section */}
+      <section className="section-padding bg-cream text-primary">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20 space-y-4">
             <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tighter">Our Proven Process</h2>
             <div className="h-1 w-24 bg-accent mx-auto rounded-full" />
-            <p className="text-cream/70 max-w-2xl mx-auto text-lg">
+            <p className="text-ink/60 max-w-2xl mx-auto text-lg">
               A systematic approach to building and preserving your wealth over generations.
             </p>
           </div>
@@ -118,13 +149,13 @@ export default function Home() {
             ].map((item, idx) => (
               <div 
                 key={idx}
-                className="p-8 curve-block border border-white/10 bg-white/5 hover:bg-white/10 transition-all group"
+                className="p-8 curve-block border border-primary/10 bg-white hover:bg-primary/5 transition-all group"
               >
-                <span className="text-5xl font-serif font-bold text-accent/20 group-hover:text-accent/40 transition-colors">
+                <span className="text-5xl font-serif font-bold text-accent/40 group-hover:text-accent/60 transition-colors">
                   {item.step}
                 </span>
-                <h3 className="text-2xl font-bold mt-4 mb-4">{item.title}</h3>
-                <p className="text-cream/60 leading-relaxed">{item.desc}</p>
+                <h3 className="text-2xl font-bold mt-4 mb-4 text-primary">{item.title}</h3>
+                <p className="text-ink/60 leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>

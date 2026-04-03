@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Linkedin, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
+import { Instagram, Mail, Phone, MapPin } from 'lucide-react';
 
 const LOGO_URL = "/assets/logo.png";
 
@@ -14,9 +14,7 @@ export default function Footer() {
             Empowering individuals and families to take control of their financial future with clarity, confidence, and discipline.
           </p>
           <div className="flex space-x-4">
-            <a href="#" className="hover:text-accent transition-colors"><Linkedin size={20} /></a>
-            <a href="#" className="hover:text-accent transition-colors"><Twitter size={20} /></a>
-            <a href="#" className="hover:text-accent transition-colors"><Instagram size={20} /></a>
+            <a href="https://www.instagram.com/guidedwealthy" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors"><Instagram size={20} /></a>
           </div>
         </div>
 
