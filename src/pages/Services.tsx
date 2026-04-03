@@ -62,7 +62,7 @@ export default function Services() {
                 className="bg-cream p-10 border border-ink/5 shadow-sm hover:shadow-2xl transition-all duration-500 group flex flex-col h-full rounded-xl"
               >
                 <div className="flex justify-between items-start mb-8">
-                  <img src={service.icon} alt={service.title} className={`w-10 h-10 object-contain transition-all duration-500 ${service.id === 'unlisted-preipo-strategy' ? '' : 'grayscale group-hover:grayscale-0'}`} />
+                  <img src={service.icon} alt={service.title} className="w-10 h-10 object-contain grayscale group-hover:grayscale-0 transition-all duration-500" />
                   <span className="text-[10px] uppercase tracking-widest font-bold text-accent bg-accent/10 px-3 py-1 rounded-full">
                     Standard Plan
                   </span>

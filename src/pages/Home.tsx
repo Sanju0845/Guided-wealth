@@ -172,7 +172,7 @@ export default function Home() {
       </section>
 
       {/* Who We Help */}
-      <section className="section-padding bg-cream">
+      <section className="section-padding bg-cream border-t border-primary/10">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">Who We Help</h2>
@@ -195,7 +195,7 @@ export default function Home() {
       </section>
 
       {/* Why Guided Wealthy */}
-      <section className="section-padding bg-cream">
+      <section className="section-padding bg-cream border-t border-primary/10">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
