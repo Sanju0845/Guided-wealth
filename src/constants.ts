@@ -372,6 +372,32 @@ export const SERVICES: Service[] = [
     ],
     price: '₹999',
     image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: 'ai-portfolio-reports',
+    title: 'AI Driven Portfolio Reports',
+    icon: 'https://cdn-icons-png.flaticon.com/128/2103/2103633.png',
+    description: 'Get intelligent, personalized portfolio analysis reports powered by AI. Our advanced analytics provide deep insights into your investments, performance tracking, and tailored recommendations specifically crafted for your financial goals and risk profile.',
+    features: [
+      'AI-powered portfolio performance analysis and insights',
+      'Personalized investment recommendations based on your goals',
+      'Risk assessment and asset allocation optimization',
+      'Visual dashboards with trend analysis and forecasting',
+      'Automated report generation tailored to your preferences'
+    ],
+    painPoints: [
+      { title: 'Complex Portfolio Data', description: 'Struggling to understand your investment performance? Our AI simplifies complex data into clear, actionable insights you can actually use.' },
+      { title: 'Lack of Personalized Guidance', description: 'Generic reports not addressing your needs? Our AI tailors every analysis specifically to your unique financial situation and goals.' }
+    ],
+    analysisPoints: [
+      'portfolio data aggregation',
+      'AI model analysis and insights',
+      'performance benchmarking',
+      'risk profiling and recommendations',
+      'customized report generation'
+    ],
+    price: '₹1,499',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800'
   }
 ];
 
