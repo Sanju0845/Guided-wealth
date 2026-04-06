@@ -13,7 +13,7 @@ export default function About() {
           <div className="space-y-6 md:space-y-8">
             <h1 className="text-4xl md:text-7xl font-bold text-primary uppercase leading-tight md:leading-none">
               About <br />
-              <span className="text-accent">Guided Wealth</span>
+              <span className="text-accent">Guided Wealthy</span>
             </h1>
             <div className="h-1 w-16 md:w-24 bg-accent rounded-full" />
             <div className="space-y-4 md:space-y-6 text-base md:text-lg text-ink/70 leading-relaxed">
@@ -30,7 +30,7 @@ export default function About() {
             <div className="curve-block shadow-2xl overflow-hidden">
               <img 
                 src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=1000" 
-                alt="About Guided Wealth" 
+                alt="About Guided Wealthy" 
                 className="w-full h-auto"
                 referrerPolicy="no-referrer"
               />
