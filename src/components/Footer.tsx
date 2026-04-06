@@ -49,7 +49,13 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto mt-20 pt-10 border-t border-white/10 text-center text-cream/50 text-sm space-y-4">
-        <p>© {new Date().getFullYear()} Guided Wealthy. All rights reserved.</p>
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <p>© {new Date().getFullYear()} Guided Wealthy. All rights reserved.</p>
+          <div className="flex space-x-6">
+            <Link to="/privacy-policy" className="hover:text-accent transition-colors">Privacy Policy</Link>
+            <Link to="/legal" className="hover:text-accent transition-colors">Legal</Link>
+          </div>
+        </div>
         <p className="max-w-3xl mx-auto italic">
           “Investments in financial markets are subject to risks. Please evaluate all related documents carefully before making any investment decisions. Registration, certifications, or past experience do not guarantee future performance or returns.”
         </p>
