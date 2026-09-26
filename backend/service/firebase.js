@@ -2,13 +2,16 @@ import { initializeApp, cert } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import fs from "fs";
 
+import path from "path";
+
 let firebaseApp;
 
 import dotenv from "dotenv";
 dotenv.config();
 
 try {
-  const serviceAccountPath = new URL('../config/serviceAccountKey.json', import.meta.url);
+  // Fix for Vercel: Avoid import.meta.url which can cause SyntaxErrors when transpiled to CJS
+  const serviceAccountPath = path.join(process.cwd(), 'config', 'serviceAccountKey.json');
   
   if (fs.existsSync(serviceAccountPath)) {
     const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, 'utf8'));
