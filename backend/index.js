@@ -53,6 +53,24 @@ app.get('/api/health', (req, res) => {
     });
 });
 
+app.get('/api/test-firebase', async (req, res) => {
+    try {
+        const fs = await import('fs');
+        const path = await import('path');
+        const configPath = path.default.join(process.cwd(), 'config', 'serviceAccountKey.json');
+        const exists = fs.default.existsSync(configPath);
+        const fbModule = await import('./service/firebase.js');
+        res.status(200).json({ 
+            exists, 
+            cwd: process.cwd(),
+            path: configPath,
+            firebaseApp: fbModule.default ? 'initialized' : 'failed'
+        });
+    } catch(err) {
+        res.status(500).json({ error: err.message, stack: err.stack });
+    }
+});
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
