@@ -53,29 +53,6 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-app.get('/api/test-firebase', async (req, res) => {
-    try {
-        const fs = await import('fs');
-        const path = await import('path');
-        const cwdFiles = fs.default.readdirSync(process.cwd());
-        let backendFiles = [];
-        try { backendFiles = fs.default.readdirSync(path.default.join(process.cwd(), 'backend')); } catch(e) {}
-        
-        const configPath1 = path.default.join(process.cwd(), 'config', 'serviceAccountKey.json');
-        const configPath2 = path.default.join(process.cwd(), 'backend', 'config', 'serviceAccountKey.json');
-        
-        res.status(200).json({ 
-            cwd: process.cwd(),
-            cwdFiles,
-            backendFiles,
-            exists1: fs.default.existsSync(configPath1),
-            exists2: fs.default.existsSync(configPath2)
-        });
-    } catch(err) {
-        res.status(500).json({ error: err.message, stack: err.stack });
-    }
-});
-
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
