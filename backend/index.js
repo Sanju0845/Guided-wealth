@@ -39,9 +39,18 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 4000;
 
-// Define basic route
+// Define basic route and health check
 app.get('/', (req, res) => {
     res.send('Express is running successfully!');
+});
+
+app.get('/api/health', (req, res) => {
+    res.status(200).json({
+        status: 'success',
+        message: 'Backend is running perfectly!',
+        timestamp: new Date().toISOString(),
+        env: process.env.NODE_ENV || 'development'
+    });
 });
 
 // Routes
