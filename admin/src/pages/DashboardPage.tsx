@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Sidebar } from '../components/Sidebar';
 import { Navbar } from '../components/Navbar';
 import { UserManagement } from '../components/UserManagement';
+import { DataRepository } from '../components/DataRepository';
 import { ShieldCheck, BarChart3, Settings, FileText } from 'lucide-react';
 
 export const DashboardPage: React.FC = () => {
@@ -11,6 +12,9 @@ export const DashboardPage: React.FC = () => {
     switch (activeTab) {
       case 'user-management':
         return <UserManagement />;
+
+      case 'repository':
+        return <DataRepository />;
 
       case 'dashboard':
         return (
