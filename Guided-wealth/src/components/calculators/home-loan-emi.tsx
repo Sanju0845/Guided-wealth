@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, Home, Building, Sliders, Info } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function HomeLoanEmi() {
   // Inputs
@@ -138,12 +139,10 @@ export default function HomeLoanEmi() {
                 <div className="flex justify-between items-center mb-2">
                   <label className="text-sm font-medium text-slate-700">Home Loan Amount (₹)</label>
                   <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-medium">₹</span>
-                    <input
-                      type="number"
-                      value={homeLoanAmount}
-                      onChange={(e) => setHomeLoanAmount(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={homeLoanAmount}
+                    onValueChange={(val) => setHomeLoanAmount(val)}
+                  />
                   </div>
                 </div>
                 <input

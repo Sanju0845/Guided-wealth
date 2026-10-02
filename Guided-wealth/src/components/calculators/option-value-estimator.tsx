@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, Sliders, TrendingUp, Info } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function OptionValueEstimator() {
   // Inputs
@@ -182,11 +183,10 @@ export default function OptionValueEstimator() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Spot Price (₹)</label>
-                    <input
-                      type="number"
-                      value={spotPrice}
-                      onChange={(e) => setSpotPrice(Math.max(1, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={spotPrice}
+                    onValueChange={(val) => setSpotPrice(val)}
+                  />
                   </div>
                   <input
                     type="range"
@@ -204,11 +204,10 @@ export default function OptionValueEstimator() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Strike Price (₹)</label>
-                    <input
-                      type="number"
-                      value={strikePrice}
-                      onChange={(e) => setStrikePrice(Math.max(1, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={strikePrice}
+                    onValueChange={(val) => setStrikePrice(val)}
+                  />
                   </div>
                   <input
                     type="range"

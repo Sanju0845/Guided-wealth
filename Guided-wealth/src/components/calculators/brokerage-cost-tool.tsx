@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, Sliders, TrendingUp, DollarSign, Info } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function BrokerageCostTool() {
   // Trade Inputs
@@ -186,12 +187,10 @@ export default function BrokerageCostTool() {
                 <div className="flex justify-between items-center mb-2">
                   <label className="text-sm font-medium text-slate-700">Trade Value (₹)</label>
                   <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-medium">₹</span>
-                    <input
-                      type="number"
-                      value={tradeValue}
-                      onChange={(e) => setTradeValue(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={tradeValue}
+                    onValueChange={(val) => setTradeValue(val)}
+                  />
                   </div>
                 </div>
                 <input

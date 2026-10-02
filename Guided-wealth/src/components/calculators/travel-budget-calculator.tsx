@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 import { Share2, ChevronDown, ChevronUp, Plane, Hotel, Utensils, Compass, ShoppingBag, ShieldAlert } from 'lucide-react';
 
 export default function TravelBudgetCalculator() {
@@ -286,14 +287,10 @@ export default function TravelBudgetCalculator() {
                 <div className="p-6 pt-0 border-t border-slate-100 grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Shopping & Souvenirs</label>
-                    <input
-                      type="number"
-                      step="500"
-                      min="0"
-                      value={shoppingBudget}
-                      onChange={(e) => setShoppingBudget(Number(e.target.value))}
-                      className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                    <CurrencyInput
+                    value={shoppingBudget}
+                    onValueChange={(val) => setShoppingBudget(val)}
+                  />
                   </div>
 
                   <div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function NetWorthCalculator() {
   // Assets
@@ -86,10 +87,9 @@ export default function NetWorthCalculator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Cash & Bank Balance</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={cashBank}
-                    onChange={(e) => setCashBank(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setCashBank(val)}
                   />
                   <div>
                     <input
@@ -130,10 +130,9 @@ export default function NetWorthCalculator() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Mutual Funds</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={mutualFunds}
-                    onChange={(e) => setMutualFunds(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setMutualFunds(val)}
                   />
                   <div>
                     <input
@@ -174,10 +173,9 @@ export default function NetWorthCalculator() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Property Value</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={propertyValue}
-                    onChange={(e) => setPropertyValue(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setPropertyValue(val)}
                   />
                   <div>
                     <input
@@ -224,10 +222,9 @@ export default function NetWorthCalculator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Home Loan</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={homeLoan}
-                    onChange={(e) => setHomeLoan(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setHomeLoan(val)}
                   />
                   <div>
                     <input
@@ -246,10 +243,9 @@ export default function NetWorthCalculator() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Car Loan</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={carLoan}
-                    onChange={(e) => setCarLoan(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setCarLoan(val)}
                   />
                   <div>
                     <input
@@ -268,10 +264,9 @@ export default function NetWorthCalculator() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Personal Loan</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={personalLoan}
-                    onChange={(e) => setPersonalLoan(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setPersonalLoan(val)}
                   />
                   <div>
                     <input
@@ -312,10 +307,9 @@ export default function NetWorthCalculator() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Other Loans</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={otherLoans}
-                    onChange={(e) => setOtherLoans(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setOtherLoans(val)}
                   />
                   <div>
                     <input

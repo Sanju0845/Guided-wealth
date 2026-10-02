@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, Heart, Percent, Calendar, Sliders, Info } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function MarriageLoanCalculator() {
   // Expense Inputs
@@ -162,12 +163,10 @@ export default function MarriageLoanCalculator() {
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Venue & Decoration (₹)</label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-medium">₹</span>
-                      <input
-                        type="number"
-                        value={venueCost}
-                        onChange={(e) => setVenueCost(Math.max(0, Number(e.target.value)))}
-                      />
+                      <CurrencyInput
+                    value={venueCost}
+                    onValueChange={(val) => setVenueCost(val)}
+                  />
                     </div>
                   </div>
                   <input
@@ -187,12 +186,10 @@ export default function MarriageLoanCalculator() {
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Catering & Food (₹)</label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-medium">₹</span>
-                      <input
-                        type="number"
-                        value={cateringCost}
-                        onChange={(e) => setCateringCost(Math.max(0, Number(e.target.value)))}
-                      />
+                      <CurrencyInput
+                    value={cateringCost}
+                    onValueChange={(val) => setCateringCost(val)}
+                  />
                     </div>
                   </div>
                   <input
@@ -215,12 +212,10 @@ export default function MarriageLoanCalculator() {
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Apparel & Jewelry (₹)</label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-medium">₹</span>
-                      <input
-                        type="number"
-                        value={apparelCost}
-                        onChange={(e) => setApparelCost(Math.max(0, Number(e.target.value)))}
-                      />
+                      <CurrencyInput
+                    value={apparelCost}
+                    onValueChange={(val) => setApparelCost(val)}
+                  />
                     </div>
                   </div>
                   <input
@@ -240,12 +235,10 @@ export default function MarriageLoanCalculator() {
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Other Expenses (Photos, Music) (₹)</label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-medium">₹</span>
-                      <input
-                        type="number"
-                        value={otherCost}
-                        onChange={(e) => setOtherCost(Math.max(0, Number(e.target.value)))}
-                      />
+                      <CurrencyInput
+                    value={otherCost}
+                    onValueChange={(val) => setOtherCost(val)}
+                  />
                     </div>
                   </div>
                   <input

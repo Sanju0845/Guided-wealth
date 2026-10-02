@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, Plus, Trash2, TrendingUp, DollarSign, Info } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 interface PurchaseLot {
   id: string;
@@ -192,13 +193,10 @@ export default function StockAverageCalculator() {
                     Current Market Price per Share (₹)
                   </label>
                   <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-medium">₹</span>
-                    <input
-                      type="number"
-                      value={currentMarketPrice}
-                      onChange={(e) => setCurrentMarketPrice(Math.max(0, Number(e.target.value)))}
-                      className="w-full pl-7 pr-3 py-2 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-[#113262] outline-none"
-                    />
+                    <CurrencyInput
+                    value={currentMarketPrice}
+                    onValueChange={(val) => setCurrentMarketPrice(val)}
+                  />
                   </div>
                 </div>
               </div>

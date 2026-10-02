@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, Receipt, Building2, Percent, Sliders, CheckSquare, Square } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function GstCalculator() {
   // Input States
@@ -145,14 +146,10 @@ export default function GstCalculator() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Amount</label>
-                    <input
-                      type="number"
-                      min="100"
-                      max="1000000"
-                      step="100"
-                      value={amount}
-                      onChange={(e) => setAmount(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={amount}
+                    onValueChange={(val) => setAmount(val)}
+                  />
                   </div>
                   <input
                     type="range"

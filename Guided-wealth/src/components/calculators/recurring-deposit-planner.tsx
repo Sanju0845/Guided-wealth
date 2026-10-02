@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 import { Share2 } from 'lucide-react';
 
 export default function RecurringDepositPlanner() {
@@ -65,10 +66,9 @@ export default function RecurringDepositPlanner() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Monthly Investment</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={monthlyInvestment}
-                    onChange={(e) => setMonthlyInvestment(Number(e.target.value))}
+                    onValueChange={(val) => setMonthlyInvestment(val)}
                   />
                   <div>
                     <input

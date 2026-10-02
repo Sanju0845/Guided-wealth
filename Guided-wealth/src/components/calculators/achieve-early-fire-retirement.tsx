@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function AchieveEarlyFireRetirement() {
   const [currentAge, setCurrentAge] = useState<number>(30);
@@ -131,10 +132,9 @@ export default function AchieveEarlyFireRetirement() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Current Savings</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={currentSavings}
-                    onChange={(e) => setCurrentSavings(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setCurrentSavings(val)}
                   />
                   <div>
                     <input

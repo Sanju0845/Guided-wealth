@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 interface SgbYearRow {
   year: number;
@@ -128,10 +129,9 @@ export default function SgbCalculator() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Gold Price per Gram</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={goldPricePerGram}
-                    onChange={(e) => setGoldPricePerGram(Math.max(100, Number(e.target.value)))}
+                    onValueChange={(val) => setGoldPricePerGram(val)}
                   />
                   <div>
                     <input

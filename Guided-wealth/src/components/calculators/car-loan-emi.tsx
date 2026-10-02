@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, Car, DollarSign, Calendar, Percent, ShieldCheck, Info } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function CarLoanEmi() {
   // Inputs
@@ -128,12 +129,10 @@ export default function CarLoanEmi() {
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Car Loan / Vehicle Price (₹)</label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-medium">₹</span>
-                      <input
-                        type="number"
-                        value={vehiclePrice}
-                        onChange={(e) => setVehiclePrice(Math.max(0, Number(e.target.value)))}
-                      />
+                      <CurrencyInput
+                    value={vehiclePrice}
+                    onValueChange={(val) => setVehiclePrice(val)}
+                  />
                     </div>
                   </div>
                   <input
@@ -157,12 +156,10 @@ export default function CarLoanEmi() {
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Down Payment (₹)</label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-medium">₹</span>
-                      <input
-                        type="number"
-                        value={downPayment}
-                        onChange={(e) => setDownPayment(Math.max(0, Number(e.target.value)))}
-                      />
+                      <CurrencyInput
+                    value={downPayment}
+                    onValueChange={(val) => setDownPayment(val)}
+                  />
                     </div>
                   </div>
                   <input

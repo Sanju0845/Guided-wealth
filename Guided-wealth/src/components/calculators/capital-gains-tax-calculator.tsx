@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 import { Share2, ChevronDown, ChevronUp, TrendingUp, Calendar, DollarSign, Sliders, ShieldAlert } from 'lucide-react';
 
 export default function CapitalGainsTaxCalculator() {
@@ -159,14 +160,10 @@ export default function CapitalGainsTaxCalculator() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Purchase Price</label>
-                    <input
-                      type="number"
-                      min="10000"
-                      max="100000000"
-                      step="50000"
-                      value={purchasePrice}
-                      onChange={(e) => setPurchasePrice(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={purchasePrice}
+                    onValueChange={(val) => setPurchasePrice(val)}
+                  />
                   </div>
                   <input
                     type="range"
@@ -188,14 +185,10 @@ export default function CapitalGainsTaxCalculator() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Selling Price</label>
-                    <input
-                      type="number"
-                      min="10000"
-                      max="100000000"
-                      step="50000"
-                      value={sellingPrice}
-                      onChange={(e) => setSellingPrice(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={sellingPrice}
+                    onValueChange={(val) => setSellingPrice(val)}
+                  />
                   </div>
                   <input
                     type="range"
@@ -289,14 +282,10 @@ export default function CapitalGainsTaxCalculator() {
                 <div className="p-6 pt-0 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Transfer Expenses / Brokerage</label>
-                    <input
-                      type="number"
-                      step="1000"
-                      min="0"
-                      value={additionalExpenses}
-                      onChange={(e) => setAdditionalExpenses(Number(e.target.value))}
-                      className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                    <CurrencyInput
+                    value={additionalExpenses}
+                    onValueChange={(val) => setAdditionalExpenses(val)}
+                  />
                   </div>
 
                   <div>

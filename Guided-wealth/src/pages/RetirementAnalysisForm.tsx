@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ChevronRight, ChevronLeft, TrendingUp, Calculator, CheckCircle, AlertCircle } from 'lucide-react';
+import { CurrencyInput } from '../components/ui/CurrencyInput';
 import axios from 'axios';
 
-const Field = ({ label, name, type = "number", options, step, inputs, onChange, placeholder, required = true }: any) => {
+const Field = ({ label, name, type = "number", isCurrency, options, step, inputs, onChange, placeholder, required = true }: any) => {
   const defaultPlaceholder = `Enter ${label.replace(/ \(.+\)/, '').replace(/[\?]/, '')}`;
   return (
     <div>
@@ -16,6 +17,8 @@ const Field = ({ label, name, type = "number", options, step, inputs, onChange, 
           <option value="" disabled>Select...</option>
           {options.map((opt: string) => <option key={opt} value={opt}>{opt}</option>)}
         </select>
+      ) : isCurrency ? (
+        <CurrencyInput value={(inputs as any)[name] === '' ? 0 : (inputs as any)[name]} onValueChange={(val) => onChange({ target: { name, value: val, type: 'number' } } as any)} placeholder={placeholder || defaultPlaceholder} className="form-input" />
       ) : (
         <input required={required} type={type} step={step} name={name} value={(inputs as any)[name]} onChange={onChange} className="form-input" placeholder={placeholder || defaultPlaceholder} />
       )}
@@ -26,11 +29,19 @@ const Field = ({ label, name, type = "number", options, step, inputs, onChange, 
 export default function RetirementAnalysisForm() {
   const { isLoggedIn, user, updateUser } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const isRetake = searchParams.get('retake') === 'true';
   const stepRef = React.useRef<HTMLDivElement>(null);
 
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+
+  const [isConfigured, setIsConfigured] = useState(false);
+  const [assessmentFor, setAssessmentFor] = useState<'self' | 'other'>('self');
+  const [otherName, setOtherName] = useState('');
+  const [otherRelation, setOtherRelation] = useState('');
 
   const [inputs, setInputs] = useState<any>({
     // 1. Profile
@@ -136,26 +147,7 @@ export default function RetirementAnalysisForm() {
     { age: '85-89', growth: '', absolute: '' },
   ]);
 
-  useEffect(() => {
-    const fetchSavedData = async () => {
-      try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
-        const response = await axios.get(`${apiUrl}/retirement-analysis`, {
-          headers: { Authorization: `Bearer ${user?.token}` }
-        });
-        if (response.data) {
-          if (response.data.inputs) setInputs(response.data.inputs);
-          if (response.data.incomeCheckpoints) setIncomeCheckpoints(response.data.incomeCheckpoints);
-        }
-      } catch (err) {
-        console.log("No saved data found, using defaults");
-      }
-    };
 
-    if (user?.token) {
-      fetchSavedData();
-    }
-  }, [user?.token]);
 
   if (!isLoggedIn) {
     navigate('/');
@@ -183,30 +175,31 @@ export default function RetirementAnalysisForm() {
 
     try {
       // Simplified Mock Calculation based on inputs
-    const totalExpenses = 
-      inputs.rentEmi + inputs.groceries + inputs.utilities + inputs.transport + 
-      inputs.householdHelp + inputs.phoneInternet + inputs.personalCare + 
-      inputs.entertainment + inputs.miscellaneous + inputs.monthlySupportParents;
+      const getNum = (val: any) => Number(val) || 0;
+      
+      const totalExpenses = 
+        getNum(inputs.rentEmi) + getNum(inputs.groceries) + getNum(inputs.utilities) + getNum(inputs.transport) + 
+        getNum(inputs.householdHelp) + getNum(inputs.phoneInternet) + getNum(inputs.personalCare) + 
+        getNum(inputs.entertainment) + getNum(inputs.miscellaneous) + getNum(inputs.monthlySupportParents);
 
-    const yearsToRetire = inputs.retirementAge - inputs.currentAge;
-    const retirementYears = inputs.lifeExpectancy - inputs.retirementAge;
-    
-    // Inflate expenses to retirement age
-    const inflatedMonthlyExpense = totalExpenses * Math.pow(1 + (inputs.generalInflation / 100), yearsToRetire);
-    const annualRetirementExpense = inflatedMonthlyExpense * 12;
+      const yearsToRetire = getNum(inputs.retirementAge) - getNum(inputs.currentAge);
+      const retirementYears = getNum(inputs.lifeExpectancy) - getNum(inputs.retirementAge);
+      
+      const inflatedMonthlyExpense = totalExpenses * Math.pow(1 + (getNum(inputs.generalInflation) / 100), yearsToRetire);
+      const annualRetirementExpense = inflatedMonthlyExpense * 12;
 
-    const realReturn = ((1 + inputs.postRetirementReturn/100) / (1 + inputs.generalInflation/100)) - 1;
-    const corpusRequired = annualRetirementExpense / (realReturn > 0 ? realReturn : 0.04);
-    
-    const corpusAtRetirement = inputs.existingInvestments * Math.pow(1 + (inputs.preRetirementReturn / 100), yearsToRetire);
-    
-    const shortfall = corpusRequired - corpusAtRetirement;
-    
-    const rate = inputs.preRetirementReturn / 100 / 12;
-    const months = yearsToRetire * 12;
-    const requiredSip = shortfall > 0 
-      ? (shortfall * rate) / (Math.pow(1 + rate, months) - 1)
-      : 0;
+      const realReturn = ((1 + getNum(inputs.postRetirementReturn)/100) / (1 + getNum(inputs.generalInflation)/100)) - 1;
+      const corpusRequired = annualRetirementExpense / (realReturn > 0 ? realReturn : 0.04);
+      
+      const corpusAtRetirement = getNum(inputs.existingInvestments) * Math.pow(1 + (getNum(inputs.preRetirementReturn) / 100), yearsToRetire);
+      
+      const shortfall = corpusRequired - corpusAtRetirement;
+      
+      const rate = getNum(inputs.preRetirementReturn) / 100 / 12;
+      const months = yearsToRetire * 12;
+      const requiredSip = shortfall > 0 
+        ? (shortfall * rate) / (Math.pow(1 + rate, months) - 1)
+        : 0;
 
       const results = {
         corpusRequired,
@@ -220,7 +213,7 @@ export default function RetirementAnalysisForm() {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
       await axios.post(
         `${apiUrl}/retirement-analysis`,
-        { inputs, incomeCheckpoints, results },
+        { inputs, incomeCheckpoints, results, assessmentFor, otherName, otherRelation },
         { headers: { Authorization: `Bearer ${user?.token}` } }
       );
 
@@ -289,7 +282,7 @@ export default function RetirementAnalysisForm() {
           <Field inputs={inputs} onChange={handleChange} label="Avg. Current Age of Children (if born)" name="childrenAvgAge" required={inputs.numChildren > 0} />
           <Field inputs={inputs} onChange={handleChange} label="Years until 1st child (if none yet)" name="yearsToFirstChild" required={false} />
           <Field inputs={inputs} onChange={handleChange} label="Dependent Parents to Support?" name="dependentParents" type="text" options={['Yes', 'No']} />
-          <Field inputs={inputs} onChange={handleChange} label="Monthly Support to Parents (today's cost)" name="monthlySupportParents" required={inputs.dependentParents === 'Yes'} />
+          <Field inputs={inputs} onChange={handleChange} label="Monthly Support to Parents (today's cost)" name="monthlySupportParents" isCurrency={true} required={inputs.dependentParents === 'Yes'} />
         </div>
       )
     },
@@ -297,10 +290,10 @@ export default function RetirementAnalysisForm() {
       title: "3. INCOME (monthly)",
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
-          <Field inputs={inputs} onChange={handleChange} label="Your Monthly Income (take-home)" name="monthlyIncome" />
-          <Field inputs={inputs} onChange={handleChange} label="Spouse's Monthly Income (if working)" name="spouseIncome" required={inputs.spouseWorking === 'Yes'} />
-          <Field inputs={inputs} onChange={handleChange} label="Other Monthly Income (rental/biz/etc.)" name="otherIncome" required={false} />
-          <Field inputs={inputs} onChange={handleChange} label="Existing Investments / Savings (current corpus)" name="existingInvestments" />
+          <Field inputs={inputs} onChange={handleChange} label="Your Monthly Income (take-home)" name="monthlyIncome" isCurrency={true} />
+          <Field inputs={inputs} onChange={handleChange} label="Spouse's Monthly Income (if working)" name="spouseIncome" isCurrency={true} required={inputs.spouseWorking === 'Yes'} />
+          <Field inputs={inputs} onChange={handleChange} label="Other Monthly Income (rental/biz/etc.)" name="otherIncome" isCurrency={true} required={false} />
+          <Field inputs={inputs} onChange={handleChange} label="Existing Investments / Savings (current corpus)" name="existingInvestments" isCurrency={true} />
         </div>
       )
     },
@@ -308,15 +301,15 @@ export default function RetirementAnalysisForm() {
       title: "3B. MONTHLY EXPENSE BUDGET (routine, recurring)",
       content: (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">
-          <Field inputs={inputs} onChange={handleChange} label="Rent / Home Loan EMI" name="rentEmi" />
-          <Field inputs={inputs} onChange={handleChange} label="Groceries & Food" name="groceries" />
-          <Field inputs={inputs} onChange={handleChange} label="Utilities (electricity, water, gas)" name="utilities" />
-          <Field inputs={inputs} onChange={handleChange} label="Transport & Fuel" name="transport" />
-          <Field inputs={inputs} onChange={handleChange} label="Household Help (cook/maid/driver)" name="householdHelp" />
-          <Field inputs={inputs} onChange={handleChange} label="Phone, Internet & Subscriptions" name="phoneInternet" />
-          <Field inputs={inputs} onChange={handleChange} label="Personal Care & Health (non-insurance)" name="personalCare" />
-          <Field inputs={inputs} onChange={handleChange} label="Entertainment & Dining Out" name="entertainment" />
-          <Field inputs={inputs} onChange={handleChange} label="Miscellaneous / Other Monthly Expenses" name="miscellaneous" />
+          <Field inputs={inputs} onChange={handleChange} label="Rent / Home Loan EMI" name="rentEmi" isCurrency={true} />
+          <Field inputs={inputs} onChange={handleChange} label="Groceries & Food" name="groceries" isCurrency={true} />
+          <Field inputs={inputs} onChange={handleChange} label="Utilities (electricity, water, gas)" name="utilities" isCurrency={true} />
+          <Field inputs={inputs} onChange={handleChange} label="Transport & Fuel" name="transport" isCurrency={true} />
+          <Field inputs={inputs} onChange={handleChange} label="Household Help (cook/maid/driver)" name="householdHelp" isCurrency={true} />
+          <Field inputs={inputs} onChange={handleChange} label="Phone, Internet & Subscriptions" name="phoneInternet" isCurrency={true} />
+          <Field inputs={inputs} onChange={handleChange} label="Personal Care & Health (non-insurance)" name="personalCare" isCurrency={true} />
+          <Field inputs={inputs} onChange={handleChange} label="Entertainment & Dining Out" name="entertainment" isCurrency={true} />
+          <Field inputs={inputs} onChange={handleChange} label="Miscellaneous / Other Monthly Expenses" name="miscellaneous" isCurrency={true} />
           <Field inputs={inputs} onChange={handleChange} label="Lifestyle Creep Rate (real growth, on top of inflation)" name="lifestyleCreep" step="0.1" required={false} />
         </div>
       )
@@ -342,7 +335,7 @@ export default function RetirementAnalysisForm() {
                       <input type="number" step="0.1" className="form-input py-1" value={cp.growth} onChange={(e) => handleCheckpointChange(idx, 'growth', e.target.value)} placeholder="%" />
                     </td>
                     <td className="p-3">
-                      <input type="number" className="form-input py-1" value={cp.absolute} onChange={(e) => handleCheckpointChange(idx, 'absolute', e.target.value)} placeholder="₹" />
+                      <CurrencyInput value={cp.absolute === '' ? 0 : Number(cp.absolute)} onValueChange={(val) => handleCheckpointChange(idx, 'absolute', String(val))} className="form-input py-1" placeholder="₹" />
                     </td>
                   </tr>
                 ))}
@@ -370,7 +363,7 @@ export default function RetirementAnalysisForm() {
           <Field inputs={inputs} onChange={handleChange} label="Planning to buy a house?" name="buyHouse" type="text" options={['Yes', 'No']} />
           <Field inputs={inputs} onChange={handleChange} label="Years from now to purchase" name="yearsToHouse" required={inputs.buyHouse === 'Yes'} />
           <Field inputs={inputs} onChange={handleChange} label="Home Size / Type" name="homeSize" type="text" options={['1BHK', '2BHK', '3BHK', '4BHK', 'Villa']} required={false} />
-          <Field inputs={inputs} onChange={handleChange} label="Today's Cost of this House (current price)" name="houseCost" required={inputs.buyHouse === 'Yes'} />
+          <Field inputs={inputs} onChange={handleChange} label="Today's Cost of this House (current price)" name="houseCost" isCurrency={true} required={inputs.buyHouse === 'Yes'} />
           <Field inputs={inputs} onChange={handleChange} label="Down Payment % (rest via home loan)" name="downPaymentPct" required={inputs.buyHouse === 'Yes'} />
           <Field inputs={inputs} onChange={handleChange} label="Home Loan Interest Rate (p.a.)" name="homeLoanInterestRate" step="0.1" required={false} />
           <Field inputs={inputs} onChange={handleChange} label="Home Loan Tenure (years)" name="homeLoanTenure" required={false} />
@@ -384,7 +377,7 @@ export default function RetirementAnalysisForm() {
           <Field inputs={inputs} onChange={handleChange} label="Number of Cars Planned (lifetime)" name="numCars" required={false} />
           <Field inputs={inputs} onChange={handleChange} label="Years from now for 1st Car Purchase" name="yearsToFirstCar" />
           <Field inputs={inputs} onChange={handleChange} label="Car Segment" name="carSegment" type="text" options={['Hatchback', 'Compact SUV', 'Mid-size Sedan/SUV', 'Luxury']} required={false} />
-          <Field inputs={inputs} onChange={handleChange} label="Today's Cost per Car (on-road price)" name="carCost" />
+          <Field inputs={inputs} onChange={handleChange} label="Today's Cost per Car (on-road price)" name="carCost" isCurrency={true} />
           <Field inputs={inputs} onChange={handleChange} label="Gap Between Car Replacements (years)" name="carReplacementGap" />
         </div>
       )
@@ -394,11 +387,11 @@ export default function RetirementAnalysisForm() {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">
           <Field inputs={inputs} onChange={handleChange} label="School Type" name="schoolType" type="text" options={['Private', 'Public', 'International']} required={false} />
-          <Field inputs={inputs} onChange={handleChange} label="Today's Annual School Cost" name="childAnnualSchool" required={false} />
+          <Field inputs={inputs} onChange={handleChange} label="Today's Annual School Cost" name="childAnnualSchool" isCurrency={true} required={false} />
           <Field inputs={inputs} onChange={handleChange} label="Years of Schooling (till higher sec.)" name="yearsOfSchooling" required={false} />
           <Field inputs={inputs} onChange={handleChange} label="Higher Education Location" name="higherEdLocation" type="text" options={['India', 'Abroad']} required={false} />
           <Field inputs={inputs} onChange={handleChange} label="Higher Education Type" name="higherEdType" type="text" options={['Private', 'Public']} required={false} />
-          <Field inputs={inputs} onChange={handleChange} label="Today's Cost of Higher Education (total)" name="higherEdCost" required={inputs.numChildren > 0} />
+          <Field inputs={inputs} onChange={handleChange} label="Today's Cost of Higher Education (total)" name="higherEdCost" isCurrency={true} required={inputs.numChildren > 0} />
           <Field inputs={inputs} onChange={handleChange} label="Child's Age at Start of Higher Education" name="higherEdStartAge" required={inputs.numChildren > 0} />
         </div>
       )
@@ -408,9 +401,9 @@ export default function RetirementAnalysisForm() {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">
           <Field inputs={inputs} onChange={handleChange} label="Domestic Vacations per Year (count)" name="domesticVacationsCount" required={false} />
-          <Field inputs={inputs} onChange={handleChange} label="Today's Cost per Domestic Vacation (annual)" name="domesticVacationCost" />
+          <Field inputs={inputs} onChange={handleChange} label="Today's Cost per Domestic Vacation (annual)" name="domesticVacationCost" isCurrency={true} />
           <Field inputs={inputs} onChange={handleChange} label="Foreign Vacations - Frequency (every N years)" name="foreignVacationFreq" />
-          <Field inputs={inputs} onChange={handleChange} label="Today's Cost per Foreign Vacation" name="foreignVacationCost" />
+          <Field inputs={inputs} onChange={handleChange} label="Today's Cost per Foreign Vacation" name="foreignVacationCost" isCurrency={true} />
           <Field inputs={inputs} onChange={handleChange} label="Continue Vacations into Retirement?" name="vacationsInRetirement" type="text" options={['yes', 'reduced', 'no']} required={false} />
         </div>
       )
@@ -419,11 +412,11 @@ export default function RetirementAnalysisForm() {
       title: "9. OTHER GOALS / BIG EXPENSES",
       content: (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">
-          <Field inputs={inputs} onChange={handleChange} label="Wedding(s) - Total Today's Cost" name="weddingCost" required={inputs.numChildren > 0} />
+          <Field inputs={inputs} onChange={handleChange} label="Wedding(s) - Total Today's Cost" name="weddingCost" isCurrency={true} required={inputs.numChildren > 0} />
           <Field inputs={inputs} onChange={handleChange} label="Years from now for Wedding(s)" name="yearsToWedding" required={inputs.numChildren > 0} />
           <Field inputs={inputs} onChange={handleChange} label="Emergency Fund Target (months of expenses)" name="emergencyFundTarget" />
           <Field inputs={inputs} onChange={handleChange} label="Parent Support Duration (years, fixed window)" name="parentSupportDuration" required={false} />
-          <Field inputs={inputs} onChange={handleChange} label="Parents' Medical Emergency Fund (target)" name="parentsMedicalFund" required={inputs.dependentParents === 'Yes'} />
+          <Field inputs={inputs} onChange={handleChange} label="Parents' Medical Emergency Fund (target)" name="parentsMedicalFund" isCurrency={true} required={inputs.dependentParents === 'Yes'} />
           <Field inputs={inputs} onChange={handleChange} label="Years to Build Parents' Medical Fund" name="yearsToBuildMedicalFund" required={inputs.dependentParents === 'Yes'} />
         </div>
       )
@@ -432,9 +425,9 @@ export default function RetirementAnalysisForm() {
       title: "10. INSURANCE & PROTECTION",
       content: (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">
-          <Field inputs={inputs} onChange={handleChange} label="Health Insurance Cover (family floater)" name="healthInsuranceCover" />
+          <Field inputs={inputs} onChange={handleChange} label="Health Insurance Cover (family floater)" name="healthInsuranceCover" isCurrency={true} />
           <Field inputs={inputs} onChange={handleChange} label="Health Premium Rate (₹ per ₹1L cover)" name="healthPremiumRate" />
-          <Field inputs={inputs} onChange={handleChange} label="Life Insurance Cover (term plan)" name="lifeInsuranceCover" />
+          <Field inputs={inputs} onChange={handleChange} label="Life Insurance Cover (term plan)" name="lifeInsuranceCover" isCurrency={true} />
           <Field inputs={inputs} onChange={handleChange} label="Life Premium Rate (₹ per ₹1L cover)" name="lifePremiumRate" />
           <Field inputs={inputs} onChange={handleChange} label="Insurance Coverage Until Age" name="insuranceCoverageUntilAge" required={false} />
         </div>
@@ -444,6 +437,40 @@ export default function RetirementAnalysisForm() {
 
   const progress = ((currentStep + 1) / steps.length) * 100;
   const isLastStep = currentStep === steps.length - 1;
+
+  if (!isConfigured) {
+    return (
+      <div className="min-h-screen bg-cream/30 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+        <div className="max-w-xl w-full bg-white rounded-3xl shadow-xl border border-primary/10 p-8 md:p-12 animate-fade-in">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-serif font-bold text-ink mb-3">Who is this analysis for?</h1>
+            <p className="text-primary/70 text-sm">Select whether you are taking this retirement analysis for yourself or on behalf of someone else.</p>
+          </div>
+          <div className="space-y-6">
+            <div className="grid grid-cols-2 gap-4">
+              <button type="button" onClick={() => setAssessmentFor('self')} className={`p-4 rounded-xl border-2 font-bold transition-all ${assessmentFor === 'self' ? 'border-accent bg-accent/5 text-ink' : 'border-primary/10 text-primary/60 hover:border-accent/40'}`}>Myself</button>
+              <button type="button" onClick={() => setAssessmentFor('other')} className={`p-4 rounded-xl border-2 font-bold transition-all ${assessmentFor === 'other' ? 'border-accent bg-accent/5 text-ink' : 'border-primary/10 text-primary/60 hover:border-accent/40'}`}>Someone Else</button>
+            </div>
+            {assessmentFor === 'other' && (
+              <div className="space-y-4 animate-fade-in mt-6">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-2">Their Name *</label>
+                  <input type="text" value={otherName} onChange={(e) => setOtherName(e.target.value)} className="w-full p-3 bg-[#F8F9FA] border-2 border-primary/10 rounded-xl text-ink font-semibold focus:outline-none focus:border-accent" placeholder="Enter full name" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-2">Relationship *</label>
+                  <input type="text" value={otherRelation} onChange={(e) => setOtherRelation(e.target.value)} className="w-full p-3 bg-[#F8F9FA] border-2 border-primary/10 rounded-xl text-ink font-semibold focus:outline-none focus:border-accent" placeholder="e.g. Spouse, Child, Parent" />
+                </div>
+              </div>
+            )}
+            <button type="button" onClick={() => { if (assessmentFor === 'other' && (!otherName.trim() || !otherRelation.trim())) { setError('Please provide name and relation.'); return; } setError(''); setIsConfigured(true); }} className="w-full btn-primary py-4 rounded-xl font-bold uppercase tracking-wide mt-8">Start Analysis</button>
+            {error && <p className="text-red-500 text-sm mt-2 text-center">{error}</p>}
+          </div>
+          <style>{`@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } } .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }`}</style>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-cream/30 py-12 px-4 sm:px-6 lg:px-8">
@@ -566,3 +593,10 @@ export default function RetirementAnalysisForm() {
     </div>
   );
 }
+
+
+
+
+
+
+

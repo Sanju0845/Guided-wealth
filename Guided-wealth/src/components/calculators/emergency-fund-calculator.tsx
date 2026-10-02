@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function EmergencyFundCalculator() {
   const [monthsCoverage, setMonthsCoverage] = useState<number>(6);
@@ -90,11 +91,10 @@ export default function EmergencyFundCalculator() {
               <h2 className="text-xl font-bold text-[#113262] mb-4">Monthly Income</h2>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">Take-Home Income</label>
-                <input
-                  type="number"
-                  value={takeHomeIncome}
-                  onChange={(e) => setTakeHomeIncome(Math.max(0, Number(e.target.value)))}
-                />
+                <CurrencyInput
+                    value={takeHomeIncome}
+                    onValueChange={(val) => setTakeHomeIncome(val)}
+                  />
                 <div>
                   <input
                     type="range"
@@ -164,11 +164,9 @@ export default function EmergencyFundCalculator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Current Emergency Fund</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={currentEmergencyFund}
-                    onChange={(e) => setCurrentEmergencyFund(Math.max(0, Number(e.target.value)))}
-                    className="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none font-semibold text-slate-800"
+                    onValueChange={(val) => setCurrentEmergencyFund(val)}
                   />
                 </div>
                 <div>

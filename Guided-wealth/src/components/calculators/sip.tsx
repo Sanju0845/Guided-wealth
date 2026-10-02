@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 import { Share2, ChevronDown } from 'lucide-react';
 
 export default function Sip() {
@@ -111,10 +112,9 @@ export default function Sip() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">
                     {calcType === 'sip' ? 'Monthly Investment' : 'Total Investment'}
                   </label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={investment}
-                    onChange={(e) => setInvestment(Number(e.target.value))}
+                    onValueChange={(val) => setInvestment(val)}
                   />
                   <div>
                     <input

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, Plane, Calendar, TrendingUp, DollarSign, Sliders, Globe } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function VacationGoalPlanner() {
   // Input States
@@ -96,14 +97,10 @@ export default function VacationGoalPlanner() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Travel Cost (Today)</label>
-                    <input
-                      type="number"
-                      min="50000"
-                      max="5000000"
-                      step="25000"
-                      value={travelCost}
-                      onChange={(e) => setTravelCost(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={travelCost}
+                    onValueChange={(val) => setTravelCost(val)}
+                  />
                   </div>
                   <input
                     type="range"
@@ -158,14 +155,10 @@ export default function VacationGoalPlanner() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Current Savings</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="2000000"
-                      step="25000"
-                      value={currentSavings}
-                      onChange={(e) => setCurrentSavings(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={currentSavings}
+                    onValueChange={(val) => setCurrentSavings(val)}
+                  />
                   </div>
                   <input
                     type="range"

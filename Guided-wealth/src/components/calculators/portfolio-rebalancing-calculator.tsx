@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 import { Share2, ChevronDown, ChevronUp, Plus, Trash2, AlertCircle } from 'lucide-react';
 
 interface AssetClass {
@@ -126,12 +127,10 @@ export default function PortfolioRebalancingCalculator() {
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
               <h2 className="text-xl font-bold text-[#113262] mb-4">Total Portfolio Value</h2>
               <div className="relative mb-3">
-                <span className="absolute left-3.5 top-3 text-slate-400 font-medium">₹</span>
-                <input
-                  type="number"
-                  value={currentTotalValue}
-                  onChange={(e) => handlePortfolioValueChange(Number(e.target.value))}
-                />
+                <CurrencyInput
+                    value={currentTotalValue}
+                    onValueChange={(val) => handlePortfolioValueChange(val)}
+                  />
               </div>
               <input
                 type="range"

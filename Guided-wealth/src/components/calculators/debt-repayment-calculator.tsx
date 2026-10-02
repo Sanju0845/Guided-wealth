@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function DebtRepaymentCalculator() {
   const [strategy, setStrategy] = useState<'Avalanche' | 'Snowball'>('Avalanche');
@@ -205,10 +206,9 @@ export default function DebtRepaymentCalculator() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Minimum Payment</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={minimumPayment}
-                    onChange={(e) => setMinimumPayment(Math.max(500, Number(e.target.value)))}
+                    onValueChange={(val) => setMinimumPayment(val)}
                   />
                   <div>
                     <input

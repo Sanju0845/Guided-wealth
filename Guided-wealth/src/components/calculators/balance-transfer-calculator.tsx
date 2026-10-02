@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, RefreshCw, Percent, Calendar, Sliders, Info } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function BalanceTransferCalculator() {
   // Current Loan Inputs
@@ -135,12 +136,10 @@ export default function BalanceTransferCalculator() {
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Outstanding Amount (₹)</label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-medium">₹</span>
-                      <input
-                        type="number"
-                        value={outstandingAmount}
-                        onChange={(e) => setOutstandingAmount(Math.max(0, Number(e.target.value)))}
-                      />
+                      <CurrencyInput
+                    value={outstandingAmount}
+                    onValueChange={(val) => setOutstandingAmount(val)}
+                  />
                     </div>
                   </div>
                   <input
@@ -160,12 +159,10 @@ export default function BalanceTransferCalculator() {
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Current EMI (₹)</label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-medium">₹</span>
-                      <input
-                        type="number"
-                        value={currentEmi}
-                        onChange={(e) => setCurrentEmi(Math.max(0, Number(e.target.value)))}
-                      />
+                      <CurrencyInput
+                    value={currentEmi}
+                    onValueChange={(val) => setCurrentEmi(val)}
+                  />
                     </div>
                   </div>
                   <input

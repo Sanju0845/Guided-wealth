@@ -1,4 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 import { Share2 } from 'lucide-react';
 
 export default function PpfPlanner() {
@@ -65,10 +66,9 @@ export default function PpfPlanner() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Annual Investment</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={annualInvestment}
-                    onChange={(e) => setAnnualInvestment(Number(e.target.value))}
+                    onValueChange={(val) => setAnnualInvestment(val)}
                   />
                   <div>
                     <input
