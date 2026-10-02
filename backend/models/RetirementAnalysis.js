@@ -19,6 +19,16 @@ const retirementAnalysisSchema = mongoose.Schema(
       type: Object,
       required: true,
     },
+    assessmentFor: {
+      type: String,
+      default: "self",
+    },
+    otherName: {
+      type: String,
+    },
+    otherRelation: {
+      type: String,
+    },
   },
   {
     timestamps: true,

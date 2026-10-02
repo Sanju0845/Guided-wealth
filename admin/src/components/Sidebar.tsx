@@ -24,6 +24,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
   const navigationItems = [
     // { id: 'dashboard', label: 'Dashboard Overview', icon: LayoutDashboard, badge: null },
     { id: 'user-management', label: 'User Management', icon: Users, badge: 'Active' },
+    { id: 'repository', label: 'Data Repository', icon: BarChart3, badge: null },
   ];
 
   return (
