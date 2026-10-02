@@ -15,7 +15,7 @@ const getRiskCategory = (score) => {
 // @route   POST /api/assessment
 // @access  Private
 export const submitAssessment = async (req, res) => {
-  const { answers } = req.body;
+  const { answers, assessmentFor, otherName, otherRelation } = req.body;
   const userId = req.user.id || req.user._id;
 
   if (!answers || !Array.isArray(answers) || answers.length === 0) {
@@ -34,6 +34,9 @@ export const submitAssessment = async (req, res) => {
       score,
       riskCategory,
       answers,
+      assessmentFor,
+      otherName,
+      otherRelation,
     });
 
     // Update user to indicate assessment completion
@@ -67,6 +70,21 @@ export const getAssessment = async (req, res) => {
     res.json(assessment);
   } catch (error) {
     console.error("Error getting assessment:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+// @desc    Get all assessments for the user (History)
+// @route   GET /api/assessment/history
+// @access  Private
+export const getUserAssessments = async (req, res) => {
+  const userId = req.user.id || req.user._id;
+
+  try {
+    const assessments = await Assessment.find({ userId }).sort({ createdAt: -1 });
+    res.json(assessments);
+  } catch (error) {
+    console.error("Error getting assessments history:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };

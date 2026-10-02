@@ -20,6 +20,16 @@ const assessmentSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    assessmentFor: {
+      type: String,
+      default: "self",
+    },
+    otherName: {
+      type: String,
+    },
+    otherRelation: {
+      type: String,
+    },
     answers: [
       {
         questionId: { type: Number, required: true },
