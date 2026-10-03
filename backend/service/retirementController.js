@@ -1,5 +1,5 @@
 import RetirementAnalysis from "../models/RetirementAnalysis.js";
-import User from "../models/user.js";
+import User from "../models/User.js";
 
 // @desc    Get the current user's retirement analysis
 // @route   GET /api/retirement-analysis
