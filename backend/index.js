@@ -8,8 +8,8 @@ import assessmentRoutes from "./auth/assessmentRoutes.js";
 import retirementRoutes from "./auth/retirementRoutes.js";
 import adminRoutes from "./auth/adminRoutes.js";
 
-// Connect to MongoDB
-connectDB();
+// MongoDB Connection is handled via middleware
+
 
 const app = express();
 
@@ -58,6 +58,12 @@ app.get('/api/health', (req, res) => {
         timestamp: new Date().toISOString(),
         env: process.env.NODE_ENV || 'development'
     });
+});
+
+// Ensure DB is connected before processing any routes
+app.use(async (req, res, next) => {
+    await connectDB();
+    next();
 });
 
 // Routes
