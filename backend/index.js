@@ -24,15 +24,21 @@ const allowedOrigins = [
     process.env.ADMIN_FRONTEND_URL
 ].filter(Boolean);
 
-app.use(cors({
+const corsOptions = {
     origin: function (origin, callback) {
-        // Dynamically allow any origin for Vercel preview/production flexibility
-        callback(null, true);
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
-}));
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // explicitly handle preflight
 app.use(express.json());
 
 const PORT = process.env.PORT || 4000;
