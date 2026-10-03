@@ -1,5 +1,5 @@
 import Assessment from "../models/Assessment.js";
-import User from "../models/User.js";
+import User from "../models/user.js";
 
 // Helper function to map score to risk category
 const getRiskCategory = (score) => {

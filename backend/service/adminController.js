@@ -1,6 +1,6 @@
 import Assessment from "../models/Assessment.js";
 import RetirementAnalysis from "../models/RetirementAnalysis.js";
-import User from "../models/User.js";
+import User from "../models/user.js";
 
 // @desc    Get all assessments across the platform
 // @route   GET /api/admin/assessments
