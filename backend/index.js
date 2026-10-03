@@ -24,21 +24,24 @@ const allowedOrigins = [
     process.env.ADMIN_FRONTEND_URL
 ].filter(Boolean);
 
-const corsOptions = {
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-};
+// Manual CORS Middleware for Vercel Serverless compatibility
+app.use((req, res, next) => {
+    const origin = req.headers.origin;
+    
+    // Always reflect the requested origin to avoid Vercel edge issues, 
+    // or fallback to the explicit allowed URL
+    res.header("Access-Control-Allow-Origin", origin || "https://guided-wealth-hewy.vercel.app");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // explicitly handle preflight
+    // Immediately respond to preflight requests with HTTP 200 OK
+    if (req.method === "OPTIONS") {
+        return res.status(200).end();
+    }
+    
+    next();
+});
 app.use(express.json());
 
 const PORT = process.env.PORT || 4000;
