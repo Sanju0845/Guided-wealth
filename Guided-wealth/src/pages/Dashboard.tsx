@@ -547,6 +547,13 @@ export default function Dashboard() {
         )}
 
         {renderRetirementUI(currentRetData)}
+        
+        <div className="mt-8 pt-6 border-t border-primary/10 exclude-from-pdf text-center mb-8">
+          <Link to="/retirement-analysis?retake=true" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold uppercase tracking-wide text-primary bg-primary/5 hover:bg-primary/10 transition-colors">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+            Retake Analysis
+          </Link>
+        </div>
       </div>
     );
   };
