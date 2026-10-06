@@ -8,6 +8,7 @@
 import { buildDigest } from '../subscriptionmails/lib/digest.js';
 import { renderDigestHtml } from '../subscriptionmails/lib/template.js';
 import { getListEmails, sendEmail } from '../subscriptionmails/lib/brevo.js';
+import { debugFmp } from '../subscriptionmails/lib/fmp.js';
 
 export default async function handler(req, res) {
   const auth = req.headers.authorization || '';
@@ -19,6 +20,12 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Debug: show raw FMP responses (why a section may be empty)
+    if (req.query.debug === 'true') {
+      res.status(200).json(await debugFmp());
+      return;
+    }
+
     const digest = await buildDigest();
     const subject =
       (req.body && req.body.subject) || `Guided Wealthy — Market Brief · ${digest.dateLabel}`;

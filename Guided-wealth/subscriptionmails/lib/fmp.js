@@ -91,3 +91,27 @@ export async function getHeadlines() {
     .map((n) => ({ title: n.title, url: n.url, time: n.publishedDate }))
     .filter((n) => n.title);
 }
+
+// Debug helper: returns the raw FMP responses so we can see why a section is empty
+// (missing key, premium-only endpoint, or wrong symbol format).
+export async function debugFmp() {
+  const key = apiKey();
+  const out = { hasKey: Boolean(key), endpoints: {} };
+  const targets = {
+    indices: '/quote/^BSESN,^NSEI,^NSEBANK',
+    fx: '/fx/quote/USAINR',
+    movers: '/quote/RELIANCE.NS,TCS.NS,HDFCBANK.NS',
+    news: '/news/stock/general/popular?limit=3',
+  };
+  for (const [name, path] of Object.entries(targets)) {
+    try {
+      const sep = path.includes('?') ? '&' : '?';
+      const res = await fetch(`${BASE}${path}${sep}apikey=${key}`);
+      const text = await res.text();
+      out.endpoints[name] = { status: res.status, body: text.slice(0, 500) };
+    } catch (e) {
+      out.endpoints[name] = { error: e.message };
+    }
+  }
+  return out;
+}
