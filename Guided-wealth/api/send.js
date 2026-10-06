@@ -8,7 +8,7 @@
 import { buildDigest } from '../subscriptionmails/lib/digest.js';
 import { renderDigestHtml } from '../subscriptionmails/lib/template.js';
 import { getListEmails, sendEmail } from '../subscriptionmails/lib/brevo.js';
-import { debugFmp } from '../subscriptionmails/lib/fmp.js';
+import { debugFmp } from '../subscriptionmails/lib/market.js';
 
 export default async function handler(req, res) {
   const auth = req.headers.authorization || '';

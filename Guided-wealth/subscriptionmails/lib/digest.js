@@ -1,6 +1,6 @@
 // Assembles the weekly market digest from FMP data. Every source is optional —
 // if a fetch returns nothing, that section is simply left out of the email.
-import { getMarketOverview, getMovers, getHeadlines } from './fmp.js';
+import { getMarketOverview, getMovers, getHeadlines } from './market.js';
 
 export async function buildDigest() {
   const [overview, movers, headlines] = await Promise.all([
