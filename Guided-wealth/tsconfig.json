@@ -23,6 +23,6 @@
     "allowImportingTsExtensions": true,
     "noEmit": true
   },
-  "include": ["src", "vite.config.ts"],
+  "include": ["src", "subscriptionmails", "vite.config.ts"],
   "exclude": ["**/*.cjs"]
 }

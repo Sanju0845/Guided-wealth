@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@500;600&family=Nunito+Sans:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -72,3 +74,62 @@
 .initial-avatar {
   @apply w-12 h-12 rounded-full bg-accent/20 text-primary flex items-center justify-center font-bold text-lg;
 }
+
+/* ---- Guided Wealthy dark-gold hero theme ---- */
+.gw-hero {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.gw-display {
+  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Gold gradient headline with soft glow */
+.gw-gold-text {
+  background: linear-gradient(180deg, #f6dfa6 0%, #e3bc72 45%, #b88a3e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 22px rgba(227, 188, 114, 0.35));
+}
+
+/* Lighthouse lamp glow (the one animated moment) */
+.gw-lamp-glow {
+  background: radial-gradient(circle, rgba(255, 220, 140, 0.55) 0%, rgba(255, 190, 90, 0.18) 35%, transparent 68%);
+  mix-blend-mode: screen;
+  transform: translate(50%, -50%);
+  animation: gw-pulse 5s ease-in-out infinite;
+}
+
+/* Light beam sweeping left from the lamp */
+.gw-beam {
+  background: linear-gradient(270deg, rgba(255, 215, 140, 0.35) 0%, rgba(255, 200, 110, 0.12) 45%, transparent 100%);
+  clip-path: polygon(100% 40%, 100% 60%, 0 100%, 0 0);
+  filter: blur(14px);
+  mix-blend-mode: screen;
+  transform-origin: right center;
+  transform: translateY(-50%) rotate(8deg);
+}
+
+/* Glass HUD panel with cut corners */
+.gw-panel {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.015));
+  border: 1px solid rgba(227, 188, 114, 0.35);
+  backdrop-filter: blur(6px);
+  clip-path: polygon(0 12%, 12% 0, 100% 0, 78% 100%, 0 100%);
+  box-shadow: 0 0 30px rgba(227, 188, 114, 0.12) inset;
+}
+
+@keyframes gw-pulse {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gw-lamp-glow { animation: none; }
+}
+
+/* Dark page background so the footer/other pages blend with the hero */
+body { background-color: #07080b; }
