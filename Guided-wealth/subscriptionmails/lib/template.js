@@ -101,3 +101,33 @@ export function renderDigestHtml(digest, email) {
   </table>
 </body></html>`;
 }
+
+export function renderWelcomeHtml() {
+  const site = process.env.NEWSLETTER_SITE_URL || 'https://guided-wealthy.vercel.app';
+  return `<!doctype html>
+<html><body style="margin:0;padding:0;background:#f4f4f5;font-family:Arial,Helvetica,sans-serif">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;padding:24px 0">
+    <tr><td align="center">
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #eee">
+        <tr><td style="background:#0c1c40;padding:28px 30px">
+          <div style="color:#e0b15f;font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:bold">Guided Wealthy</div>
+          <div style="color:#fff;font-size:24px;font-weight:bold;margin-top:6px">You're subscribed</div>
+        </td></tr>
+        <tr><td style="padding:28px 30px">
+          <p style="margin:0 0 14px;color:#111;font-size:16px;line-height:1.6">Thanks for subscribing to the <strong>Guided Wealthy</strong> market brief.</p>
+          <p style="margin:0 0 14px;color:#333;font-size:14px;line-height:1.6">Every week you'll get a clean snapshot of the market — key indices, top movers, institutional activity and the headlines that matter — so you can make informed decisions with confidence.</p>
+          <p style="margin:0 0 22px;color:#333;font-size:14px">Your first brief is on its way. Meanwhile, explore our tools:</p>
+          <p style="margin:0">
+            <a href="${site}/calculators" style="display:inline-block;background:linear-gradient(135deg,#f0cd85,#c9993f);color:#1a1307;text-decoration:none;font-weight:bold;font-size:13px;padding:12px 22px;border-radius:999px">Try the calculators</a>
+          </p>
+        </td></tr>
+        <tr><td style="padding:20px 30px;border-top:1px solid #eee;background:#fafafa">
+          <p style="margin:0 0 8px;color:#666;font-size:12px">Changed your mind? <a href="${site}/api/unsubscribe" style="color:#c9993f">Unsubscribe</a>.</p>
+          <p style="margin:0;color:#999;font-size:11px;line-height:1.5">Disclaimer: Investments in financial markets are subject to market risks. This email is for information only and is not investment advice.</p>
+          <p style="margin:10px 0 0;color:#999;font-size:11px">© ${new Date().getFullYear()} Guided Wealthy · SEBI Registered Investment Advisor</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body></html>`;
+}

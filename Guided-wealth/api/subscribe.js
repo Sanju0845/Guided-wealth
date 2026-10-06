@@ -1,6 +1,8 @@
 // Vercel serverless function -> POST /api/subscribe
-// Adds the email to the Brevo contact list (Brevo is the subscriber store — no DB).
-import { addContact } from '../subscriptionmails/lib/brevo.js';
+// Adds the email to the Brevo contact list (Brevo is the subscriber store — no DB)
+// and sends a one-time welcome email.
+import { addContact, sendEmail } from '../subscriptionmails/lib/brevo.js';
+import { renderWelcomeHtml } from '../subscriptionmails/lib/template.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -21,8 +23,19 @@ export default async function handler(req, res) {
     return;
   }
   try {
-    await addContact(String(email).toLowerCase().trim());
-    res.status(201).json({ message: "Subscribed! You'll get our market & SEBI updates." });
+    const normalized = String(email).toLowerCase().trim();
+    await addContact(normalized);
+    // Send welcome email; don't fail the subscribe if this errors.
+    try {
+      await sendEmail({
+        to: normalized,
+        subject: 'Welcome to Guided Wealthy market updates',
+        html: renderWelcomeHtml(),
+      });
+    } catch (e) {
+      console.error('welcome email failed:', e.message);
+    }
+    res.status(201).json({ message: "Subscribed! Check your inbox for a welcome note." });
   } catch (e) {
     console.error('subscribe error:', e);
     res.status(500).json({ message: 'Subscription failed. Please try again later.', error: e.message });
