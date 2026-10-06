@@ -17,9 +17,12 @@ export async function addContact(email) {
     email,
     listIds: lid ? [lid] : [],
     includeListIds: lid ? [lid] : [],
-    attributes: [{ variable: 'OPTIN', value: 'TRUE' }],
   };
-  const r = await fetch(`${BASE}/contacts`, { method: 'POST', headers: headers(), body: JSON.stringify(body) });
+  const r = await fetch(`${BASE}/contacts?updateEnabled=true`, {
+    method: 'POST',
+    headers: headers(),
+    body: JSON.stringify(body),
+  });
   // 201 created, 204 updated, 409 already exists -> all count as success
   if (r.ok || r.status === 204 || r.status === 409) return true;
   const t = await r.text();

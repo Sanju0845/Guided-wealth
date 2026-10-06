@@ -25,6 +25,6 @@ export default async function handler(req, res) {
     res.status(201).json({ message: "Subscribed! You'll get our market & SEBI updates." });
   } catch (e) {
     console.error('subscribe error:', e);
-    res.status(500).json({ message: 'Subscription failed. Please try again later.' });
+    res.status(500).json({ message: 'Subscription failed. Please try again later.', error: e.message });
   }
 }
