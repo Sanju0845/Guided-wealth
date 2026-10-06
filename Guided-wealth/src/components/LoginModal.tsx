@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { X, Smartphone, ArrowRight, ShieldCheck, CheckCircle2, RotateCcw, Lock, Sparkles, ChevronDown, Clock3 } from 'lucide-react';
 import { RecaptchaVerifier, signInWithPhoneNumber, ConfirmationResult } from 'firebase/auth';
-import { auth } from '../lib/firebase';
+import { auth, isFirebaseConfigured } from '../lib/firebase';
 import axios from 'axios';
 
 export default function LoginModal() {
@@ -57,7 +57,7 @@ export default function LoginModal() {
 
   // Setup reCAPTCHA
   useEffect(() => {
-    if (isLoginOpen && !(window as any).recaptchaVerifier) {
+    if (isLoginOpen && isFirebaseConfigured && auth && !(window as any).recaptchaVerifier) {
       try {
         (window as any).recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
           size: 'invisible',
@@ -84,6 +84,10 @@ export default function LoginModal() {
     const cleanPhone = phoneNumber.replace(/\D/g, '');
     if (cleanPhone.length < 10) {
       setError('Please enter a valid 10-digit mobile number');
+      return;
+    }
+    if (!isFirebaseConfigured || !auth) {
+      setError('Phone login is not available in this preview.');
       return;
     }
     setError('');
