@@ -1,22 +1,24 @@
-// Financial Modeling Prep helpers (free tier). Every call is independent and
-// returns null/[] on any failure, so a missing key or an unavailable symbol never
-// breaks the digest — that section is simply omitted from the email.
+// Financial Modeling Prep helpers using the CURRENT "stable" API
+// (the old /api/v3/ endpoints were retired Aug 2025 -> 403 "Legacy Endpoint").
+// Every call is independent and returns null/[] on failure, so a missing key or
+// an unsupported symbol never breaks the digest — that section is just omitted.
 //
-// NOTE: FMP symbol formats can change. Defaults target India (NSE/BSE). If a
-// section comes back empty, tweak the symbols via env (FMP_INDEX_SYMBOLS,
-// FMP_WATCH_SYMBOLS) — no code change needed.
-const BASE = 'https://financialmodelingprep.com/api/v3';
+// Symbols are env-overridable if FMP's India coverage/format differs:
+//   FMP_INDEX_SYMBOLS, FMP_WATCH_SYMBOLS
+const BASE = 'https://financialmodelingprep.com/stable';
 
 const apiKey = () => process.env.FMP_API_KEY;
 
-async function getJson(pathWithQuery) {
+async function getStable(endpoint, params = {}) {
   if (!apiKey()) return null;
   try {
-    const sep = pathWithQuery.includes('?') ? '&' : '?';
-    const res = await fetch(`${BASE}${pathWithQuery}${sep}apikey=${apiKey()}`);
+    const qs = new URLSearchParams({ ...params, apikey: apiKey() }).toString();
+    const res = await fetch(`${BASE}${endpoint}?${qs}`);
     if (!res.ok) return null;
     const text = await res.text();
-    if (!text || text.includes('"error"')) return null;
+    if (!text || text.includes('Error Message') || text.includes('premium') || text.includes('"Note"')) {
+      return null;
+    }
     return JSON.parse(text);
   } catch {
     return null;
@@ -36,17 +38,10 @@ function parseIndexSymbols() {
     .filter((x) => x.label && x.symbol);
 }
 
-async function getFxUsdInr() {
-  const data = await getJson('/fx/quote/USAINR');
-  const d = Array.isArray(data) ? data[0] : data;
-  if (!d || d.price == null) return null;
-  return { label: 'USD/INR', level: Number(d.price), changePct: Number(d.changesPercentage || 0) };
-}
-
 export async function getMarketOverview() {
   const items = parseIndexSymbols();
   const symbols = items.map((i) => i.symbol).join(',');
-  const data = await getJson(`/quote/${symbols}`);
+  const data = await getStable('/quote', { symbol: symbols });
   const bySymbol = {};
   (Array.isArray(data) ? data : []).forEach((d) => {
     bySymbol[d.symbol] = d;
@@ -63,6 +58,13 @@ export async function getMarketOverview() {
   return rows;
 }
 
+async function getFxUsdInr() {
+  const data = await getStable('/forex/quote', { symbol: 'USAINR' });
+  const d = Array.isArray(data) ? data[0] : data;
+  if (!d || d.price == null) return null;
+  return { label: 'USD/INR', level: Number(d.price), changePct: Number(d.changePercentage || d.changesPercentage || 0) };
+}
+
 export async function getMovers() {
   const raw =
     process.env.FMP_WATCH_SYMBOLS ||
@@ -71,10 +73,13 @@ export async function getMovers() {
     .split(',')
     .map((s) => s.trim())
     .filter(Boolean);
-  const data = await getJson(`/quote/${symbols.join(',')}`);
+  const data = await getStable('/quote', { symbol: symbols.join(',') });
   const list = (Array.isArray(data) ? data : [])
-    .filter((d) => d && d.price != null && d.changesPercentage != null)
-    .map((d) => ({ symbol: String(d.symbol).replace(/\.(NS|BO|BSE)$/i, ''), pct: Number(d.changesPercentage) }));
+    .filter((d) => d && d.price != null && (d.changesPercentage != null || d.changePercentage != null))
+    .map((d) => ({
+      symbol: String(d.symbol).replace(/\.(NS|BO|BSE|NSE)$/i, ''),
+      pct: Number(d.changesPercentage != null ? d.changesPercentage : d.changePercentage),
+    }));
   if (!list.length) return { gainers: [], losers: [] };
   const sorted = [...list].sort((a, b) => b.pct - a.pct);
   return {
@@ -84,7 +89,7 @@ export async function getMovers() {
 }
 
 export async function getHeadlines() {
-  const data = await getJson('/news/stock/general/popular?limit=6');
+  const data = await getStable('/news/general', { page: '1', limit: '6' });
   const arr = Array.isArray(data) ? data : [];
   return arr
     .slice(0, 5)
@@ -92,16 +97,16 @@ export async function getHeadlines() {
     .filter((n) => n.title);
 }
 
-// Debug helper: returns the raw FMP responses so we can see why a section is empty
-// (missing key, premium-only endpoint, or wrong symbol format).
+// Debug helper: returns the raw FMP "stable" responses so we can see why a
+// section is empty (missing key, premium-only, or wrong symbol format).
 export async function debugFmp() {
   const key = apiKey();
   const out = { hasKey: Boolean(key), endpoints: {} };
   const targets = {
-    indices: '/quote/^BSESN,^NSEI,^NSEBANK',
-    fx: '/fx/quote/USAINR',
-    movers: '/quote/RELIANCE.NS,TCS.NS,HDFCBANK.NS',
-    news: '/news/stock/general/popular?limit=3',
+    indices: '/quote?symbol=^BSESN,^NSEI,^NSEBANK',
+    fx: '/forex/quote?symbol=USAINR',
+    movers: '/quote?symbol=RELIANCE.NS,TCS.NS,HDFCBANK.NS',
+    news: '/news/general?limit=3',
   };
   for (const [name, path] of Object.entries(targets)) {
     try {
