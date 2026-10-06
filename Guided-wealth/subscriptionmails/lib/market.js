@@ -81,13 +81,13 @@ function cleanTitle(t) {
 export async function getHeadlines() {
   const url =
     process.env.NEWS_RSS_URL ||
-    'https://economictimes.indiatimes.com/rssfeeds/-2128936835.cms';
+    'https://news.google.com/rss/search?q=NSE+Sensex+Nifty+stock+market&hl=en-IN&gl=IN&ceid=IN:en';
   try {
     const res = await fetch(url, { headers: UA });
     if (!res.ok) return [];
     const xml = await res.text();
     const items = [];
-    const re = /<item>([\s\S]*?)<\/item>/g;
+    const re = /<item[^>]*>([\s\S]*?)<\/item>/g;
     let m;
     while ((m = re.exec(xml)) && items.length < 5) {
       const block = m[1];
@@ -114,11 +114,11 @@ export async function debugFmp() {
     out.yahoo.nifty = { error: e.message };
   }
   try {
-    const res = await fetch('https://economictimes.indiatimes.com/rssfeeds/-2128936835.cms', { headers: UA });
+    const res = await fetch('https://news.google.com/rss/search?q=NSE+Sensex+Nifty+stock+market&hl=en-IN&gl=IN&ceid=IN:en', { headers: UA });
     const text = await res.text();
-    out.rss.etMarkets = { status: res.status, hasItems: /<item>/.test(text), sample: text.slice(0, 200) };
+    out.rss.googleNews = { status: res.status, hasItems: /<item/.test(text), sample: text.slice(0, 200) };
   } catch (e) {
-    out.rss.etMarkets = { error: e.message };
+    out.rss.googleNews = { error: e.message };
   }
   return out;
 }
