@@ -11,9 +11,9 @@ export default async function handler(req, res) {
       console.error('unsubscribe error:', e.message);
     }
   }
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res
     .status(200)
-    .type('html')
     .send(
       '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
         '<body style="font-family:Arial,Helvetica,sans-serif;padding:48px;text-align:center;color:#111">' +

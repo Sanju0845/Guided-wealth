@@ -32,7 +32,8 @@ export default async function handler(req, res) {
 
     // 1) Preview in browser
     if (req.query.preview === 'true') {
-      res.status(200).type('html').send(renderDigestHtml(digest, 'preview@example.com'));
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.status(200).send(renderDigestHtml(digest, 'preview@example.com'));
       return;
     }
 
