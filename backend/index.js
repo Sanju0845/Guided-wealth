@@ -7,7 +7,6 @@ import userRoutes from "./auth/userRoutes.js";
 import assessmentRoutes from "./auth/assessmentRoutes.js";
 import retirementRoutes from "./auth/retirementRoutes.js";
 import adminRoutes from "./auth/adminRoutes.js";
-import newsletterRoutes from "./auth/newsletterRoutes.js";
 
 // Connect to MongoDB
 connectDB();
@@ -61,7 +60,6 @@ app.use("/api/users", userRoutes);
 app.use("/api/assessment", assessmentRoutes);
 app.use("/api/retirement-analysis", retirementRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api/newsletter", newsletterRoutes);
 
 // Start the server
 if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {

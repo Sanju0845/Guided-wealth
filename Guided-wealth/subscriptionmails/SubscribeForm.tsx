@@ -49,8 +49,7 @@ export default function SubscribeForm() {
     setStatus('idle');
     setMessage('');
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
-      const res = await axios.post(`${apiUrl}/newsletter/subscribe`, {
+      const res = await axios.post('/api/subscribe', {
         email: clean,
         consent: true,
         source: 'footer',
