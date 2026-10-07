@@ -18,6 +18,7 @@ import Dashboard from './pages/Dashboard';
 import Assessment from './pages/Assessment';
 import RetirementAnalysisForm from './pages/RetirementAnalysisForm';
 import RiskAssessmentPopup from './components/RiskAssessmentPopup';
+import EmailPrompt from '../subscriptionmails/EmailPrompt';
 import SipFor1Crore from './components/research/sip-for-1-crore';
 import SipForChildEducation from './components/research/sip-for-child-education';
 import RetirementAt45 from './components/research/retirement-at-45';
@@ -267,6 +268,7 @@ export default function App() {
           <Footer />
           <LoginModal />
           <RiskAssessmentPopup />
+          <EmailPrompt />
         </div>
       </Router>
     </AuthProvider>

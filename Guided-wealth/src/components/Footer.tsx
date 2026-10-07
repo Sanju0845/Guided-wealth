@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SubscribeForm from '../../subscriptionmails/SubscribeForm';
 
 const css = `
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600&display=swap');
@@ -51,7 +50,6 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-      <SubscribeForm />
       <div className="copy">
         <span>© 2025 Guided Wealthy. All rights reserved.</span>
         <span><Link to="/privacy-policy">Privacy Policy</Link> &nbsp;&nbsp; <Link to="/legal">Terms &amp; Conditions</Link></span>

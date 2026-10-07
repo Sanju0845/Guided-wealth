@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { TESTIMONIALS, FAQS } from '../constants';
 import { useAuth } from '../context/AuthContext';
+import SubscribeForm from '../../subscriptionmails/SubscribeForm';
 
 /* All styles are scoped under .gw so they never leak into other pages */
 const css = `
@@ -43,11 +44,12 @@ mask-image:linear-gradient(180deg,#000 0%,#000 55%,rgba(0,0,0,.75) 68%,rgba(0,0,
 /* extra soft blend into page bg so there is never a hard edge */
 .gw .hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:34%;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(253,250,244,0),rgba(253,250,244,.6) 60%,var(--bg) 100%)}
 .gw .hero-in{position:relative;z-index:2;max-width:720px}
-.gw .hero-in:before{content:"";position:absolute;z-index:-1;inset:-70px -150px -70px -12vw;pointer-events:none;background:radial-gradient(ellipse 75% 70% at 38% 50%,rgba(253,250,244,.94) 0%,rgba(253,250,244,.86) 45%,rgba(253,250,244,.55) 70%,rgba(253,250,244,0) 100%)}
+.gw .hero-in:before{content:"";position:absolute;z-index:-1;inset:-90px -280px -90px -12vw;pointer-events:none;background:linear-gradient(90deg,rgba(253,250,244,.92) 0%,rgba(253,250,244,.88) 42%,rgba(253,250,244,.6) 66%,rgba(253,250,244,.25) 86%,rgba(253,250,244,0) 100%);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 24%,#000 76%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 24%,#000 76%,transparent 100%)}
 .gw .hero .lab{color:var(--navy);font-weight:600}
 .gw .hero .lab:before{background:var(--gold)}
 .gw .hero h1{font-size:clamp(2.7rem,min(6.6vw,10.5vh),6rem);line-height:1.1;letter-spacing:.005em;color:var(--navy);padding-bottom:.08em}
-.gw .hero h1 .gold{display:block;font-weight:700}
+.gw .hero h1,.gw .hero h1 .gold{font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;font-style:normal;letter-spacing:.005em}
+.gw .hero h1 .gold{display:block}
 .gw .hero .lead{margin:22px 0 28px;max-width:540px;font-size:1.08rem;line-height:1.7;color:#26334f;font-weight:500}
 .gw .cta{display:flex;gap:16px;flex-wrap:wrap}
 .gw .hs{display:flex;flex-wrap:wrap;align-items:center;margin-top:34px;row-gap:14px}
@@ -57,7 +59,6 @@ mask-image:linear-gradient(180deg,#000 0%,#000 55%,rgba(0,0,0,.75) 68%,rgba(0,0,
 .gw .hs .i{width:34px;height:34px}
 .gw .hs b{display:block;font:600 1.5rem 'Cormorant Garamond',serif;color:var(--navy);line-height:1.1}
 .gw .hs small{display:block;font:600 .6rem 'Montserrat',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#3d4b66}
-.gw .pgs{position:absolute;z-index:2;right:5.5%;top:46%;display:flex;flex-direction:column;gap:12px;padding-left:18px;border-left:1px solid var(--line);font:500 .66rem 'Montserrat',sans-serif;letter-spacing:.3em;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.35)}
 
 /* sections */
 .gw section.s{padding:96px 6%;position:relative}
@@ -126,7 +127,6 @@ mask-image:linear-gradient(180deg,#000 0%,#000 55%,rgba(0,0,0,.75) 68%,rgba(0,0,
 @media(max-width:1000px){.gw .g4{grid-template-columns:1fr 1fr}
 .gw .help,.gw .faq{grid-template-columns:1fr}
 .gw .feat{grid-template-columns:1fr 1fr}
-.gw .pgs{display:none}
 .gw .band .in{justify-content:center}
 }
 @media(max-width:640px){.gw .g3,.gw .g4,.gw .help .g2,.gw .feat{grid-template-columns:1fr}
@@ -135,7 +135,7 @@ mask-image:linear-gradient(180deg,#000 0%,#000 55%,rgba(0,0,0,.75) 68%,rgba(0,0,
 .gw .cta{display:grid;grid-template-columns:1fr 1fr}
 .gw .btn.ch span{min-width:0;padding:0 12px}
 .gw .hs>div{padding:0 14px}
-.gw .hero-in:before{inset:-60px -6% -60px -8%}
+.gw .hero-in:before{inset:-60px -6% -60px -8%;background:rgba(253,250,244,.8)}
 .gw .hs .i{width:28px;height:28px}
 .gw .sr>div{padding:0 16px}
 .gw .sr b{font-size:2.2rem}
@@ -222,11 +222,6 @@ export default function Home() {
               <div><Icon id="bank" /><span><b>10+</b><small>Years Experience</small></span></div>
               <div><Icon id="pct" /><span><b>98%</b><small>Success Rate</small></span></div>
             </div>
-          </div>
-          <div className="pgs" aria-hidden="true">
-            <span>PLAN</span>
-            <span>GROW</span>
-            <span>SECURE</span>
           </div>
         </section>
 
@@ -366,6 +361,13 @@ export default function Home() {
                 </details>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Newsletter subscribe — light band just above the footer */}
+        <section id="subscribe" style={{ background: '#f4ead6', padding: '54px 6%' }}>
+          <div style={{ maxWidth: 1020, margin: '0 auto' }}>
+            <SubscribeForm theme="light" source="home" />
           </div>
         </section>
       </main>

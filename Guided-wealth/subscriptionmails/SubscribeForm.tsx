@@ -22,9 +22,24 @@ const css = `
 .gws .msg{font-size:.8rem;margin:2px 0 0}
 .gws .msg.ok{color:#4ade80}
 .gws .msg.err{color:#f87171}
+/* light theme variant (used above the footer / on light sections) */
+.gws.light{background:#f4ead6;border-color:rgba(185,138,62,.35);color:#1a1a1a;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+.gws.light .txt h5{color:#b98a3e}
+.gws.light .txt p{color:#5b5b5b}
+.gws.light input[type=email]{background:#fff;color:#1a1a1a;border-color:rgba(185,138,62,.4)}
+.gws.light input[type=email]::placeholder{color:#9a9a9a}
+.gws.light label{color:#5b5b5b}
+.gws.light .msg.ok{color:#16a34a}
+.gws.light .msg.err{color:#dc2626}
 `;
 
-export default function SubscribeForm() {
+export default function SubscribeForm({
+  theme = 'dark',
+  source = 'footer',
+}: {
+  theme?: 'dark' | 'light';
+  source?: string;
+}) {
   const [email, setEmail] = useState('');
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -52,7 +67,7 @@ export default function SubscribeForm() {
       const res = await axios.post('/api/subscribe', {
         email: clean,
         consent: true,
-        source: 'footer',
+        source,
       });
       setStatus('ok');
       setMessage(res.data?.message || "Subscribed! Watch your inbox for market updates.");
@@ -67,7 +82,7 @@ export default function SubscribeForm() {
   };
 
   return (
-    <div className="gws">
+    <div className={`gws${theme === 'light' ? ' light' : ''}`}>
       <style>{css}</style>
       <div className="txt">
         <h5>Market &amp; SEBI updates</h5>
