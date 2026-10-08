@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function SilverInvestmentCalculator() {
   const [investmentType, setInvestmentType] = useState<'lumpsum' | 'sip'>('lumpsum');
@@ -138,10 +139,9 @@ export default function SilverInvestmentCalculator() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Silver Price (per gram)</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={silverPrice}
-                    onChange={(e) => setSilverPrice(Math.max(10, Number(e.target.value)))}
+                    onValueChange={(val) => setSilverPrice(val)}
                   />
                   <div>
                     <input

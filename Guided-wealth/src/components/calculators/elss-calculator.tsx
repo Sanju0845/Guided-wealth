@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 import { Share2, ChevronDown } from 'lucide-react';
 
 export default function ElssCalculator() {
@@ -94,10 +95,9 @@ export default function ElssCalculator() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">
                     {calcType === 'sip' ? 'Monthly SIP' : 'Total Investment'}
                   </label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={investment}
-                    onChange={(e) => setInvestment(Number(e.target.value))}
+                    onValueChange={(val) => setInvestment(val)}
                   />
                   <div>
                     <input

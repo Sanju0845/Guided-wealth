@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, Target, TrendingUp, ShieldCheck, DollarSign } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function ChildMarriage() {
   const [weddingCostToday, setWeddingCostToday] = useState<number>(1000000);
@@ -80,10 +81,9 @@ export default function ChildMarriage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Wedding Cost (Today)</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={weddingCostToday}
-                    onChange={(e) => setWeddingCostToday(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setWeddingCostToday(val)}
                   />
                   <div>
                     <input

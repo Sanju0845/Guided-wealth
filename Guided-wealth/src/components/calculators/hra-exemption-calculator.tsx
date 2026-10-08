@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, Home, DollarSign, MapPin, Sliders, FileText } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function HraExemptionCalculator() {
   // Input States
@@ -97,14 +98,10 @@ export default function HraExemptionCalculator() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Basic Salary ({payFrequency === 'monthly' ? 'p.m.' : 'p.a.'})</label>
-                    <input
-                      type="number"
-                      min="10000"
-                      max="1000000"
-                      step="5000"
-                      value={basicSalary}
-                      onChange={(e) => setBasicSalary(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={basicSalary}
+                    onValueChange={(val) => setBasicSalary(val)}
+                  />
                   </div>
                   <input
                     type="range"
@@ -164,14 +161,10 @@ export default function HraExemptionCalculator() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Rent Paid ({payFrequency === 'monthly' ? 'p.m.' : 'p.a.'})</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="500000"
-                      step="2000"
-                      value={rentPaid}
-                      onChange={(e) => setRentPaid(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={rentPaid}
+                    onValueChange={(val) => setRentPaid(val)}
+                  />
                   </div>
                   <input
                     type="range"

@@ -57,13 +57,27 @@ export const authUser = async (req, res) => {
 
     let user = await User.findOne({ phone });
 
+    if (user) {
+      if (user.isDeleted) {
+        return res.status(403).json({ message: "Your account has been deleted. Please contact support." });
+      }
+      if (user.isBanned) {
+        return res.status(403).json({ message: "Your account has been banned. Please contact support." });
+      }
+    }
+
     // If user doesn't exist, create one
     if (!user) {
       user = await User.create({
         phone,
         name: name || "User",
         role: "user", // Default role
+        isPending: false, // Normal users shouldn't be pending
       });
+    } else if (user.role === 'user' && user.isPending) {
+      // Clear pending status for existing normal users
+      user.isPending = false;
+      await user.save();
     }
 
     // Generate our backend JWT for subsequent requests

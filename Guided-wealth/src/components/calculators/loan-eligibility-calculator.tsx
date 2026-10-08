@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, DollarSign, UserCheck, Briefcase, Building, ShieldCheck, Sliders, Info } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function LoanEligibilityCalculator() {
   // Income & Expenses Inputs
@@ -206,11 +207,10 @@ export default function LoanEligibilityCalculator() {
                   <label className="text-sm font-medium text-slate-700">Existing Monthly EMIs (₹)</label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-medium">₹</span>
-                    <input
-                      type="number"
-                      value={existingEmis}
-                      onChange={(e) => setExistingEmis(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={existingEmis}
+                    onValueChange={(val) => setExistingEmis(val)}
+                  />
                   </div>
                 </div>
                 <input

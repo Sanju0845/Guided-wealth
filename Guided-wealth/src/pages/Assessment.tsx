@@ -14,6 +14,10 @@ export default function Assessment() {
   
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, { text: string, points: number }>>({});
+  const [isConfigured, setIsConfigured] = useState(false);
+  const [assessmentFor, setAssessmentFor] = useState<'self' | 'other'>('self');
+  const [otherName, setOtherName] = useState('');
+  const [otherRelation, setOtherRelation] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [result, setResult] = useState<{ score: number, category: string, allocation: string } | null>(null);
   const [error, setError] = useState('');
@@ -99,7 +103,7 @@ export default function Assessment() {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
       const response = await axios.post(
         `${apiUrl}/assessment`,
-        { answers: formattedAnswers },
+        { answers: formattedAnswers, assessmentFor, otherName, otherRelation },
         { headers: { Authorization: `Bearer ${user?.token}` } }
       );
 
@@ -160,6 +164,83 @@ export default function Assessment() {
 
   const currentAnswer = answers[currentQuestion.id];
   const canProceed = !!currentAnswer;
+
+  if (!isConfigured) {
+    return (
+      <div className="min-h-screen bg-cream/30 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+        <div className="max-w-xl w-full bg-white rounded-3xl shadow-xl border border-primary/10 p-8 md:p-12 animate-fade-in">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-serif font-bold text-ink mb-3">Who is this assessment for?</h1>
+            <p className="text-primary/70 text-sm">Select whether you are taking this risk assessment for yourself or on behalf of someone else.</p>
+          </div>
+          
+          <div className="space-y-6">
+            <div className="grid grid-cols-2 gap-4">
+              <button 
+                onClick={() => setAssessmentFor('self')}
+                className={`p-4 rounded-xl border-2 font-bold transition-all ${assessmentFor === 'self' ? 'border-accent bg-accent/5 text-ink' : 'border-primary/10 text-primary/60 hover:border-accent/40'}`}
+              >
+                Myself
+              </button>
+              <button 
+                onClick={() => setAssessmentFor('other')}
+                className={`p-4 rounded-xl border-2 font-bold transition-all ${assessmentFor === 'other' ? 'border-accent bg-accent/5 text-ink' : 'border-primary/10 text-primary/60 hover:border-accent/40'}`}
+              >
+                Someone Else
+              </button>
+            </div>
+
+            {assessmentFor === 'other' && (
+              <div className="space-y-4 animate-fade-in mt-6">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-2">Their Name *</label>
+                  <input 
+                    type="text" 
+                    value={otherName}
+                    onChange={(e) => setOtherName(e.target.value)}
+                    className="w-full p-3 bg-[#F8F9FA] border-2 border-primary/10 rounded-xl text-ink font-semibold focus:outline-none focus:border-accent"
+                    placeholder="Enter full name"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-2">Relationship *</label>
+                  <input 
+                    type="text" 
+                    value={otherRelation}
+                    onChange={(e) => setOtherRelation(e.target.value)}
+                    className="w-full p-3 bg-[#F8F9FA] border-2 border-primary/10 rounded-xl text-ink font-semibold focus:outline-none focus:border-accent"
+                    placeholder="e.g. Spouse, Child, Parent"
+                  />
+                </div>
+              </div>
+            )}
+
+            <button 
+              onClick={() => {
+                if (assessmentFor === 'other' && (!otherName.trim() || !otherRelation.trim())) {
+                  setError('Please provide name and relation.');
+                  return;
+                }
+                setError('');
+                setIsConfigured(true);
+              }}
+              className="w-full btn-primary py-4 rounded-xl font-bold uppercase tracking-wide mt-8"
+            >
+              Start Assessment
+            </button>
+            {error && <p className="text-red-500 text-sm mt-2 text-center">{error}</p>}
+          </div>
+          <style>{`
+            @keyframes fadeIn {
+              from { opacity: 0; transform: translateY(10px); }
+              to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+          `}</style>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-cream/30 py-12 px-4 sm:px-6 lg:px-8">
@@ -273,3 +354,4 @@ export default function Assessment() {
     </div>
   );
 }
+

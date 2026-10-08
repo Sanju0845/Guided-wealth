@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 import { Share2, ChevronDown, ChevronUp, Home, Calendar, TrendingUp, Sliders, FileText } from 'lucide-react';
 
 export default function HomePurchasePlanner() {
@@ -116,14 +117,10 @@ export default function HomePurchasePlanner() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Target Amount (Home Price)</label>
-                    <input
-                      type="number"
-                      min="1000000"
-                      max="50000000"
-                      step="500000"
-                      value={targetAmount}
-                      onChange={(e) => setTargetAmount(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={targetAmount}
+                    onValueChange={(val) => setTargetAmount(val)}
+                  />
                   </div>
                   <input
                     type="range"
@@ -178,14 +175,10 @@ export default function HomePurchasePlanner() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Current Savings</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="5000000"
-                      step="50000"
-                      value={currentSavings}
-                      onChange={(e) => setCurrentSavings(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={currentSavings}
+                    onValueChange={(val) => setCurrentSavings(val)}
+                  />
                   </div>
                   <input
                     type="range"
@@ -259,28 +252,18 @@ export default function HomePurchasePlanner() {
 
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Home Loan Interest Rate (%)</label>
-                    <input
-                      type="number"
-                      step="0.25"
-                      min="7"
-                      max="12"
-                      value={homeLoanInterest}
-                      onChange={(e) => setHomeLoanInterest(Number(e.target.value))}
-                      className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                    <CurrencyInput
+                    value={homeLoanInterest}
+                    onValueChange={(val) => setHomeLoanInterest(val)}
+                  />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Home Loan Tenure (Years)</label>
-                    <input
-                      type="number"
-                      step="1"
-                      min="5"
-                      max="30"
-                      value={homeLoanTenureYears}
-                      onChange={(e) => setHomeLoanTenureYears(Number(e.target.value))}
-                      className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                    <CurrencyInput
+                    value={homeLoanTenureYears}
+                    onValueChange={(val) => setHomeLoanTenureYears(val)}
+                  />
                   </div>
                 </div>
               )}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 import { Share2, ChevronDown } from 'lucide-react';
 
 export default function SwpCalculator() {
@@ -74,10 +75,9 @@ export default function SwpCalculator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Principal Amount</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={principal}
-                    onChange={(e) => setPrincipal(Number(e.target.value))}
+                    onValueChange={(val) => setPrincipal(val)}
                   />
                   <div>
                     <input

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 import { Share2, ChevronDown } from 'lucide-react';
 
 export default function CustomGoalTracker() {
@@ -86,10 +87,9 @@ export default function CustomGoalTracker() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Goal Amount</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={goalAmount}
-                    onChange={(e) => setGoalAmount(Number(e.target.value))}
+                    onValueChange={(val) => setGoalAmount(val)}
                   />
                   <div>
                     <input
@@ -142,10 +142,9 @@ export default function CustomGoalTracker() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Current Savings</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={currentSavings}
-                    onChange={(e) => setCurrentSavings(Number(e.target.value))}
+                    onValueChange={(val) => setCurrentSavings(val)}
                   />
                   <div>
                     <input

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function DividendYieldCalculator() {
   const [stockPrice, setStockPrice] = useState<number>(100);
@@ -80,10 +81,9 @@ export default function DividendYieldCalculator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Stock Price (₹)</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={stockPrice}
-                    onChange={(e) => setStockPrice(Math.max(0.1, Number(e.target.value)))}
+                    onValueChange={(val) => setStockPrice(val)}
                   />
                   <div>
                     <input

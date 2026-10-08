@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function ReverseMortgageCalculator() {
   const [propertyValue, setPropertyValue] = useState<number>(10000000);
@@ -91,11 +92,10 @@ export default function ReverseMortgageCalculator() {
               <h2 className="text-xl font-bold text-[#113262] mb-4">Property Details</h2>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">Property Value</label>
-                <input
-                  type="number"
-                  value={propertyValue}
-                  onChange={(e) => setPropertyValue(Math.max(0, Number(e.target.value)))}
-                />
+                <CurrencyInput
+                    value={propertyValue}
+                    onValueChange={(val) => setPropertyValue(val)}
+                  />
                 <div>
                   <input
                     type="range"

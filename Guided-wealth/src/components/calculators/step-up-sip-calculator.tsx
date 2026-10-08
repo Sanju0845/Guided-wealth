@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2 } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function StepUpSipCalculator() {
   const [monthlyInvestment, setMonthlyInvestment] = useState<number>(10000);
@@ -77,10 +78,9 @@ export default function StepUpSipCalculator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Monthly Investment</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={monthlyInvestment}
-                    onChange={(e) => setMonthlyInvestment(Number(e.target.value))}
+                    onValueChange={(val) => setMonthlyInvestment(val)}
                   />
                   <div>
                     <input

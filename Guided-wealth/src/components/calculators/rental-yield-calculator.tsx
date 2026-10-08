@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 import { Share2, ChevronDown, ChevronUp, Home, DollarSign, TrendingUp, Sliders, Building } from 'lucide-react';
 
 export default function RentalYieldCalculator() {
@@ -96,13 +97,9 @@ export default function RentalYieldCalculator() {
               <div>
                 <div className="flex justify-between items-center mb-2">
                   <label className="text-sm font-medium text-slate-700">Property Value</label>
-                  <input
-                    type="number"
-                    min="500000"
-                    max="100000000"
-                    step="100000"
+                  <CurrencyInput
                     value={propertyValue}
-                    onChange={(e) => setPropertyValue(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setPropertyValue(val)}
                   />
                 </div>
                 <input
@@ -195,14 +192,10 @@ export default function RentalYieldCalculator() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Maintenance Cost</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="200000"
-                      step="2500"
-                      value={maintenanceCost}
-                      onChange={(e) => setMaintenanceCost(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={maintenanceCost}
+                    onValueChange={(val) => setMaintenanceCost(val)}
+                  />
                   </div>
                   <input
                     type="range"
@@ -220,14 +213,10 @@ export default function RentalYieldCalculator() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Property Tax</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="200000"
-                      step="2500"
-                      value={propertyTax}
-                      onChange={(e) => setPropertyTax(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={propertyTax}
+                    onValueChange={(val) => setPropertyTax(val)}
+                  />
                   </div>
                   <input
                     type="range"
@@ -260,27 +249,18 @@ export default function RentalYieldCalculator() {
                 <div className="p-6 pt-0 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Annual Appreciation (%)</label>
-                    <input
-                      type="number"
-                      step="0.5"
-                      min="0"
-                      max="20"
-                      value={annualAppreciation}
-                      onChange={(e) => setAnnualAppreciation(Number(e.target.value))}
-                      className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                    <CurrencyInput
+                    value={annualAppreciation}
+                    onValueChange={(val) => setAnnualAppreciation(val)}
+                  />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Loan Amount (if financed)</label>
-                    <input
-                      type="number"
-                      step="100000"
-                      min="0"
-                      value={loanAmount}
-                      onChange={(e) => setLoanAmount(Number(e.target.value))}
-                      className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                    <CurrencyInput
+                    value={loanAmount}
+                    onValueChange={(val) => setLoanAmount(val)}
+                  />
                   </div>
                 </div>
               )}

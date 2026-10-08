@@ -2,16 +2,65 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Navigate, Link } from 'react-router-dom';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { ShieldCheck } from 'lucide-react';
+import * as Icons from 'lucide-react';
+import { calculatorData } from '../constants/calculatorData';
+import { ShieldCheck, X, FileText, Download } from 'lucide-react';
 import axios from 'axios';
 import { getRiskCategory } from '../constants/assessmentQuestions';
+import { toJpeg } from 'html-to-image';
+import { jsPDF } from 'jspdf';
 
 export default function Dashboard() {
   const { user, isLoggedIn } = useAuth();
   const [retirementData, setRetirementData] = useState<any>(null);
   const [riskData, setRiskData] = useState<any>(null);
-  const [activeTab, setActiveTab] = useState<'retirement' | 'risk'>('retirement');
+  const [assessmentHistory, setAssessmentHistory] = useState<any[]>([]);
+  const [retirementHistory, setRetirementHistory] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState<'retirement' | 'risk' | 'tools'>('retirement');
+  const [targetPerson, setTargetPerson] = useState<'self' | 'other'>('self');
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedRetHistory, setSelectedRetHistory] = useState<any>(null);
+  const [selectedRiskHistory, setSelectedRiskHistory] = useState<any>(null);
+  const retModalRef = React.useRef<HTMLDivElement>(null);
+  const riskModalRef = React.useRef<HTMLDivElement>(null);
+  const [isExporting, setIsExporting] = useState(false);
+  const [selectedRetHistIndex, setSelectedRetHistIndex] = useState<number>(0);
+  const [selectedRiskHistIndex, setSelectedRiskHistIndex] = useState<number>(0);
+  const [isRiskResponsesExpanded, setIsRiskResponsesExpanded] = useState<boolean>(false);
+
+  const handleExportPDF = async (modalRef: React.RefObject<HTMLDivElement>, filename: string) => {
+    if (!modalRef.current) return;
+    setIsExporting(true);
+    try {
+      const filter = (node: HTMLElement) => {
+        return !(node.classList && node.classList.contains('exclude-from-pdf'));
+      };
+      // Wait for state updates (e.g. removing scrollbars) to render
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      const dataUrl = await toJpeg(modalRef.current, { quality: 0.8, pixelRatio: 1.5, filter, backgroundColor: '#ffffff' });
+      
+      const width = modalRef.current.offsetWidth;
+      const height = modalRef.current.offsetHeight;
+      
+      const pdfWidth = 210; // Standard A4 width in mm
+      const pdfHeight = (height * pdfWidth) / width;
+      
+      const pdf = new jsPDF({
+        orientation: 'p',
+        unit: 'mm',
+        format: [pdfWidth, Math.max(pdfHeight, 297)] // At least A4 height
+      });
+      
+      pdf.addImage(dataUrl, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`${filename}.pdf`);
+    } catch (error: any) {
+      console.error("Error generating PDF", error);
+      alert(`Failed to export PDF: ${error.message || error}`);
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -50,6 +99,18 @@ export default function Dashboard() {
             console.error("No risk data found");
           }
         }
+
+        // Fetch history
+        try {
+          const [retHistRes, riskHistRes] = await Promise.all([
+            axios.get(`${apiUrl}/retirement-analysis/history`, { headers: { Authorization: `Bearer ${user.token}` } }),
+            axios.get(`${apiUrl}/assessment/history`, { headers: { Authorization: `Bearer ${user.token}` } })
+          ]);
+          if (retHistRes.data) setRetirementHistory(retHistRes.data);
+          if (riskHistRes.data) setAssessmentHistory(riskHistRes.data);
+        } catch (e) {
+          console.error("Error fetching history");
+        }
       } catch (err) {
         console.error("Error fetching dashboard data", err);
       } finally {
@@ -82,8 +143,20 @@ export default function Dashboard() {
     );
   }
 
-  const isRetirementValid = retirementData && retirementData.inputs && retirementData.inputs.currentAge !== '' && retirementData.inputs.currentAge > 0;
-  const isRiskValid = riskData && riskData.score !== undefined;
+  const filteredRetHist = retirementHistory.filter(h => (h.assessmentFor || 'self') === targetPerson);
+  const filteredRiskHist = assessmentHistory.filter(h => (h.assessmentFor || 'self') === targetPerson);
+
+  const safeRetIndex = selectedRetHistIndex < filteredRetHist.length ? selectedRetHistIndex : 0;
+  const safeRiskIndex = selectedRiskHistIndex < filteredRiskHist.length ? selectedRiskHistIndex : 0;
+
+  const activeRetHist = filteredRetHist[safeRetIndex];
+  const currentRetData = activeRetHist ? (activeRetHist.results ? { ...activeRetHist.results, inputs: activeRetHist.inputs || activeRetHist.results.inputs } : activeRetHist) : null;
+
+  const activeRiskHist = filteredRiskHist[safeRiskIndex];
+  const currentRiskData = activeRiskHist ? (() => { const { score, riskCategory, answers } = activeRiskHist; const { allocation } = getRiskCategory(score); return { score, category: riskCategory, allocation, answers }; })() : null;
+
+  const isRetirementValid = currentRetData && currentRetData.inputs && currentRetData.inputs.currentAge !== '' && currentRetData.inputs.currentAge > 0;
+  const isRiskValid = currentRiskData && currentRiskData.score !== undefined;
 
   if (!isRetirementValid && !isRiskValid) {
     return (
@@ -136,29 +209,40 @@ export default function Dashboard() {
     return `₹${val.toLocaleString('en-IN')}`;
   };
 
-  const renderRetirementTab = () => {
-    if (!isRetirementValid) {
-      return (
-        <div className="text-center p-12 bg-white border border-primary/10 rounded-3xl shadow-xl max-w-lg mx-auto mt-10 animate-fade-in">
-          <div className="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-10 h-10 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
-          </div>
-          <h2 className="text-3xl font-serif font-bold text-ink mb-4">No Analysis Found</h2>
-          <p className="mb-8 text-primary/70">You haven't generated your retirement analysis yet. Please fill out the form to view your dashboard.</p>
-          <Link to="/retirement-analysis" className="bg-primary text-cream hover:bg-ink inline-flex items-center justify-center gap-2 px-10 py-4 rounded-xl font-bold uppercase tracking-wide shadow-md hover:shadow-lg active:scale-95 transition-all">
-            Start Analysis
-          </Link>
+  const renderPDFHeader = (title: string, historyItem: any) => {
+    const isOther = historyItem?.assessmentFor === 'other';
+    const forText = isOther 
+      ? `For: ${historyItem.otherName || 'N/A'} (${historyItem.otherRelation || 'Other'})` 
+      : 'For: Self';
+    const dateText = historyItem?.createdAt 
+      ? new Date(historyItem.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
+      : new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+    return (
+      <div className="flex items-center justify-between border-b border-primary/20 pb-6 mb-8 text-left">
+        <div className="flex-shrink-0">
+          <img src="/assets/logo.png" alt="Company Logo" className="h-12 object-contain" />
         </div>
-      );
-    }
+        <div className="text-right">
+          <h2 className="text-2xl font-serif font-bold text-ink mb-1">{title}</h2>
+          <p className="text-sm text-primary font-bold uppercase tracking-wider">{forText}</p>
+          <p className="text-xs text-primary/70 mt-1">Generated: {dateText}</p>
+        </div>
+      </div>
+    );
+  };
 
-    const inputs = retirementData.inputs;
 
-    const corpusAtRetirement = retirementData.corpusAtRetirement || 0;
-    const corpusRequired = retirementData.corpusRequired || 0;
-    const shortfall = retirementData.shortfall || 0;
+  const renderRetirementUI = (retData: any) => {
+    if (!retData || !retData.inputs) return null;
+    const currentRetData = retData;
+    const inputs = currentRetData.inputs;
+
+    const corpusAtRetirement = currentRetData.corpusAtRetirement || 0;
+    const corpusRequired = currentRetData.corpusRequired || 0;
+    const shortfall = currentRetData.shortfall || 0;
     const isShortfall = shortfall > 0;
-    const extraMonthlySip = retirementData.requiredSip || 0;
+    const extraMonthlySip = currentRetData.requiredSip || 0;
     const existingCorpus = inputs.existingInvestments || 0;
 
     // --- Dynamic Calculations based on inputs ---
@@ -206,20 +290,18 @@ export default function Dashboard() {
 
     const totalMonthlySip = sipData.reduce((acc, curr) => acc + curr.value, 0);
 
-    // 4. Generate Corpus Data (Age 18 to 90)
+    // 4. Generate Corpus Data (Age = currentAge to 90)
     const corpusData = [];
-    let currentCorpus = 0;
-    for (let age = 18; age <= 90; age++) {
-      if (age < inputs.currentAge) {
-        currentCorpus = inputs.existingInvestments * Math.pow(age / inputs.currentAge, 2);
-      } else if (age === inputs.currentAge) {
-        currentCorpus = inputs.existingInvestments;
-      } else if (age <= inputs.retirementAge) {
+    let currentCorpus = inputs.existingInvestments || 0;
+    for (let age = inputs.currentAge || 18; age <= 90; age++) {
+      if (age === inputs.currentAge) {
+        currentCorpus = inputs.existingInvestments || 0;
+      } else if (age <= (inputs.retirementAge || 60)) {
         const annualInvestment = (totalMonthlySip + extraMonthlySip) * 12;
-        currentCorpus = currentCorpus * (1 + (inputs.preRetirementReturn / 100)) + annualInvestment;
+        currentCorpus = currentCorpus * (1 + ((inputs.preRetirementReturn || 0) / 100)) + annualInvestment;
       } else {
-        const annualRetirementExpense = (corpusRequired * ((inputs.postRetirementReturn - inputs.generalInflation) / 100));
-        currentCorpus = currentCorpus * (1 + (inputs.postRetirementReturn / 100)) - annualRetirementExpense;
+        const annualRetirementExpense = (corpusRequired * (((inputs.postRetirementReturn || 0) - (inputs.generalInflation || 0)) / 100));
+        currentCorpus = currentCorpus * (1 + ((inputs.postRetirementReturn || 0) / 100)) - annualRetirementExpense;
       }
       corpusData.push({ age, corpus: Math.round(currentCorpus) });
     }
@@ -240,15 +322,11 @@ export default function Dashboard() {
     }
 
     return (
-      <div className="mt-20 animate-fade-in">
+      <>
         {/* YOUR PROFILE */}
-        <div className="mb-4">
+        <div className="mb-4 mt-8">
           <div className="bg-[#4472c4] text-white font-bold p-1 px-2 flex justify-between items-center">
             <span>YOUR PROFILE</span>
-            <Link to="/retirement-analysis" className="text-[11px] bg-white text-[#4472c4] px-2 py-0.5 rounded shadow-sm hover:bg-gray-100 transition-colors flex items-center gap-1">
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
-              Edit / Recalculate
-            </Link>
           </div>
           <div className="flex flex-col sm:flex-row w-full border-l border-r border-b border-gray-300">
             <div className="flex-1 flex border-b sm:border-b-0 sm:border-r border-gray-300">
@@ -324,7 +402,7 @@ export default function Dashboard() {
                   <XAxis
                     dataKey="age"
                     type="number"
-                    domain={[18, 90]}
+                    domain={['dataMin', 90]}
                     tickCount={37}
                     tick={{ fontSize: 11, fill: '#000' }}
                     axisLine={{ stroke: '#000' }}
@@ -340,7 +418,7 @@ export default function Dashboard() {
                     label={{ value: "Corpus (₹)", angle: -90, position: "left", style: { fontWeight: 'bold', fontSize: 12 } }}
                   />
                   <RechartsTooltip formatter={(value: number) => formatCurrency(value)} labelFormatter={(label) => `Age: ${label}`} />
-                  <Line type="monotone" dataKey="corpus" stroke="#224A8C" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="corpus" stroke="#224A8C" strokeWidth={2} dot={false} isAnimationActive={false} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -375,8 +453,8 @@ export default function Dashboard() {
                   />
                   <RechartsTooltip formatter={(value: number) => formatCurrency(value)} labelFormatter={(label) => `Age: ${label}`} />
                   <Legend verticalAlign="middle" align="right" layout="vertical" iconType="square" />
-                  <Bar dataKey="Income" name="Annual Income (₹)" fill="#2F5597" radius={0} barSize={8} />
-                  <Bar dataKey="Outflow" name="Total Goal Funding (₹/yr)" fill="#C00000" radius={0} barSize={8} />
+                  <Bar dataKey="Income" name="Annual Income (₹)" fill="#2F5597" radius={0} barSize={8} isAnimationActive={false} />
+                  <Bar dataKey="Outflow" name="Total Goal Funding (₹/yr)" fill="#C00000" radius={0} barSize={8} isAnimationActive={false} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -401,6 +479,7 @@ export default function Dashboard() {
                     outerRadius={140}
                     dataKey="value"
                     stroke="#fff"
+                    isAnimationActive={false}
                   >
                     {sipData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
@@ -418,6 +497,62 @@ export default function Dashboard() {
               </ResponsiveContainer>
             </div>
           </div>
+        </div>
+      </>
+    );
+  };
+
+  const renderRetirementTab = () => {
+    if (!isRetirementValid) {
+      return (
+        <div className="text-center p-12 bg-white border border-primary/10 rounded-3xl shadow-xl max-w-lg mx-auto mt-10 animate-fade-in">
+          <div className="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg className="w-10 h-10 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+          </div>
+          <h2 className="text-3xl font-serif font-bold text-ink mb-4">No Analysis Found</h2>
+          <p className="mb-8 text-primary/70">You haven't generated your retirement analysis yet. Please fill out the form to view your dashboard.</p>
+          <Link to="/retirement-analysis" className="bg-primary text-cream hover:bg-ink inline-flex items-center justify-center gap-2 px-10 py-4 rounded-xl font-bold uppercase tracking-wide shadow-md hover:shadow-lg active:scale-95 transition-all">
+            Start Analysis
+          </Link>
+        </div>
+      );
+    }
+
+    return (
+      <div className={`mt-8 animate-fade-in ${isExporting ? 'bg-white p-8 md:p-12 rounded-3xl' : ''}`} ref={retModalRef}>
+        <div className="flex justify-end mb-4 exclude-from-pdf">
+          <button 
+             className="bg-primary text-cream hover:bg-ink px-6 py-2 rounded-xl flex items-center gap-2 text-sm disabled:opacity-50 shadow-md transition-colors"
+             onClick={() => handleExportPDF(retModalRef, `Retirement_Report_${Date.now()}`)}
+             disabled={isExporting}
+          >
+             <Download className="w-4 h-4" /> {isExporting ? 'Exporting...' : 'Export Report (PDF)'}
+          </button>
+        </div>
+        {isExporting && renderPDFHeader('Retirement Analysis Report', activeRetHist)}
+        
+        {!isExporting && (
+          <div className="text-center mb-8">
+            <h1 className="text-3xl md:text-4xl font-serif font-bold text-ink mb-3">Retirement Analysis</h1>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <div className="inline-flex items-center justify-center bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-bold tracking-wide uppercase">
+                {activeRetHist?.assessmentFor === 'other' ? `For: ${activeRetHist.otherName || 'N/A'} (${activeRetHist.otherRelation || 'Other'})` : 'For: Self'}
+              </div>
+              <div className="text-sm font-medium text-primary/70 flex items-center gap-1.5 bg-white border border-primary/10 px-3 py-1.5 rounded-full shadow-sm">
+                <Icons.Calendar className="w-4 h-4" />
+                {activeRetHist?.createdAt ? new Date(activeRetHist.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }) : 'Unknown Date'}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {renderRetirementUI(currentRetData)}
+        
+        <div className="mt-8 pt-6 border-t border-primary/10 exclude-from-pdf text-center mb-8">
+          <Link to="/retirement-analysis?retake=true" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold uppercase tracking-wide text-primary bg-primary/5 hover:bg-primary/10 transition-colors">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+            Retake Analysis
+          </Link>
         </div>
       </div>
     );
@@ -439,43 +574,132 @@ export default function Dashboard() {
       );
     }
     return (
-      <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-primary/10 max-w-2xl mx-auto mt-10 text-center animate-fade-in">
-        <div className="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
-          <ShieldCheck className="w-10 h-10 text-accent" />
-        </div>
-        <h1 className="text-3xl md:text-4xl font-serif font-bold text-ink mb-4">Your Risk Profile</h1>
-        <p className="text-primary/70 mb-8 max-w-md mx-auto">
-          Based on your answers, we've analyzed your investment risk appetite and prepared a recommended allocation.
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left">
-          <div className="bg-cream/50 p-6 rounded-2xl border border-primary/5">
-            <span className="text-xs uppercase tracking-widest text-primary/50 font-bold mb-1 block">Risk Category</span>
-            <span className="text-2xl font-bold text-accent">{riskData.category}</span>
+      <div className="max-w-3xl mx-auto mt-10 animate-fade-in">
+        <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-primary/10 text-center w-full" ref={riskModalRef}>
+          <div className="flex justify-end mb-4 exclude-from-pdf">
+            <button 
+               className="bg-primary text-cream hover:bg-ink px-6 py-2 rounded-xl flex items-center gap-2 text-sm disabled:opacity-50 shadow-md transition-colors"
+               onClick={() => handleExportPDF(riskModalRef, `Risk_Profile_${Date.now()}`)}
+               disabled={isExporting}
+            >
+               <Download className="w-4 h-4" /> {isExporting ? 'Exporting...' : 'Export Report (PDF)'}
+            </button>
           </div>
-          <div className="bg-cream/50 p-6 rounded-2xl border border-primary/5">
-            <span className="text-xs uppercase tracking-widest text-primary/50 font-bold mb-1 block">Total Score</span>
-            <span className="text-2xl font-bold text-primary">{riskData.score} <span className="text-sm font-normal text-primary/60">/ 50</span></span>
+          {isExporting && renderPDFHeader('Risk Profile Report', activeRiskHist)}
+          <div className="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <ShieldCheck className="w-10 h-10 text-accent" />
           </div>
-        </div>
-
-        <div className="bg-ink text-cream p-6 rounded-2xl text-left">
-          <span className="text-xs uppercase tracking-widest text-cream/50 font-bold mb-3 block">Suggested Broad Asset Allocation</span>
-          <div className="font-medium leading-relaxed">
-            {riskData.allocation?.split('|').map((part: string, idx: number) => (
-              <div key={idx} className="flex items-center gap-2 mb-2 last:mb-0">
-                <div className="w-2 h-2 rounded-full bg-accent" />
-                {part.trim()}
+          
+          {!isExporting && (
+            <div className="mb-8">
+              <h1 className="text-3xl md:text-4xl font-serif font-bold text-ink mb-3">Your Risk Profile</h1>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <div className="inline-flex items-center justify-center bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-bold tracking-wide uppercase">
+                  {activeRiskHist?.assessmentFor === 'other' ? `For: ${activeRiskHist.otherName || 'N/A'} (${activeRiskHist.otherRelation || 'Other'})` : 'For: Self'}
+                </div>
+                <div className="text-sm font-medium text-primary/70 flex items-center gap-1.5 bg-white border border-primary/10 px-3 py-1.5 rounded-full shadow-sm">
+                  <Icons.Calendar className="w-4 h-4" />
+                  {activeRiskHist?.createdAt ? new Date(activeRiskHist.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }) : 'Unknown Date'}
+                </div>
               </div>
-            ))}
+            </div>
+          )}
+
+          <p className="text-primary/70 mb-8 max-w-md mx-auto">
+            Based on your answers, we've analyzed your investment risk appetite and prepared a recommended allocation.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left">
+            <div className="bg-cream/50 p-6 rounded-2xl border border-primary/5">
+              <span className="text-xs uppercase tracking-widest text-primary/50 font-bold mb-1 block">Risk Category</span>
+              <span className="text-2xl font-bold text-accent">{currentRiskData.category}</span>
+            </div>
+            <div className="bg-cream/50 p-6 rounded-2xl border border-primary/5">
+              <span className="text-xs uppercase tracking-widest text-primary/50 font-bold mb-1 block">Total Score</span>
+              <span className="text-2xl font-bold text-primary">{currentRiskData.score} <span className="text-sm font-normal text-primary/60">/ 50</span></span>
+            </div>
+          </div>
+
+          <div className="bg-ink text-cream p-6 rounded-2xl text-left">
+            <span className="text-xs uppercase tracking-widest text-cream/50 font-bold mb-3 block">Suggested Broad Asset Allocation</span>
+            <div className="font-medium leading-relaxed">
+              {currentRiskData.allocation?.split('|').map((part: string, idx: number) => (
+                <div key={idx} className="flex items-center gap-2 mb-2 last:mb-0">
+                  <div className="w-2 h-2 rounded-full bg-accent" />
+                  {part.trim()}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {currentRiskData.answers && currentRiskData.answers.length > 0 && (
+            <div className="mt-10 pt-8 border-t border-primary/10 text-left">
+              <div 
+                className="flex items-center justify-center gap-2 mb-6 cursor-pointer group"
+                onClick={() => setIsRiskResponsesExpanded(!isRiskResponsesExpanded)}
+              >
+                <h3 className="text-xl font-serif font-bold text-ink">Your Responses</h3>
+                <div className="w-8 h-8 rounded-full bg-primary/5 group-hover:bg-primary/10 flex items-center justify-center transition-colors exclude-from-pdf">
+                  {isRiskResponsesExpanded || isExporting ? <Icons.ChevronUp className="w-5 h-5 text-primary" /> : <Icons.ChevronDown className="w-5 h-5 text-primary" />}
+                </div>
+              </div>
+
+              {(isRiskResponsesExpanded || isExporting) && (
+                <div className="space-y-4 animate-fade-in">
+                  {currentRiskData.answers.map((ans: any, idx: number) => (
+                    <div key={idx} className="bg-cream/30 p-5 rounded-2xl border border-primary/5 page-break-inside-avoid">
+                      <div className="text-sm font-semibold text-ink mb-2"><span className="text-primary/50 mr-2">Q{idx + 1}.</span> {ans.questionText || ans.question}</div>
+                      <div className="flex items-start gap-2">
+                        <div className="mt-1 w-2 h-2 rounded-full bg-accent shrink-0" />
+                        <div className="text-sm font-medium text-primary/80">{ans.selectedOption || ans.answer}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="mt-8 pt-6 border-t border-primary/10 exclude-from-pdf">
+            <Link to="/assessment?retake=true" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold uppercase tracking-wide text-primary bg-primary/5 hover:bg-primary/10 transition-colors">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+              Retake Assessment
+            </Link>
           </div>
         </div>
+      </div>
+    );
+  };
 
-        <div className="mt-8 pt-6 border-t border-primary/10">
-          <Link to="/assessment?retake=true" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold uppercase tracking-wide text-primary bg-primary/5 hover:bg-primary/10 transition-colors">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-            Retake Assessment
-          </Link>
+  const renderToolsTab = () => {
+    return (
+      <div className="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-primary/10 mx-auto mt-10 animate-fade-in">
+        <h2 className="text-3xl font-serif font-bold text-ink mb-6 text-center">Financial Tools</h2>
+        <div className="space-y-12">
+          {calculatorData.map((section, index) => (
+            <div key={index}>
+              <h3 className="text-xl font-semibold text-[#c08226] mb-4 border-b pb-2">{section.title}</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {section.items.map((item, idx) => {
+                  const IconComponent = (Icons as any)[item.icon] || Icons.Calculator;
+                  return (
+                    <Link
+                      key={idx}
+                      to={`/calculators/${item.slug}`}
+                      className="bg-slate-50 rounded-xl p-4 border border-slate-100 hover:shadow-md hover:border-blue-200 transition-all group flex flex-col h-full"
+                    >
+                      <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mb-3 group-hover:bg-blue-100 transition-colors">
+                        <IconComponent className="w-5 h-5 text-[#113262]" />
+                      </div>
+                      <h4 className="text-sm font-semibold text-slate-800 mb-1 group-hover:text-[#113262] transition-colors line-clamp-2">
+                        {item.name}
+                      </h4>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -500,12 +724,182 @@ export default function Dashboard() {
             >
               Risk Profile
             </button>
+            <button
+              onClick={() => setActiveTab('tools')}
+              className={`flex-1 sm:flex-none px-5 py-2.5 rounded-lg font-bold text-sm tracking-wide transition-all ${activeTab === 'tools' ? 'bg-accent text-ink shadow-md' : 'text-cream hover:bg-white/10'}`}
+            >
+              Financial Tools
+            </button>
           </div>
         </div>
 
-        {activeTab === 'retirement' ? renderRetirementTab() : renderRiskTab()}
+        {activeTab === 'retirement' && filteredRetHist.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-sm font-bold text-primary mb-3 px-1">Assessment History</h3>
+            <div className="overflow-x-auto pb-2 flex gap-3 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+              {filteredRetHist.map((hist, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setSelectedRetHistIndex(idx)}
+                  className={`whitespace-nowrap px-4 py-2 rounded-xl font-medium text-sm transition-all flex items-center gap-2 border ${
+                    safeRetIndex === idx
+                      ? 'bg-primary text-white border-primary shadow-md'
+                      : 'bg-white text-primary/70 border-primary/20 hover:bg-primary/5'
+                  }`}
+                >
+                  <Icons.Calendar className="w-4 h-4" />
+                  {new Date(hist.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'risk' && filteredRiskHist.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-sm font-bold text-primary mb-3 px-1">Assessment History</h3>
+            <div className="overflow-x-auto pb-2 flex gap-3 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+              {filteredRiskHist.map((hist, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setSelectedRiskHistIndex(idx)}
+                  className={`whitespace-nowrap px-4 py-2 rounded-xl font-medium text-sm transition-all flex items-center gap-2 border ${
+                    safeRiskIndex === idx
+                      ? 'bg-primary text-white border-primary shadow-md'
+                      : 'bg-white text-primary/70 border-primary/20 hover:bg-primary/5'
+                  }`}
+                >
+                  <Icons.Calendar className="w-4 h-4" />
+                  {new Date(hist.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'retirement' ? renderRetirementTab() : activeTab === 'risk' ? renderRiskTab() : renderToolsTab()}
+        
+        {/* Modals for Detailed Views */}
+        {selectedRetHistory && (
+          <div className="fixed inset-0 bg-ink/80 z-50 flex items-start justify-center p-4 md:p-8 overflow-y-auto animate-fade-in backdrop-blur-sm">
+            <div className={`bg-white max-w-4xl w-full relative ${isExporting ? 'p-12' : 'rounded-3xl p-6 md:p-8 my-auto shadow-2xl'}`} ref={retModalRef}>
+              <button 
+                onClick={() => setSelectedRetHistory(null)}
+                className="exclude-from-pdf absolute top-4 right-4 p-2 bg-cream rounded-full text-ink hover:bg-accent hover:text-white transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+              <h2 className="text-2xl font-serif font-bold text-ink mb-2">Historical Retirement Analysis</h2>
+              <p className="text-sm text-primary/70 mb-6 font-medium">
+                Conducted on: {new Date(selectedRetHistory.createdAt).toLocaleString('en-IN', { dateStyle: 'long', timeStyle: 'short' })}
+                {selectedRetHistory.assessmentFor === 'other' && ` | For: ${selectedRetHistory.otherName} (${selectedRetHistory.otherRelation})`}
+              </p>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                 <div className="bg-cream/30 p-4 rounded-xl border border-primary/10">
+                   <div className="text-xs text-primary/60 font-bold uppercase mb-1">Target Corpus</div>
+                   <div className="text-lg font-bold text-ink">{formatCurrency(selectedRetHistory.results?.corpusRequired || 0)}</div>
+                 </div>
+                 <div className="bg-cream/30 p-4 rounded-xl border border-primary/10">
+                   <div className="text-xs text-primary/60 font-bold uppercase mb-1">Projected Corpus</div>
+                   <div className="text-lg font-bold text-ink">{formatCurrency(selectedRetHistory.results?.corpusAtRetirement || 0)}</div>
+                 </div>
+                 <div className="bg-cream/30 p-4 rounded-xl border border-primary/10">
+                   <div className="text-xs text-primary/60 font-bold uppercase mb-1">Shortfall</div>
+                   <div className="text-lg font-bold text-red-600">{formatCurrency(selectedRetHistory.results?.shortfall || 0)}</div>
+                 </div>
+                 <div className="bg-cream/30 p-4 rounded-xl border border-primary/10">
+                   <div className="text-xs text-primary/60 font-bold uppercase mb-1">Req. Monthly SIP</div>
+                   <div className="text-lg font-bold text-accent">{formatCurrency(selectedRetHistory.results?.requiredSip || 0)}</div>
+                 </div>
+              </div>
+
+              <h3 className="text-lg font-bold text-ink mb-4 border-b border-primary/10 pb-2">Inputs Snapshot</h3>
+              <div className={`${isExporting ? '' : 'max-h-[40vh] overflow-y-auto'} pr-2`}>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-6 text-sm">
+                   {selectedRetHistory.inputs && Object.entries(selectedRetHistory.inputs).map(([key, value]) => (
+                     <div key={key} className="flex justify-between border-b border-primary/5 pb-1">
+                       <span className="text-primary/70 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                       <span className="font-semibold text-ink">{String(value)}</span>
+                     </div>
+                   ))}
+                </div>
+              </div>
+              
+              {renderRetirementUI(selectedRetHistory.results ? { ...selectedRetHistory.results, inputs: selectedRetHistory.inputs || selectedRetHistory.results.inputs } : selectedRetHistory)}
+              
+              <div className="mt-8 flex justify-end gap-4 exclude-from-pdf">
+                <button 
+                   className="btn-primary px-6 py-2 rounded-xl flex items-center gap-2 text-sm disabled:opacity-50"
+                   onClick={() => handleExportPDF(retModalRef, `Retirement_Report_${new Date(selectedRetHistory.createdAt).getTime()}`)}
+                   disabled={isExporting}
+                >
+                   <Download className="w-4 h-4" /> {isExporting ? 'Exporting...' : 'Export Report (PDF)'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {selectedRiskHistory && (
+          <div className="fixed inset-0 bg-ink/80 z-50 flex items-start justify-center p-4 md:p-8 overflow-y-auto animate-fade-in backdrop-blur-sm">
+            <div className={`bg-white max-w-2xl w-full relative ${isExporting ? 'p-12' : 'rounded-3xl p-6 md:p-8 my-auto shadow-2xl'}`} ref={riskModalRef}>
+              <button 
+                onClick={() => setSelectedRiskHistory(null)}
+                className="exclude-from-pdf absolute top-4 right-4 p-2 bg-cream rounded-full text-ink hover:bg-accent hover:text-white transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+              <h2 className="text-2xl font-serif font-bold text-ink mb-2">Historical Risk Profile</h2>
+              <p className="text-sm text-primary/70 mb-6 font-medium">
+                Conducted on: {new Date(selectedRiskHistory.createdAt).toLocaleString('en-IN', { dateStyle: 'long', timeStyle: 'short' })}
+                {selectedRiskHistory.assessmentFor === 'other' && ` | For: ${selectedRiskHistory.otherName} (${selectedRiskHistory.otherRelation})`}
+              </p>
+              
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="bg-cream/30 p-6 rounded-2xl border border-primary/10 text-center">
+                  <div className="text-xs font-bold uppercase text-primary/50 mb-2">Category</div>
+                  <div className="text-3xl font-bold text-accent">{selectedRiskHistory.riskCategory}</div>
+                </div>
+                <div className="bg-cream/30 p-6 rounded-2xl border border-primary/10 text-center">
+                  <div className="text-xs font-bold uppercase text-primary/50 mb-2">Total Score</div>
+                  <div className="text-3xl font-bold text-primary">{selectedRiskHistory.score} <span className="text-lg font-normal text-primary/50">/ 50</span></div>
+                </div>
+              </div>
+
+              <div className="bg-ink text-white p-6 rounded-2xl">
+                 <div className="text-xs font-bold uppercase text-white/50 mb-3">Allocation Strategy</div>
+                 <div className="space-y-2 font-medium">
+                    {(() => {
+                       const { allocation } = getRiskCategory(selectedRiskHistory.score);
+                       return allocation.split('|').map((part: string, idx: number) => (
+                         <div key={idx} className="flex items-center gap-2">
+                           <div className="w-2 h-2 rounded-full bg-accent" />
+                           {part.trim()}
+                         </div>
+                       ));
+                    })()}
+                 </div>
+              </div>
+
+              <div className="mt-6 flex justify-end gap-4 exclude-from-pdf">
+                <button 
+                   className="btn-primary px-6 py-2 rounded-xl flex items-center gap-2 text-sm disabled:opacity-50"
+                   onClick={() => handleExportPDF(riskModalRef, `Risk_Profile_${new Date(selectedRiskHistory.createdAt).getTime()}`)}
+                   disabled={isExporting}
+                >
+                   <Download className="w-4 h-4" /> {isExporting ? 'Exporting...' : 'Export Report (PDF)'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       <style>{`
+        @media print {
+          @page { margin: 0; }
+          body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(10px); }
           to { opacity: 1; transform: translateY(0); }
@@ -517,3 +911,6 @@ export default function Dashboard() {
     </div>
   );
 }
+
+
+

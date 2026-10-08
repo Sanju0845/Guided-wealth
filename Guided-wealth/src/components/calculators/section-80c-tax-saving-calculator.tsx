@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, ShieldCheck, DollarSign, Sliders, TrendingUp } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function Section80CTaxSavingCalculator() {
   // Input States - Tax Bracket
@@ -181,14 +182,10 @@ export default function Section80CTaxSavingCalculator() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">ELSS Mutual Funds</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="150000"
-                      step="5000"
-                      value={elssMutualFunds}
-                      onChange={(e) => setElssMutualFunds(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={elssMutualFunds}
+                    onValueChange={(val) => setElssMutualFunds(val)}
+                  />
                   </div>
                   <input
                     type="range"
@@ -206,14 +203,10 @@ export default function Section80CTaxSavingCalculator() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Life Insurance Premium</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="150000"
-                      step="5000"
-                      value={lifeInsurancePremium}
-                      onChange={(e) => setLifeInsurancePremium(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={lifeInsurancePremium}
+                    onValueChange={(val) => setLifeInsurancePremium(val)}
+                  />
                   </div>
                   <input
                     type="range"
@@ -272,14 +265,10 @@ export default function Section80CTaxSavingCalculator() {
                   <div>
                     <div className="flex justify-between items-center mb-2">
                       <label className="text-sm font-medium text-slate-700">Tax Saving FD (5yr)</label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="150000"
-                        step="5000"
-                        value={taxSavingFd}
-                        onChange={(e) => setTaxSavingFd(Math.max(0, Number(e.target.value)))}
-                      />
+                      <CurrencyInput
+                    value={taxSavingFd}
+                    onValueChange={(val) => setTaxSavingFd(val)}
+                  />
                     </div>
                     <input
                       type="range"
@@ -297,14 +286,10 @@ export default function Section80CTaxSavingCalculator() {
                   <div>
                     <div className="flex justify-between items-center mb-2">
                       <label className="text-sm font-medium text-slate-700">Sukanya Samriddhi Yojana</label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="150000"
-                        step="5000"
-                        value={sukanyaSamriddhi}
-                        onChange={(e) => setSukanyaSamriddhi(Math.max(0, Number(e.target.value)))}
-                      />
+                      <CurrencyInput
+                    value={sukanyaSamriddhi}
+                    onValueChange={(val) => setSukanyaSamriddhi(val)}
+                  />
                     </div>
                     <input
                       type="range"
@@ -322,14 +307,10 @@ export default function Section80CTaxSavingCalculator() {
                   <div>
                     <div className="flex justify-between items-center mb-2">
                       <label className="text-sm font-medium text-slate-700">Home Loan Principal Repayment</label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="150000"
-                        step="5000"
-                        value={homeLoanPrincipal}
-                        onChange={(e) => setHomeLoanPrincipal(Math.max(0, Number(e.target.value)))}
-                      />
+                      <CurrencyInput
+                    value={homeLoanPrincipal}
+                    onValueChange={(val) => setHomeLoanPrincipal(val)}
+                  />
                     </div>
                     <input
                       type="range"
@@ -347,14 +328,10 @@ export default function Section80CTaxSavingCalculator() {
                   <div>
                     <div className="flex justify-between items-center mb-2">
                       <label className="text-sm font-medium text-slate-700">Tuition Fees (max 2 children)</label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="150000"
-                        step="5000"
-                        value={tuitionFees}
-                        onChange={(e) => setTuitionFees(Math.max(0, Number(e.target.value)))}
-                      />
+                      <CurrencyInput
+                    value={tuitionFees}
+                    onValueChange={(val) => setTuitionFees(val)}
+                  />
                     </div>
                     <input
                       type="range"

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, PlusCircle, CreditCard, Percent, Calendar, Info } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function TopUpLoanCalculator() {
   // Existing Loan Inputs
@@ -140,12 +141,10 @@ export default function TopUpLoanCalculator() {
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Current Loan Amount (₹)</label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-medium">₹</span>
-                      <input
-                        type="number"
-                        value={currentLoanAmount}
-                        onChange={(e) => setCurrentLoanAmount(Math.max(0, Number(e.target.value)))}
-                      />
+                      <CurrencyInput
+                    value={currentLoanAmount}
+                    onValueChange={(val) => setCurrentLoanAmount(val)}
+                  />
                     </div>
                   </div>
                   <input
@@ -165,12 +164,10 @@ export default function TopUpLoanCalculator() {
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Current EMI (₹)</label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-medium">₹</span>
-                      <input
-                        type="number"
-                        value={currentEmi}
-                        onChange={(e) => setCurrentEmi(Math.max(0, Number(e.target.value)))}
-                      />
+                      <CurrencyInput
+                    value={currentEmi}
+                    onValueChange={(val) => setCurrentEmi(val)}
+                  />
                     </div>
                   </div>
                   <input
@@ -236,12 +233,10 @@ export default function TopUpLoanCalculator() {
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Top-Up Amount (₹)</label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-medium">₹</span>
-                      <input
-                        type="number"
-                        value={topUpAmount}
-                        onChange={(e) => setTopUpAmount(Math.max(0, Number(e.target.value)))}
-                      />
+                      <CurrencyInput
+                    value={topUpAmount}
+                    onValueChange={(val) => setTopUpAmount(val)}
+                  />
                     </div>
                   </div>
                   <input

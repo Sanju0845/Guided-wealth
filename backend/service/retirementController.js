@@ -22,7 +22,7 @@ export const getRetirementAnalysis = async (req, res) => {
 // @route   POST /api/retirement-analysis
 // @access  Private
 export const saveRetirementAnalysis = async (req, res) => {
-  const { inputs, incomeCheckpoints, results } = req.body;
+  const { inputs, incomeCheckpoints, results, assessmentFor, otherName, otherRelation } = req.body;
   const userId = req.user.id || req.user._id;
 
   if (!inputs || !incomeCheckpoints || !results) {
@@ -36,6 +36,9 @@ export const saveRetirementAnalysis = async (req, res) => {
       inputs,
       incomeCheckpoints,
       results,
+      assessmentFor,
+      otherName,
+      otherRelation,
     });
 
     // Update user to indicate retirement analysis completion
@@ -47,6 +50,20 @@ export const saveRetirementAnalysis = async (req, res) => {
     });
   } catch (error) {
     console.error("Error submitting retirement analysis:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+// @desc    Get all retirement analyses for the user (History)
+// @route   GET /api/retirement-analysis/history
+// @access  Private
+export const getUserRetirementAnalyses = async (req, res) => {
+  const userId = req.user.id || req.user._id;
+  try {
+    const analyses = await RetirementAnalysis.find({ userId }).sort({ createdAt: -1 });
+    res.status(200).json(analyses);
+  } catch (error) {
+    console.error("Error fetching retirement history:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };

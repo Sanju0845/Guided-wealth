@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, Heart, Calendar, DollarSign, TrendingUp, Sliders } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function DreamWeddingFund() {
   // Input States
@@ -98,14 +99,10 @@ export default function DreamWeddingFund() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Wedding Cost (Today)</label>
-                    <input
-                      type="number"
-                      min="100000"
-                      max="10000000"
-                      step="50000"
-                      value={weddingCostToday}
-                      onChange={(e) => setWeddingCostToday(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={weddingCostToday}
+                    onValueChange={(val) => setWeddingCostToday(val)}
+                  />
                   </div>
                   <input
                     type="range"
@@ -160,14 +157,10 @@ export default function DreamWeddingFund() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Current Savings</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="5000000"
-                      step="25000"
-                      value={currentSavings}
-                      onChange={(e) => setCurrentSavings(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={currentSavings}
+                    onValueChange={(val) => setCurrentSavings(val)}
+                  />
                   </div>
                   <input
                     type="range"

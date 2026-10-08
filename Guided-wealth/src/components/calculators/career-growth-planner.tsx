@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, Briefcase, TrendingUp, Award, Clock, Sliders, Zap } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 interface TrajectoryYear {
   year: number;
@@ -162,14 +163,10 @@ export default function CareerGrowthPlanner() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Current Annual Salary</label>
-                    <input
-                      type="number"
-                      min="100000"
-                      max="10000000"
-                      step="50000"
-                      value={currentAnnualSalary}
-                      onChange={(e) => setCurrentAnnualSalary(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={currentAnnualSalary}
+                    onValueChange={(val) => setCurrentAnnualSalary(val)}
+                  />
                   </div>
                   <input
                     type="range"

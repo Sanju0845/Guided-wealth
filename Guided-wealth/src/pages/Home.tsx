@@ -1,9 +1,21 @@
 import React from 'react';
-import { ArrowRight, CheckCircle2, TrendingUp, Users, ChevronDown, Building2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ArrowRight, CheckCircle2, TrendingUp, Users, ChevronDown, Building2, ShieldCheck } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { TESTIMONIALS, FAQS } from '../constants';
+import { useAuth } from '../context/AuthContext';
 
 export default function Home() {
+  const navigate = useNavigate();
+  const { isLoggedIn, openLoginModal } = useAuth();
+  
+  const handleProtectedAction = (path: string) => {
+    if (isLoggedIn) {
+      navigate(path);
+    } else {
+      openLoginModal();
+    }
+  };
+
   const testimonialsDoubled = [...TESTIMONIALS, ...TESTIMONIALS];
 
   return (
@@ -39,13 +51,9 @@ export default function Home() {
               <div className="flex flex-col gap-4 pt-6">
                 {/* XIMB Alumni Badge */}
                 <div className="flex items-center gap-3 flex-wrap">
-                  <span className="flex items-center gap-2 bg-primary text-cream px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-md">
-                    <img 
-                      src="/assets/ximb.png" 
-                      alt="XIMB" 
-                      className="h-5 w-auto"
-                    />
-                    XIMB Alumni
+                  <span className="flex items-center gap-2 bg-primary uppercase text-cream px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-md">
+                    <ShieldCheck size={20} className="text-accent " />
+                    XIMB Alumn
                   </span>
                   <span className="bg-accent text-primary px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-md">
                     Ex Banker
@@ -66,6 +74,22 @@ export default function Home() {
                   <p className="text-[10px] md:text-xs uppercase tracking-widest text-ink/50 font-bold">Clients Guided</p>
                 </div>
               </div>
+
+              {/* Action Buttons for Mobile & Desktop */}
+              <div className="flex flex-col sm:flex-row gap-4 pt-4 lg:hidden">
+                <button 
+                  onClick={() => handleProtectedAction('/retirement-analysis')} 
+                  className="btn-primary flex items-center justify-center gap-2 text-sm md:text-base w-full sm:w-auto"
+                >
+                  Retirement & Goal Calculator <ArrowRight size={18} />
+                </button>
+                <button 
+                  onClick={() => handleProtectedAction('/assessment')} 
+                  className="btn-secondary flex items-center justify-center text-sm md:text-base w-full sm:w-auto"
+                >
+                  Risk Profile Evaluation
+                </button>
+              </div>
             </div>
 
             <div className="relative hidden lg:block -mt-8">
@@ -81,12 +105,18 @@ export default function Home() {
               <div className="absolute -bottom-10 -left-10 z-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
 
               <div className="flex flex-col sm:flex-row gap-4 pt-6 justify-center">
-                <Link to="/booking" className="btn-primary flex items-center justify-center gap-2 text-sm md:text-base">
-                  Start Your Journey <ArrowRight size={18} />
-                </Link>
-                <Link to="/services" className="btn-secondary flex items-center justify-center text-sm md:text-base">
-                  Explore Services
-                </Link>
+                <button 
+                  onClick={() => handleProtectedAction('/retirement-analysis')} 
+                  className="btn-primary flex items-center justify-center gap-2 text-sm md:text-base"
+                >
+                  Retirement & Goal Calculator <ArrowRight size={18} />
+                </button>
+                <button 
+                  onClick={() => handleProtectedAction('/assessment')} 
+                  className="btn-secondary flex items-center justify-center text-sm md:text-base"
+                >
+                  Risk Profile Evaluation
+                </button>
               </div>
             </div>
           </div>
@@ -127,11 +157,11 @@ export default function Home() {
 
             <div className="p-10 curve-block border-2 border-accent/30 bg-white/5 hover:bg-white/10 transition-all group text-center">
               <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6 p-3">
-                <img src="/assets/ximb.png" alt="XIMB" className="h-full w-auto" />
+                <ShieldCheck size={40} className="text-accent" />
               </div>
-              <h3 className="text-2xl font-bold mb-4">XIMB Alumni</h3>
+              <h3 className="text-2xl font-bold mb-4 uppercase">XIMB Alumn</h3>
               <p className="text-cream/60 leading-relaxed">
-                Proud alumnus of Xavier Institute of Management, Bhubaneswar - one of India's premier B-schools, bringing top-tier business education to financial advisory.
+                From the halls of XIMB, we bring world-class strategic thinking to your personal finances. Our rigorous training ensures you receive advice grounded in deep analysis, innovative approaches, and a forward-thinking mindset.
               </p>
             </div>
           </div>

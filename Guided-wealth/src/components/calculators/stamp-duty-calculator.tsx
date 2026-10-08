@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronUp, ChevronDown } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 interface StateRates {
   name: string;
@@ -139,12 +140,10 @@ export default function StampDutyCalculator() {
               {/* Property Value */}
               <div className="mb-6">
                 <label className="block text-sm font-semibold text-slate-700 mb-2">Property Value</label>
-                <input
-                  type="number"
-                  value={propertyValue}
-                  onChange={(e) => setPropertyValue(Math.max(0, Number(e.target.value)))}
-                  className="w-full p-3 bg-white border border-slate-200 rounded-xl text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-                />
+                <CurrencyInput
+                    value={propertyValue}
+                    onValueChange={(val) => setPropertyValue(val)}
+                  />
                 <div className="mt-3">
                   <input
                     type="range"

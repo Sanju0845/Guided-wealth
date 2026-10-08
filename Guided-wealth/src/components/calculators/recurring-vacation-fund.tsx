@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 import { Share2, Plane, Hotel, Utensils, Compass, Sliders, ChevronDown, ChevronUp, DollarSign, Globe } from 'lucide-react';
 
 export default function RecurringVacationFund() {
@@ -206,38 +207,26 @@ export default function RecurringVacationFund() {
                 <div className="p-6 pt-0 border-t border-slate-100 grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Flights Cost per Destination</label>
-                    <input
-                      type="number"
-                      step="2500"
-                      min="5000"
-                      value={flightsCostPerDest}
-                      onChange={(e) => setFlightsCostPerDest(Number(e.target.value))}
-                      className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                    <CurrencyInput
+                    value={flightsCostPerDest}
+                    onValueChange={(val) => setFlightsCostPerDest(val)}
+                  />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Daily Accom Budget</label>
-                    <input
-                      type="number"
-                      step="1000"
-                      min="1000"
-                      value={dailyAccomBudget}
-                      onChange={(e) => setDailyAccomBudget(Number(e.target.value))}
-                      className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                    <CurrencyInput
+                    value={dailyAccomBudget}
+                    onValueChange={(val) => setDailyAccomBudget(val)}
+                  />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Daily Activities Budget</label>
-                    <input
-                      type="number"
-                      step="1000"
-                      min="500"
-                      value={dailyActivitiesBudget}
-                      onChange={(e) => setDailyActivitiesBudget(Number(e.target.value))}
-                      className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                    <CurrencyInput
+                    value={dailyActivitiesBudget}
+                    onValueChange={(val) => setDailyActivitiesBudget(val)}
+                  />
                   </div>
                 </div>
               )}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Quote, Check } from 'lucide-react';
+import { Quote, Check, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { PRICING_PLANS } from '../constants';
 import { cn } from '../lib/utils';
@@ -47,15 +47,11 @@ export default function About() {
       <section className="section-padding bg-cream">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
-            <img 
-              src="H:\Project-CLIENTS\Client-guided-wealthy\public\assets\ximb.png" 
-              alt="XIMB Alumni" 
-              className="h-16 w-auto"
-            />
+            <ShieldCheck className="h-16 w-16 text-accent" />
             <div className="space-y-2 text-center md:text-left">
               <p className="text-accent font-bold uppercase tracking-[0.3em] text-xs md:text-sm">Our Leadership</p>
               <h2 className="text-3xl md:text-5xl font-bold text-primary">Guided Wealthy</h2>
-              <p className="text-ink/50 uppercase tracking-widest font-bold text-xs md:text-sm">XIMB Alumni | SEBI Registered Investment Advisor | NISM Certified</p>
+              <p className="text-ink/50 uppercase tracking-widest font-bold text-xs md:text-sm">SEBI Registered Investment Advisor | NISM Certified</p>
             </div>
           </div>
 
@@ -66,9 +62,7 @@ export default function About() {
             <span className="bg-primary text-cream px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider">
               NISM Certified
             </span>
-            <span className="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider">
-              XIMB Alumni
-            </span>
+
           </div>
 
           <div className="relative py-6">

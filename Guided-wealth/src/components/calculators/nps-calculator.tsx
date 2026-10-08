@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function NpsCalculator() {
   const [currentAge, setCurrentAge] = useState<number>(30);
@@ -144,11 +145,7 @@ export default function NpsCalculator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Monthly Contribution</label>
-                  <input
-                    type="number"
-                    value={monthlyContribution}
-                    onChange={(e) => setMonthlyContribution(Math.max(500, Number(e.target.value)))}
-                  />
+                  <CurrencyInput value={monthlyContribution} onValueChange={(val) => setMonthlyContribution(Math.max(500, val))} />
                   <div>
                     <input
                       type="range"
@@ -166,10 +163,9 @@ export default function NpsCalculator() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Current NPS Balance</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={currentNpsBalance}
-                    onChange={(e) => setCurrentNpsBalance(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setCurrentNpsBalance(val)}
                   />
                   <div>
                     <input

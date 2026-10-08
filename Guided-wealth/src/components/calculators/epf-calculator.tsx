@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 import { Share2, ChevronDown, ChevronUp, Info } from 'lucide-react';
 
 export default function EpfCalculator() {
@@ -156,12 +157,10 @@ export default function EpfCalculator() {
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Basic Salary (Monthly)</label>
                   <div className="relative">
-                    <span className="absolute left-3.5 top-3 text-slate-400 font-medium">₹</span>
-                    <input
-                      type="number"
-                      value={basicSalary}
-                      onChange={(e) => setBasicSalary(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={basicSalary}
+                    onValueChange={(val) => setBasicSalary(val)}
+                  />
                   </div>
                   <div>
                     <input
@@ -220,12 +219,10 @@ export default function EpfCalculator() {
                 <div className="p-6 pt-0 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">Expected Annual Salary Increase (%)</label>
-                    <input
-                      type="number"
-                      value={annualIncrement}
-                      onChange={(e) => setAnnualIncrement(Number(e.target.value))}
-                      className="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none font-semibold text-slate-800"
-                    />
+                    <CurrencyInput
+                    value={annualIncrement}
+                    onValueChange={(val) => setAnnualIncrement(val)}
+                  />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">EPF Interest Rate (%)</label>

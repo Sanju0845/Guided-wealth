@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function PensionCalculator() {
   const [currentAge, setCurrentAge] = useState<number>(30);
@@ -172,10 +173,9 @@ export default function PensionCalculator() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Current Pension Corpus</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={currentPensionCorpus}
-                    onChange={(e) => setCurrentPensionCorpus(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setCurrentPensionCorpus(val)}
                   />
                   <div>
                     <input

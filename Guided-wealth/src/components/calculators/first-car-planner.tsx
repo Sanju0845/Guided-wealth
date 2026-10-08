@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 import { Share2, ChevronDown, ChevronUp, Car, Calendar, DollarSign, TrendingUp, Sliders } from 'lucide-react';
 
 export default function FirstCarPlanner() {
@@ -120,14 +121,10 @@ export default function FirstCarPlanner() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Car Cost (On-road Price)</label>
-                    <input
-                      type="number"
-                      min="200000"
-                      max="5000000"
-                      step="25000"
-                      value={carCost}
-                      onChange={(e) => setCarCost(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={carCost}
+                    onValueChange={(val) => setCarCost(val)}
+                  />
                   </div>
                   <input
                     type="range"
@@ -182,14 +179,10 @@ export default function FirstCarPlanner() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Current Savings</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="2000000"
-                      step="25000"
-                      value={currentSavings}
-                      onChange={(e) => setCurrentSavings(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={currentSavings}
+                    onValueChange={(val) => setCurrentSavings(val)}
+                  />
                   </div>
                   <input
                     type="range"
@@ -263,28 +256,18 @@ export default function FirstCarPlanner() {
 
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Auto Loan Interest Rate (%)</label>
-                    <input
-                      type="number"
-                      step="0.25"
-                      min="7"
-                      max="15"
-                      value={autoLoanInterest}
-                      onChange={(e) => setAutoLoanInterest(Number(e.target.value))}
-                      className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                    <CurrencyInput
+                    value={autoLoanInterest}
+                    onValueChange={(val) => setAutoLoanInterest(val)}
+                  />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Auto Loan Tenure (Years)</label>
-                    <input
-                      type="number"
-                      step="1"
-                      min="1"
-                      max="7"
-                      value={autoLoanTenureYears}
-                      onChange={(e) => setAutoLoanTenureYears(Number(e.target.value))}
-                      className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-600"
-                    />
+                    <CurrencyInput
+                    value={autoLoanTenureYears}
+                    onValueChange={(val) => setAutoLoanTenureYears(val)}
+                  />
                   </div>
                 </div>
               )}

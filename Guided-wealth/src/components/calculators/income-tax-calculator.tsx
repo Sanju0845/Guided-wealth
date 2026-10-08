@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, Calculator, DollarSign, Sliders, ShieldAlert, Award } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function IncomeTaxCalculator() {
   // Input States
@@ -126,13 +127,9 @@ export default function IncomeTaxCalculator() {
               <div className="mb-6">
                 <div className="flex justify-between items-center mb-2">
                   <label className="text-sm font-medium text-slate-700">Annual Income</label>
-                  <input
-                    type="number"
-                    min="10000"
-                    max="10000000"
-                    step="50000"
+                  <CurrencyInput
                     value={annualIncome}
-                    onChange={(e) => setAnnualIncome(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setAnnualIncome(val)}
                   />
                 </div>
                 <input

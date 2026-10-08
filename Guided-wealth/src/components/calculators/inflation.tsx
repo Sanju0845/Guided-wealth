@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, Flame, DollarSign, Calendar, Percent, Sliders, Info } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function Inflation() {
   // Basic Inflation Details
@@ -117,11 +118,10 @@ export default function Inflation() {
                   <label className="text-sm font-medium text-slate-700">Current Amount (₹)</label>
                   <div className="relative">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-medium">₹</span>
-                    <input
-                      type="number"
-                      value={currentAmount}
-                      onChange={(e) => setCurrentAmount(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={currentAmount}
+                    onValueChange={(val) => setCurrentAmount(val)}
+                  />
                   </div>
                 </div>
                 <input

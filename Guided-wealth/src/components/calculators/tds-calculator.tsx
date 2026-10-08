@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, Receipt, DollarSign, ShieldAlert, Sliders } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function TdsCalculator() {
   // Input States
@@ -103,13 +104,9 @@ export default function TdsCalculator() {
               <div className="mb-6">
                 <div className="flex justify-between items-center mb-2">
                   <label className="text-sm font-medium text-slate-700">Payment Amount</label>
-                  <input
-                    type="number"
-                    min="1000"
-                    max="10000000"
-                    step="25000"
+                  <CurrencyInput
                     value={paymentAmount}
-                    onChange={(e) => setPaymentAmount(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setPaymentAmount(val)}
                   />
                 </div>
                 <input

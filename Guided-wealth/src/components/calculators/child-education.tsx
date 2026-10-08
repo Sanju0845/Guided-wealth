@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function ChildEducation() {
   const [currentEducationCost, setCurrentEducationCost] = useState<number>(1000000);
@@ -84,11 +85,10 @@ export default function ChildEducation() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">Current Education Cost</label>
-                    <input
-                      type="number"
-                      value={currentEducationCost}
-                      onChange={(e) => setCurrentEducationCost(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={currentEducationCost}
+                    onValueChange={(val) => setCurrentEducationCost(val)}
+                  />
                     <div>
                       <input
                         type="range"
@@ -125,10 +125,9 @@ export default function ChildEducation() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Current Savings</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={currentSavings}
-                    onChange={(e) => setCurrentSavings(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setCurrentSavings(val)}
                   />
                   <div>
                     <input

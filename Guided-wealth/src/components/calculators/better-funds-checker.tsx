@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 import { Share2, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function BetterFundsChecker() {
@@ -159,12 +160,10 @@ export default function BetterFundsChecker() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">Expense Ratio (%)</label>
-                    <input
-                      type="number"
-                      step="0.1"
-                      value={expenseRatio}
-                      onChange={(e) => setExpenseRatio(Number(e.target.value))}
-                    />
+                    <CurrencyInput
+                    value={expenseRatio}
+                    onValueChange={(val) => setExpenseRatio(val)}
+                  />
                     <div>
                       <input
                         type="range"

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, ArrowRightLeft, TrendingUp, Percent, Sliders, Info } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function MovingFromPoorFundsToBetterFunds() {
   // Current Investment Inputs
@@ -262,12 +263,10 @@ export default function MovingFromPoorFundsToBetterFunds() {
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Other Switch Costs / Expense Diff (₹)</label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-medium">₹</span>
-                      <input
-                        type="number"
-                        value={otherSwitchCosts}
-                        onChange={(e) => setOtherSwitchCosts(Math.max(0, Number(e.target.value)))}
-                      />
+                      <CurrencyInput
+                    value={otherSwitchCosts}
+                    onValueChange={(val) => setOtherSwitchCosts(val)}
+                  />
                     </div>
                   </div>
                   <input

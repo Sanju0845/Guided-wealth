@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function CreditCardPayoffCalculator() {
   const [currentBalance, setCurrentBalance] = useState<number>(100000);
@@ -94,10 +95,9 @@ export default function CreditCardPayoffCalculator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Current Balance</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={currentBalance}
-                    onChange={(e) => setCurrentBalance(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setCurrentBalance(val)}
                   />
                   <div>
                     <input

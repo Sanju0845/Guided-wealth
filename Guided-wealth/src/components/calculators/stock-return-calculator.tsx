@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function StockReturnCalculator() {
   const [investmentType, setInvestmentType] = useState<'lumpsum' | 'sip'>('lumpsum');
@@ -183,18 +184,16 @@ export default function StockReturnCalculator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Buy Price (₹)</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={buyPrice}
-                    onChange={(e) => setBuyPrice(Math.max(0.1, Number(e.target.value)))}
+                    onValueChange={(val) => setBuyPrice(val)}
                   />
                 </div>
                 <div>
                   <label>Current / Sale Price (₹)</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={currentPrice}
-                    onChange={(e) => setCurrentPrice(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setCurrentPrice(val)}
                   />
                 </div>
                 <div>

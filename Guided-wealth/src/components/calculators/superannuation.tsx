@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 import { Share2, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface ChartPoint {
@@ -160,10 +161,9 @@ export default function Superannuation() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Current Balance</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={currentBalance}
-                    onChange={(e) => setCurrentBalance(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setCurrentBalance(val)}
                   />
                   <div>
                     <input
@@ -182,10 +182,9 @@ export default function Superannuation() {
 
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Annual Salary</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={annualSalary}
-                    onChange={(e) => setAnnualSalary(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setAnnualSalary(val)}
                   />
                   <div>
                     <input
@@ -278,13 +277,10 @@ export default function Superannuation() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">Annual Salary Growth (%)</label>
-                    <input
-                      type="number"
-                      step="0.5"
-                      value={salaryGrowthRate}
-                      onChange={(e) => setSalaryGrowthRate(Number(e.target.value))}
-                      className="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none font-semibold text-slate-800"
-                    />
+                    <CurrencyInput
+                    value={salaryGrowthRate}
+                    onValueChange={(val) => setSalaryGrowthRate(val)}
+                  />
                   </div>
                 </div>
               )}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp, GraduationCap, DollarSign, Calendar, Briefcase, Sliders, CheckCircle2 } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function StudentLoanCalculator() {
   // Input States
@@ -126,14 +127,10 @@ export default function StudentLoanCalculator() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Loan Amount</label>
-                    <input
-                      type="number"
-                      min="50000"
-                      max="10000000"
-                      step="50000"
-                      value={loanAmount}
-                      onChange={(e) => setLoanAmount(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={loanAmount}
+                    onValueChange={(val) => setLoanAmount(val)}
+                  />
                   </div>
                   <input
                     type="range"
@@ -262,14 +259,10 @@ export default function StudentLoanCalculator() {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <label className="text-sm font-medium text-slate-700">Expected Annual Salary Post-Study</label>
-                    <input
-                      type="number"
-                      min="200000"
-                      max="5000000"
-                      step="50000"
-                      value={expectedAnnualSalary}
-                      onChange={(e) => setExpectedAnnualSalary(Math.max(0, Number(e.target.value)))}
-                    />
+                    <CurrencyInput
+                    value={expectedAnnualSalary}
+                    onValueChange={(val) => setExpectedAnnualSalary(val)}
+                  />
                   </div>
                   <input
                     type="range"

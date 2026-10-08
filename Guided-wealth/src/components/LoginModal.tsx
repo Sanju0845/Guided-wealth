@@ -165,7 +165,7 @@ export default function LoginModal() {
       const userData = response.data;
       setIsLoading(false);
       
-      if (userData.isPending) {
+      if (userData.isPending && userData.role !== 'user') {
         setStep('pending');
       } else {
         setStep('success');
@@ -176,7 +176,8 @@ export default function LoginModal() {
       }
     } catch (err: any) {
       setIsLoading(false);
-      setError(err.message || 'Invalid OTP. Please try again.');
+      const backendError = err.response?.data?.message;
+      setError(backendError || err.message || 'Invalid OTP. Please try again.');
     }
   };
 

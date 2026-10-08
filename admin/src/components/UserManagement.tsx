@@ -17,9 +17,11 @@ import {
   Mail,
   Clock3,
   Check,
-  XCircle
+  XCircle,
+  Eye
 } from 'lucide-react';
 import { User, UserRole } from '../types/user';
+import { UserModal } from './UserModal';
 
 interface ExtendedUser extends User {
   isPending?: boolean;
@@ -30,8 +32,11 @@ export const UserManagement: React.FC = () => {
   const [users, setUsers] = useState<ExtendedUser[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [dateFilter, setDateFilter] = useState('');
   const [selectedRole, setSelectedRole] = useState<string>('ALL');
   const [selectedStatus, setSelectedStatus] = useState<string>('ALL');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<ExtendedUser | null>(null);
 
   useEffect(() => {
     fetchUsers();
@@ -67,13 +72,16 @@ export const UserManagement: React.FC = () => {
       user.phone.includes(query);
 
     const matchesRole = selectedRole === 'ALL' || user.role === selectedRole;
+    
+    const matchesDate = dateFilter ? user.createdAt.startsWith(dateFilter) : true;
 
     let matchesStatus = true;
     if (selectedStatus === 'ACTIVE') matchesStatus = !user.isBanned && !user.isDeleted && !user.isPending;
+    if (selectedStatus === 'VERIFIED') matchesStatus = !user.isPending && !user.isBanned; // Assuming verified means not pending and not banned
     if (selectedStatus === 'PENDING') matchesStatus = !!user.isPending;
-    if (selectedStatus === 'BANNED') matchesStatus = user.isBanned;
+    if (selectedStatus === 'SUSPENDED') matchesStatus = user.isBanned;
 
-    return matchesSearch && matchesRole && matchesStatus;
+    return matchesSearch && matchesRole && matchesStatus && matchesDate;
   });
 
   const handleDeleteUser = async (_id: string) => {
@@ -88,6 +96,30 @@ export const UserManagement: React.FC = () => {
         console.error('Error deleting user:', error);
         alert('Failed to delete user.');
       }
+    }
+  };
+
+  const handleViewUser = (user: ExtendedUser) => {
+    setSelectedUser(user);
+    setIsModalOpen(true);
+  };
+
+  const handleSaveUser = async (updatedUser: Partial<User>) => {
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      if (updatedUser._id) {
+        await axios.put(`${apiUrl}/users/${updatedUser._id}`, updatedUser, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+      } else {
+        await axios.post(`${apiUrl}/users`, updatedUser, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+      }
+      fetchUsers();
+    } catch (error) {
+      console.error('Error saving user:', error);
+      alert('Failed to save user.');
     }
   };
 
@@ -161,7 +193,7 @@ export const UserManagement: React.FC = () => {
       return (
         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
           <Ban className="w-3.5 h-3.5 text-rose-600" />
-          Banned
+          Suspended
         </span>
       );
     }
@@ -169,14 +201,14 @@ export const UserManagement: React.FC = () => {
       return (
         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
           <Clock3 className="w-3.5 h-3.5 text-amber-600" />
-          Pending
+          Unverified
         </span>
       );
     }
     return (
       <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-        Active
+        Verified / Active
       </span>
     );
   };
@@ -240,7 +272,7 @@ export const UserManagement: React.FC = () => {
 
         <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Banned Users</span>
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Suspended Users</span>
             <div className="w-9 h-9 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center">
               <ShieldAlert className="w-4 h-4" />
             </div>
@@ -255,15 +287,26 @@ export const UserManagement: React.FC = () => {
       {/* Toolbar: Search & Filters */}
       <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Search */}
-        <div className="relative w-full md:w-80">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by name, email, phone number..."
-            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-blue-600 font-medium"
-          />
+        <div className="flex-1 flex gap-2 w-full">
+          <div className="relative w-full md:w-80">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search by name, email, phone number..."
+              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-blue-600 font-medium"
+            />
+          </div>
+          <div className="relative w-full md:w-48">
+            <input
+              type="date"
+              value={dateFilter}
+              onChange={(e) => setDateFilter(e.target.value)}
+              className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:bg-white focus:border-blue-600 font-medium"
+              title="Filter by Registration Date"
+            />
+          </div>
         </div>
 
         {/* Filters */}
@@ -290,8 +333,9 @@ export const UserManagement: React.FC = () => {
           >
             <option value="ALL">All Statuses</option>
             <option value="ACTIVE">Active</option>
-            <option value="PENDING">Pending Approval</option>
-            <option value="BANNED">Banned</option>
+            <option value="VERIFIED">Verified</option>
+            <option value="PENDING">Pending</option>
+            <option value="SUSPENDED">Suspended</option>
           </select>
         </div>
       </div>
@@ -361,9 +405,18 @@ export const UserManagement: React.FC = () => {
                       })}
                     </td>
 
-                    {/* Action Buttons: Ban/Unban, Pending/Approve, Delete */}
+                    {/* Action Buttons: Ban/Unban, Pending/Approve, Delete, View */}
                     <td className="py-3.5 px-6 text-right">
                       <div className="flex items-center justify-end gap-2">
+                        {/* View Action */}
+                        <button
+                          onClick={() => handleViewUser(user)}
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all border border-transparent hover:border-blue-200"
+                          title="View Profile"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+
                         {/* Approve / Pending Action */}
                         <button
                           onClick={() => handleToggleApprove(user)}
@@ -371,32 +424,32 @@ export const UserManagement: React.FC = () => {
                             ? 'bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100'
                             : 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100'
                             }`}
-                          title={user.isPending ? 'Click to Approve User' : 'Click to Set Pending'}
+                          title={user.isPending ? 'Click to Verify User' : 'Click to Set Unverified'}
                         >
                           {user.isPending ? (
                             <>
                               <Check className="w-3.5 h-3.5 text-amber-600" />
-                              <span>Approve</span>
+                              <span>Verify</span>
                             </>
                           ) : (
                             <>
                               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                              <span>Approved</span>
+                              <span>Verified</span>
                             </>
                           )}
                         </button>
 
-                        {/* Ban / Unban Action */}
+                        {/* Suspend / Unsuspend Action */}
                         <button
                           onClick={() => handleToggleBan(user)}
                           className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${user.isBanned
                             ? 'bg-rose-600 text-white hover:bg-rose-700 shadow-xs'
                             : 'bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100'
                             }`}
-                          title={user.isBanned ? 'Click to Unban User' : 'Click to Ban User'}
+                          title={user.isBanned ? 'Click to Unsuspend User' : 'Click to Suspend User'}
                         >
                           <Ban className="w-3.5 h-3.5" />
-                          <span>{user.isBanned ? 'Unban' : 'Ban'}</span>
+                          <span>{user.isBanned ? 'Unsuspend' : 'Suspend'}</span>
                         </button>
 
                         {/* Delete Action */}
@@ -422,6 +475,13 @@ export const UserManagement: React.FC = () => {
           </table>
         </div>
       </div>
+
+      <UserModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSaveUser}
+        initialUser={selectedUser}
+      />
     </div>
   );
 };

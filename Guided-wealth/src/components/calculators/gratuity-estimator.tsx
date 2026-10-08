@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, ChevronDown, ChevronUp } from 'lucide-react';
+import { CurrencyInput } from '../ui/CurrencyInput';
 
 export default function GratuityEstimator() {
   const [currentMonthlySalary, setCurrentMonthlySalary] = useState<number>(50000);
@@ -116,10 +117,9 @@ export default function GratuityEstimator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">Expected Monthly Salary at Exit</label>
-                  <input
-                    type="number"
+                  <CurrencyInput
                     value={expectedSalaryAtExit}
-                    onChange={(e) => setExpectedSalaryAtExit(Math.max(0, Number(e.target.value)))}
+                    onValueChange={(val) => setExpectedSalaryAtExit(val)}
                   />
                   <div>
                     <input
