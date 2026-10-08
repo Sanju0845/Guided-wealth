@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, type Auth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -11,6 +11,16 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+// Phone login needs a valid Firebase web config. When it's absent (e.g. a
+// preview/portfolio deploy without the VITE_FIREBASE_* env vars), we skip
+// initialization so the rest of the site still renders instead of crashing
+// the whole app on `auth/invalid-api-key`.
+export const isFirebaseConfigured = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
+
+let authInstance: Auth | null = null;
+if (isFirebaseConfigured) {
+  const app = initializeApp(firebaseConfig);
+  authInstance = getAuth(app);
+}
+
+export const auth = authInstance;

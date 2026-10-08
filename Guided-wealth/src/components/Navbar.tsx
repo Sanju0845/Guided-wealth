@@ -1,27 +1,83 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, LogIn, User, LogOut, ShieldCheck, ChevronDown } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { LogOut, ShieldCheck, ChevronDown, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-const LOGO_URL = "/assets/logo.png";
+const LOGO_URL = '/assets/logo.png';
+
+/* Full-width fixed header, solid white. Plain CSS scoped under .gwn */
+const css = `
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap');
+
+.gwn{--gold:#b98a3e;--navy:#0b1f4d;--line:rgba(185,138,62,.55);--h:52px;
+position:fixed;top:0;left:0;right:0;width:100%;height:var(--h);z-index:50;
+display:flex;align-items:center;justify-content:space-between;
+padding:0 max(24px,calc((100% - 1240px)/2));
+background:#ffffff;border-bottom:1px solid rgba(11,31,77,.08);
+box-shadow:0 1px 0 rgba(185,138,62,.25),0 2px 12px rgba(11,31,77,.05);
+font-family:'Montserrat',sans-serif;color:var(--navy);transition:box-shadow .3s}
+.gwn:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:linear-gradient(90deg,transparent,rgba(201,153,63,.8) 20%,rgba(201,153,63,.8) 80%,transparent);opacity:.7;pointer-events:none}
+.gwn.scrolled{box-shadow:0 6px 22px rgba(11,31,77,.12)}
+.gwn *,.gwn *::before,.gwn *::after{box-sizing:border-box;font-family:'Montserrat',sans-serif}
+.gwn a{color:inherit;text-decoration:none}
+.gwn .logo img{height:36px;display:block;width:auto}
+.gwn .links{display:flex;gap:44px;height:100%;font-weight:600;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
+.gwn .links a{position:relative;display:flex;align-items:center;height:100%;color:var(--navy);transition:color .25s}
+.gwn .links a:after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,#c9993f,#e0b15f);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.gwn .links a:hover{color:var(--gold)}
+.gwn .links a:hover:after{transform:scaleX(.5)}
+.gwn .links a.on{color:var(--gold)}
+.gwn .links a.on:after{transform:scaleX(1)}
+.gwn .act{display:flex;gap:12px;align-items:center}
+.gwn .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:600;font-size:.68rem;line-height:1.6;letter-spacing:.12em;text-transform:uppercase;padding:9px 20px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--navy);cursor:pointer;transition:.25s}
+.gwn .btn:hover{border-color:var(--gold);background:#fffaf0;transform:translateY(-1px)}
+.gwn .btn.g{background:linear-gradient(135deg,#f0cd85,#c9993f);color:#1a1307;border-color:transparent}
+.gwn .btn.g:hover{box-shadow:0 8px 22px rgba(185,138,62,.35)}
+.gwn .burger{display:none;background:#fff;border:1px solid var(--line);color:var(--navy);border-radius:10px;width:38px;height:38px;font-size:1.05rem;cursor:pointer}
+
+/* logged-in menu */
+.gwn .user{position:relative}
+.gwn .user .btn{text-transform:none;letter-spacing:.02em;font-size:.74rem}
+.gwn .av{width:24px;height:24px;border-radius:50%;background:var(--gold);color:#fff;display:grid;place-items:center}
+.gwn .dd{position:absolute;right:0;top:calc(100% + 12px);width:240px;border-radius:12px;border:1px solid rgba(11,31,77,.1);background:#fff;padding:8px 0;box-shadow:0 16px 40px rgba(11,31,77,.18);overflow:hidden}
+.gwn .dd .who{padding:10px 16px 12px;border-bottom:1px solid rgba(11,31,77,.08)}
+.gwn .dd .who small{display:block;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#6b7691}
+.gwn .dd .who b{display:block;font-size:.8rem;margin-top:2px;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gwn .dd .who span{display:flex;align-items:center;gap:4px;margin-top:4px;font-size:.62rem;font-weight:600;color:#15803d}
+.gwn .dd a,.gwn .dd button{display:flex;align-items:center;gap:8px;width:100%;padding:10px 16px;font-size:.74rem;font-weight:500;background:none;border:0;color:#34425f;text-align:left;cursor:pointer;transition:.2s}
+.gwn .dd a:hover,.gwn .dd button:hover{background:#fffaf0;color:var(--gold)}
+.gwn .dd .out{color:#dc2626;border-top:1px solid rgba(11,31,77,.08);margin-top:4px}
+.gwn .dd .out:hover{color:#b91c1c;background:#fef2f2}
+
+/* mobile panel: full width, attached under the bar */
+.gwn .m{position:absolute;top:100%;left:0;right:0;display:flex;flex-direction:column;padding:8px 24px 22px;background:#fff;border-top:1px solid rgba(11,31,77,.08);border-bottom:2px solid rgba(185,138,62,.5);box-shadow:0 18px 30px rgba(11,31,77,.15)}
+.gwn .m>a:not(.btn){padding:15px 0;border-bottom:1px solid rgba(11,31,77,.07);font-weight:600;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--navy)}
+.gwn .m>a.on{color:var(--gold)}
+.gwn .m .btn{margin-top:12px;width:100%}
+
+@media(max-width:1000px){
+ .gwn .links,.gwn .act .login,.gwn .act .user{display:none}
+ .gwn .burger{display:block}
+}
+@media(max-width:640px){.gwn{--h:56px}.gwn .logo img{height:32px}.gwn .act .btn.g{display:none}}
+`;
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  
+
   const location = useLocation();
   const { user, isLoggedIn, openLoginModal, logout } = useAuth();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -32,6 +88,12 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // close menus when the page changes
+  useEffect(() => {
+    setIsOpen(false);
+    setUserDropdownOpen(false);
+  }, [location.pathname]);
+
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Services', path: '/services' },
@@ -40,181 +102,102 @@ export default function Navbar() {
     { name: 'About', path: '/about' },
   ];
 
+  const displayName = user ? (user.name && user.name !== 'User' ? user.name : user.phone) : '';
+
   return (
-    <nav className={cn(
-      "capsule-nav backdrop-blur-2xl",
-      scrolled && "scrolled"
-    )} style={{ backgroundColor: '#e6e6e64a' }}>
-      <div className="flex justify-between items-center">
-        <Link to="/" className="flex items-center">
-          <img src={LOGO_URL} alt="Guided Wealthy" className="h-10 md:h-12 w-auto" referrerPolicy="no-referrer" />
+    <nav className={`gwn${scrolled ? ' scrolled' : ''}`}>
+      <style>{css}</style>
+
+      <Link to="/" className="logo" aria-label="Guided Wealthy">
+        <img src={LOGO_URL} alt="Guided Wealthy" referrerPolicy="no-referrer" />
+      </Link>
+
+      <div className="links">
+        {navLinks.map((link) => (
+          <Link key={link.name} to={link.path} className={location.pathname === link.path ? 'on' : ''}>
+            {link.name}
+          </Link>
+        ))}
+      </div>
+
+      <div className="act">
+        <Link to="/booking" className="btn g">
+          Book appointment →
         </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center space-x-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.path}
-              className={cn(
-                "text-xs font-bold uppercase tracking-widest transition-colors hover:text-accent",
-                location.pathname === link.path ? "text-accent" : "text-primary"
-              )}
-            >
-              {link.name}
-            </Link>
-          ))}
-          <Link to="/booking" className="bg-primary text-cream px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-accent hover:text-primary transition-all shadow-sm">
-            Book Appointment
-          </Link>
-
-          {/* Login Button / User Menu */}
-          {isLoggedIn && user ? (
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                className="flex items-center gap-2 bg-primary/10 border border-primary/20 hover:border-accent text-primary px-4 py-1.5 rounded-full text-xs font-bold transition-all"
-              >
-                <div className="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center font-bold text-[10px]">
-                  <User size={13} />
-                </div>
-                <span className="max-w-[110px] truncate">{user.name && user.name !== 'User' ? user.name : user.phone}</span>
-                <ChevronDown size={14} className="text-primary/60" />
-              </button>
-
-              {/* Profile Dropdown */}
-              {userDropdownOpen && (
-                <div className="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl border border-primary/10 py-2 z-50 animate-fadeIn">
-                  <div className="px-4 py-3 border-b border-primary/10 bg-cream/50 rounded-t-2xl">
-                    <p className="text-[11px] text-primary/60 uppercase font-semibold tracking-wider">Signed in as</p>
-                    <p className="text-xs font-bold text-ink truncate mt-0.5">{user.name && user.name !== 'User' ? user.name : user.phone}</p>
-                    <div className="flex items-center gap-1 text-[10px] text-emerald-600 mt-1 font-semibold">
-                      <ShieldCheck size={12} />
-                      <span>Verified Mobile Account</span>
-                    </div>
-                  </div>
-                  
-                  <div className="py-1">
-                    <Link
-                      to="/dashboard"
-                      onClick={() => setUserDropdownOpen(false)}
-                      className="flex items-center px-4 py-2 text-xs font-medium text-primary hover:bg-cream hover:text-accent transition-colors"
-                    >
-                      Dashboard
-                    </Link>
-                    <Link
-                      to="/profile"
-                      onClick={() => setUserDropdownOpen(false)}
-                      className="flex items-center px-4 py-2 text-xs font-medium text-primary hover:bg-cream hover:text-accent transition-colors"
-                    >
-                      My Profile
-                    </Link>
-                    <Link
-                      to="/calculators"
-                      onClick={() => setUserDropdownOpen(false)}
-                      className="flex items-center px-4 py-2 text-xs font-medium text-primary hover:bg-cream hover:text-accent transition-colors"
-                    >
-                      Wealth Calculators
-                    </Link>
-                    <Link
-                      to="/booking"
-                      onClick={() => setUserDropdownOpen(false)}
-                      className="flex items-center px-4 py-2 text-xs font-medium text-primary hover:bg-cream hover:text-accent transition-colors"
-                    >
-                      My Appointments
-                    </Link>
-                  </div>
-
-                  <div className="border-t border-primary/10 pt-1">
-                    <button
-                      onClick={() => {
-                        setUserDropdownOpen(false);
-                        logout();
-                      }}
-                      className="flex items-center gap-2 w-full text-left px-4 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 transition-colors"
-                    >
-                      <LogOut size={14} />
-                      <span>Sign Out</span>
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <button
-              onClick={openLoginModal}
-              className="flex items-center gap-1.5 border border-primary/20 text-primary px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:border-accent hover:text-accent transition-all cursor-pointer"
-            >
-              <LogIn size={14} />
-              Login
+        {isLoggedIn && user ? (
+          <div className="user" ref={dropdownRef}>
+            <button className="btn" onClick={() => setUserDropdownOpen(!userDropdownOpen)}>
+              <span className="av"><User size={13} /></span>
+              <span style={{ maxWidth: 110, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {displayName}
+              </span>
+              <ChevronDown size={14} />
             </button>
-          )}
-        </div>
 
-        {/* Mobile Toggle */}
-        <button
-          className="md:hidden text-primary"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {userDropdownOpen && (
+              <div className="dd">
+                <div className="who">
+                  <small>Signed in as</small>
+                  <b>{displayName}</b>
+                  <span><ShieldCheck size={12} /> Verified Mobile Account</span>
+                </div>
+                <Link to="/dashboard">Dashboard</Link>
+                <Link to="/profile">My Profile</Link>
+                <Link to="/calculators">Wealth Calculators</Link>
+                <Link to="/booking">My Appointments</Link>
+                <button
+                  className="out"
+                  onClick={() => {
+                    setUserDropdownOpen(false);
+                    logout();
+                  }}
+                >
+                  <LogOut size={14} /> Sign Out
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <button className="btn login" onClick={openLoginModal}>
+            ⇥ Login
+          </button>
+        )}
+
+        <button className="burger" onClick={() => setIsOpen(!isOpen)} aria-label="Menu">
+          {isOpen ? '✕' : '☰'}
         </button>
       </div>
 
-      {/* Mobile Nav */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-4 bg-cream rounded-3xl p-6 md:hidden flex flex-col space-y-4 shadow-2xl border border-primary/10">
+        <div className="m">
           {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.path}
-              onClick={() => setIsOpen(false)}
-              className={cn(
-                "text-sm font-bold uppercase tracking-widest",
-                location.pathname === link.path ? "text-accent" : "text-primary"
-              )}
-            >
+            <Link key={link.name} to={link.path} className={location.pathname === link.path ? 'on' : ''}>
               {link.name}
             </Link>
           ))}
-          <div className="pt-2 flex flex-col space-y-3">
-            <Link
-              to="/booking"
-              onClick={() => setIsOpen(false)}
-              className="bg-primary text-cream px-6 py-3 rounded-full text-center text-sm font-bold uppercase tracking-widest"
+          <Link to="/booking" className="btn g">Book appointment →</Link>
+          {isLoggedIn && user ? (
+            <button
+              className="btn"
+              onClick={() => {
+                setIsOpen(false);
+                logout();
+              }}
             >
-              Book Appointment
-            </Link>
-            
-            {isLoggedIn && user ? (
-              <div className="bg-white rounded-2xl p-4 border border-primary/10 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-ink">{user.name && user.name !== 'User' ? user.name : user.phone}</span>
-                  <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">Verified</span>
-                </div>
-                <button
-                  onClick={() => {
-                    setIsOpen(false);
-                    logout();
-                  }}
-                  className="w-full flex items-center justify-center gap-2 border border-red-200 text-red-600 py-2 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-red-50"
-                >
-                  <LogOut size={14} />
-                  Sign Out
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => {
-                  setIsOpen(false);
-                  openLoginModal();
-                }}
-                className="flex items-center justify-center gap-2 border border-primary/20 text-primary px-6 py-3 rounded-full text-center text-sm font-bold uppercase tracking-widest hover:border-accent hover:text-accent cursor-pointer"
-              >
-                <LogIn size={16} />
-                Login
-              </button>
-            )}
-          </div>
+              Sign Out ({displayName})
+            </button>
+          ) : (
+            <button
+              className="btn"
+              onClick={() => {
+                setIsOpen(false);
+                openLoginModal();
+              }}
+            >
+              ⇥ Login
+            </button>
+          )}
         </div>
       )}
     </nav>
