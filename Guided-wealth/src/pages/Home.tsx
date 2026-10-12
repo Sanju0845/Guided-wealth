@@ -219,7 +219,7 @@ export default function Home() {
             </div>
             <div className="hs">
               <div><Icon id="shield" /><span><b>500+</b><small>Clients Trusted</small></span></div>
-              <div><Icon id="bank" /><span><b>10+</b><small>Years Experience</small></span></div>
+              <div><Icon id="bank" /><span><b>15+</b><small>Years Experience</small></span></div>
               <div><Icon id="pct" /><span><b>98%</b><small>Success Rate</small></span></div>
             </div>
           </div>

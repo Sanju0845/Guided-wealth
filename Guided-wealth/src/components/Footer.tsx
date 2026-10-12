@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Linkedin, Instagram } from 'lucide-react';
 
 const css = `
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600&display=swap');
@@ -27,9 +28,8 @@ export default function Footer() {
           <img src="/assets/logo.png" alt="Guided Wealthy" style={{ height: 44 }} referrerPolicy="no-referrer" />
           <p style={{ marginTop: 10 }}>Empowering your financial future with trust, expertise and personalized guidance.</p>
           <div className="soc">
-            <a href="#" aria-label="Instagram">ig</a>
-            <a href="#" aria-label="Facebook">f</a>
-            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="https://www.linkedin.com/in/guidedwealthy-undefined-0443a4424?trk=contact-info" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Linkedin size={16} /></a>
+            <a href="https://www.instagram.com/guidedwealthy?dlrf=MWV5NnV3amR0enY0cA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Instagram size={16} /></a>
           </div>
         </div>
         <div>
@@ -45,7 +45,7 @@ export default function Footer() {
           <h5>Contact Us</h5>
           <ul>
             <li>✉ guidedwealthy@gmail.com</li>
-            <li>☎ +91 95865 9876</li>
+            <li>☎ +91 86554 29715</li>
             <li>⌖ 8th Floor, 42, Vasanth, MG Road, Bengaluru, Karnataka - 560001</li>
           </ul>
         </div>
