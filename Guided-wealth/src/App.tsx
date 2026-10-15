@@ -11,6 +11,8 @@ import Booking from './pages/Booking';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Legal from './pages/Legal';
 import Resources from './pages/Resources';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
 import Calculators from './pages/Calculators';
 import Research from './pages/Research';
 import Profile from './pages/Profile';
@@ -148,6 +150,8 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/services" element={<Services />} />
               <Route path="/resources" element={<Resources />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/research" element={<Research />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/dashboard" element={<Dashboard />} />
