@@ -98,6 +98,7 @@ export default function Navbar() {
     { name: 'Home', path: '/' },
     { name: 'Services', path: '/services' },
     { name: 'Resources', path: '/resources' },
+    { name: 'Blog', path: '/blog' },
     // { name: 'Research', path: '/research' },
     { name: 'About', path: '/about' },
   ];
