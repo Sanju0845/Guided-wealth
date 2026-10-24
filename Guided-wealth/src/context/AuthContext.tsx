@@ -32,6 +32,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   useEffect(() => {
+    // Guard for non-browser contexts (build-time prerender).
+    if (typeof window === 'undefined' || !('localStorage' in window)) return;
     try {
       const savedUser = localStorage.getItem(AUTH_STORAGE_KEY);
       if (savedUser) {
@@ -51,19 +53,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       avatarColor: 'bg-accent',
     };
     setUser(newUser);
-    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(newUser));
+    if (typeof window !== 'undefined') localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(newUser));
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem(AUTH_STORAGE_KEY);
+    if (typeof window !== 'undefined') localStorage.removeItem(AUTH_STORAGE_KEY);
   };
 
   const updateUser = (userData: Partial<UserProfile>) => {
     if (user) {
       const newUser = { ...user, ...userData };
       setUser(newUser);
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(newUser));
+      if (typeof window !== 'undefined') localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(newUser));
     }
   };
 
