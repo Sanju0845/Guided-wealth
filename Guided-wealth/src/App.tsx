@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import Seo from './seo/Seo';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import LoginModal from './components/LoginModal';
@@ -138,15 +139,27 @@ function ScrollToTop() {
   return null;
 }
 
+// Standard browser entry. The build-time prerender (scripts/prerender.mjs)
+// imports AppShell directly and wraps it in a static Router itself.
 export default function App() {
   return (
     <AuthProvider>
-      <Router>
-        <ScrollToTop />
-        <div className="min-h-screen flex flex-col">
-          <Navbar />
-          <main className="flex-grow">
-            <Routes>
+      <BrowserRouter>
+        <AppShell />
+      </BrowserRouter>
+    </AuthProvider>
+  );
+}
+
+export function AppShell({ pathname }: { pathname?: string }) {
+  return (
+    <>
+      <ScrollToTop />
+      <Seo pathname={pathname} />
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-grow">
+          <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/services" element={<Services />} />
               <Route path="/resources" element={<Resources />} />
@@ -267,14 +280,16 @@ export default function App() {
               <Route path="/booking" element={<Booking />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/legal" element={<Legal />} />
-            </Routes>
-          </main>
-          <Footer />
-          <LoginModal />
-          <RiskAssessmentPopup />
-          <EmailPrompt />
-        </div>
-      </Router>
-    </AuthProvider>
+          </Routes>
+        </main>
+        <Footer />
+        <LoginModal />
+        <RiskAssessmentPopup />
+        <EmailPrompt />
+      </div>
+    </>
   );
 }
+
+// Re-export the full route tree so the prerender entry can render it under
+// StaticRouter without duplicating the route table.
