@@ -18,7 +18,9 @@ const firebaseConfig = {
 export const isFirebaseConfigured = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
 
 let authInstance: Auth | null = null;
-if (isFirebaseConfigured) {
+// Only initialise in the browser. During the build-time prerender (Node) we
+// never need auth, and getAuth() would throw outside a DOM environment.
+if (isFirebaseConfigured && typeof window !== 'undefined') {
   const app = initializeApp(firebaseConfig);
   authInstance = getAuth(app);
 }

@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /profile
+
+# Block the serverless API endpoints from being treated as pages
+Disallow: /api/
+
+Sitemap: https://guidedwealthy.in/sitemap.xml
